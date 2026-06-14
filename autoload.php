@@ -1,8 +1,8 @@
 <?php
 /**
- * Autoloading: prefer Composer's vendor autoloader (ships the storefront-kit and
- * the optimized classmap). Fall back to a minimal PSR-4 autoloader so the plugin
- * still boots if vendor/ is somehow absent.
+ * Autoloading: prefer Composer's vendor autoloader (with the optimized classmap).
+ * Fall back to a minimal PSR-4 autoloader so the plugin still boots if vendor/ is
+ * somehow absent.
  *
  * @package GiftCards
  */

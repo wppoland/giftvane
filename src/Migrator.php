@@ -17,8 +17,7 @@ defined('ABSPATH') || exit;
  *
  * The custom-table name is derived from `$wpdb->prefix` and cannot be passed as
  * a placeholder, so the direct-query / unescaped-DB-parameter sniffs are
- * disabled here with justification, mirroring the repository and restock's
- * WaitlistRepository. All user/data values are still prepared.
+ * disabled here with justification. All user/data values are still prepared.
  *
  * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom plugin table; name derived from $wpdb->prefix and cannot be parameterised; data values are prepared.
  */
@@ -32,7 +31,7 @@ final class Migrator
      * Schema version. Bump when a forward migration step is added.
      *
      *  - "1" — initial gift-cards table.
-     *  - "2" — enforce a DB-level UNIQUE index on the code column so the kit's
+     *  - "2" — enforce a DB-level UNIQUE index on the code column so the
      *          collision-safe issuance (catch + regenerate) has a real authority
      *          to fail against on concurrent inserts.
      */
@@ -59,7 +58,7 @@ final class Migrator
     /**
      * Create the gift-cards table: one row per issued card holding the unique
      * code, remaining balance, recipient email and source order id. The UNIQUE
-     * index on `code` is what lets a colliding insert fail so the kit engine can
+     * index on `code` is what lets a colliding insert fail so the engine can
      * catch {@see \WPPoland\StorefrontKit\GiftCard\DuplicateGiftCardCodeException}
      * and regenerate.
      */

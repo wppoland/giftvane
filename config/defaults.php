@@ -3,12 +3,10 @@
  * Default settings, merged under the option key `giftcards_settings`.
  *
  * The feature ships enabled. The merchant tunes the optional code prefix, the
- * checkout discount label and the recipient email templates. All gift-card logic
- * lives in the storefront-kit GiftCardEngine; these values are passed through to
- * it as the resolved settings / labels (see GiftCardService).
+ * checkout discount label and the recipient email templates.
  *
  * Strings are wrapped in __() so the seeded defaults are translatable; the
- * GiftCardEngine receives the resolved (translated) values via the service.
+ * resolved (translated) values are read via GiftCardService.
  *
  * @package GiftCards
  *

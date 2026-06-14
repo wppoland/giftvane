@@ -2,8 +2,8 @@
 /**
  * Checkout redeem-code field.
  *
- * Echoed by the storefront-kit GiftCardEngine via the host `renderField`
- * closure ({@see \GiftCards\Service\GiftCardService::renderField()}) on
+ * Echoed via the `renderField` closure
+ * ({@see \GiftCards\Service\GiftCardService::renderField()}) on
  * `woocommerce_review_order_before_payment`.
  *
  * The feedback line height is reserved in CSS so showing the "applied" message

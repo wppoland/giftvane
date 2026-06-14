@@ -1,8 +1,7 @@
 <?php
 /**
  * Service wiring. Returns a closure that registers every service in the
- * container. Keep services thin; product logic lives in storefront-kit engines
- * instantiated here with this plugin's text-domain / option storage / asset URLs.
+ * container.
  *
  * @package GiftCards
  */
@@ -20,7 +19,6 @@ defined('ABSPATH') || exit;
 return static function (Container $c): void {
     $c->singleton(Migrator::class, static fn (): Migrator => new Migrator());
 
-    // Thin adapter over the storefront-kit GiftCardEngine.
     $c->singleton(GiftCardService::class, static fn (): GiftCardService => new GiftCardService());
 
     // Admin (only needed in wp-admin context).

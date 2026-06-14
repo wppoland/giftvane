@@ -12,10 +12,9 @@ defined('ABSPATH') || exit;
  * Admin settings page registered as a WooCommerce submenu ("Gift Cards").
  *
  * Stores settings in the `giftcards_settings` option (array): the master toggle,
- * an optional code prefix, and the recipient email subject/body templates passed
- * through to the storefront-kit engine. All output is escaped; all input is
- * sanitised on save. The save capability is aligned to `manage_woocommerce` so
- * shop managers can save.
+ * an optional code prefix, and the recipient email subject/body templates. All
+ * output is escaped; all input is sanitised on save. The save capability is
+ * aligned to `manage_woocommerce` so shop managers can save.
  */
 final class Settings implements HasHooks
 {

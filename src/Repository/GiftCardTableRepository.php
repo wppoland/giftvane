@@ -10,15 +10,13 @@ use WPPoland\StorefrontKit\GiftCard\GiftCardRepository;
 defined('ABSPATH') || exit;
 
 /**
- * Custom-table storage for the storefront-kit {@see GiftCardRepository}.
+ * Custom-table storage implementing {@see GiftCardRepository}.
  *
  * A gift-card record is `{code, balance, recipient_email, order_id}`, persisted
  * in `{$wpdb->prefix}giftcards`. The table is created by the
- * {@see \GiftCards\Migrator}. Storage lives here (not in the kit) so the library
- * hard-codes no table name and no `$wpdb` access — the same delegation the kit
- * uses for the waitlist. The `$wpdb->prefix`-derived table name cannot be passed
- * as a placeholder, so the direct-query / unescaped-DB-parameter sniffs are
- * disabled with justification, mirroring restock's WaitlistRepository.
+ * {@see \GiftCards\Migrator}. The `$wpdb->prefix`-derived table name cannot be
+ * passed as a placeholder, so the direct-query / unescaped-DB-parameter sniffs
+ * are disabled with justification.
  *
  * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom plugin table; name derived from $wpdb->prefix and cannot be parameterised; queries are prepared.
  */
@@ -36,8 +34,8 @@ final class GiftCardTableRepository implements GiftCardRepository
      *
      * The DB-level UNIQUE index on `code` (see {@see \GiftCards\Migrator}) is the
      * authority on uniqueness: if a concurrent issue inserted the same code
-     * between the kit's pre-check and this insert, the insert is rejected and we
-     * translate that into {@see DuplicateGiftCardCodeException} so the kit engine
+     * between the pre-check and this insert, the insert is rejected and we
+     * translate that into {@see DuplicateGiftCardCodeException} so the engine
      * regenerates a new code instead of silently producing a duplicate.
      *
      * @throws DuplicateGiftCardCodeException When the code collides with an

@@ -11,14 +11,13 @@ use WPPoland\StorefrontKit\GiftCard\GiftCardEngine;
 defined('ABSPATH') || exit;
 
 /**
- * Thin adapter over the storefront-kit {@see GiftCardEngine}.
+ * Wires up the gift-card feature for this plugin.
  *
- * Injects this plugin's text-domain ('giftcards'), option storage, session key,
- * checkout-field markup and labels into the namespace-neutral engine. All gift
- * card orchestration (code generation on order completion, recipient email,
- * redeem-code field, applying the balance as a negative cart fee, decrementing
- * the balance) lives in the kit. This class supplies the three closures the
- * engine needs:
+ * Supplies the text-domain ('giftcards'), option storage, session key,
+ * checkout-field markup and labels. The code generation on order completion,
+ * recipient email, redeem-code field, applying the balance as a negative cart
+ * fee and decrementing the balance are handled by {@see GiftCardEngine}. This
+ * class supplies the three closures it needs:
  *
  *  - `isGiftCard`  — true when a product is flagged via `_giftcards_is_gift_card`.
  *  - `resolveCard` — `[amount, recipient_email]` for a purchased gift-card line:
@@ -42,17 +41,15 @@ final class GiftCardService implements HasHooks
     {
         $this->repository = new GiftCardTableRepository();
 
-        // The engine ships with storefront-kit >= 1.5.0. When present, wire it
-        // with this plugin's text-domain / option storage / asset paths.
-        // Otherwise leave the service inert (see registerHooks()).
+        // Wire the gift-card engine when available; otherwise leave the service
+        // inert (see registerHooks()).
         if (! class_exists(GiftCardEngine::class)) {
             return;
         }
 
         // Resolve the merchant-configured discount label / email templates once
-        // (these are stored options, available by plugins_loaded). The MVP
-        // hard-coded them here, so the admin email-content settings had no
-        // effect; passing them through makes those settings live.
+        // (these are stored options, available by plugins_loaded) so the admin
+        // email-content settings take effect.
         $settings = $this->settings();
 
         $this->engine = new GiftCardEngine(
@@ -81,9 +78,8 @@ final class GiftCardService implements HasHooks
     public function registerHooks(): void
     {
         if (! $this->engine instanceof GiftCardEngine) {
-            // storefront-kit < 1.5.0 has no GiftCardEngine. Bump the
-            // `wppoland/storefront-kit` constraint (composer update) to enable
-            // gift cards. No hooks are registered until the engine is present.
+            // No GiftCardEngine available: no hooks are registered until it is
+            // present.
             return;
         }
 
