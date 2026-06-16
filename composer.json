@@ -18,7 +18,7 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
         "phpstan/phpstan": "^1.10",
         "szepeviktor/phpstan-wordpress": "^1.3",
-        "php-stubs/woocommerce-stubs": "^9.0"
+        "php-stubs/woocommerce-stubs": "^10.8"
     },
     "autoload": {
         "psr-4": {

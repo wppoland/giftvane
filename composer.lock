@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61f8805c865803f99f016d20170c82dc",
+    "content-hash": "beccef7c99212184febec7295efde85e",
     "packages": [
         {
             "name": "wppoland/storefront-kit",
@@ -149,16 +149,16 @@
         },
         {
             "name": "php-stubs/woocommerce-stubs",
-            "version": "v9.9.5",
+            "version": "v10.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/woocommerce-stubs.git",
-                "reference": "3f4d4e14afe6150569bd96cf14e8a17a84812447"
+                "reference": "9d59e65dcabc18153c243cb9acd85fc88ef40589"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/3f4d4e14afe6150569bd96cf14e8a17a84812447",
-                "reference": "3f4d4e14afe6150569bd96cf14e8a17a84812447",
+                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/9d59e65dcabc18153c243cb9acd85fc88ef40589",
+                "reference": "9d59e65dcabc18153c243cb9acd85fc88ef40589",
                 "shasum": ""
             },
             "require": {
@@ -187,9 +187,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/woocommerce-stubs/issues",
-                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v9.9.5"
+                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v10.8.0"
             },
-            "time": "2025-07-14T17:12:48+00:00"
+            "time": "2026-05-27T11:46:50+00:00"
         },
         {
             "name": "php-stubs/wordpress-stubs",
@@ -762,12 +762,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.1"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }
