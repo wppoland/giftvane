@@ -1,6 +1,6 @@
 === Gift Cards – Store Credit for WooCommerce ===
 Contributors: wppoland
-Tags: woocommerce, gift card, store credit, gift voucher, gift certificate
+Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
@@ -8,11 +8,11 @@ Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Sell gift cards as WooCommerce products. Each sale emails a unique code that buyers redeem at checkout for store credit.
+Sell WooCommerce gift cards, gift vouchers and store credit codes that customers redeem at checkout.
 
 == Description ==
 
-Sell a gift card as an ordinary WooCommerce product. Tick the "Gift card" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique code worth that price, records its balance in its own table, and emails the code to the buyer's order email address.
+Sell a gift card or gift voucher as an ordinary WooCommerce product. Tick the "Gift card" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique store credit code worth that price, records its balance in its own table, and emails the code to the buyer's order email address.
 
 To spend a card, the customer enters the code in a field on the checkout. The balance is applied as a discount on that order. If the order costs less than the card is worth, the leftover stays on the code for a later purchase, so one card can cover several orders until it runs out.
 
@@ -54,6 +54,22 @@ The code is emailed to the order's billing email address, and the buyer can also
 = How does redeeming a code work? =
 
 The customer types the code into the field at checkout. The balance comes off that order as a discount, and anything left over stays on the code for next time.
+
+= Can a gift card be used more than once? =
+
+Yes. If checkout uses only part of the balance, the remaining store credit stays on the same code for a later order.
+
+= Does each quantity create a separate code? =
+
+Yes. Buying two units of a gift card product issues two separate store credit codes with the product price as each value.
+
+= Can I customise the email? =
+
+Yes. Set the email subject and body under WooCommerce → Gift Cards, with tokens for the code and amount.
+
+= Does it work with WooCommerce checkout blocks? =
+
+Yes. Gift Cards declares compatibility with WooCommerce HPOS and Cart/Checkout Blocks.
 
 == Screenshots ==
 
