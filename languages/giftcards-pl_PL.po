@@ -4,17 +4,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: giftcards 0.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/giftcards\n"
+"POT-Creation-Date: 2026-06-16T20:25:36+00:00\n"
+"PO-Revision-Date: 2026-06-15 10:00+0000\n"
 "Last-Translator: WPPoland <hello@plogins.com>\n"
 "Language-Team: Polish <pl_PL@li.org>\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-14T14:34:26+00:00\n"
-"PO-Revision-Date: 2026-06-15 10:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: giftcards\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
 
 #. Plugin Name of the plugin
 #: giftcards.php
@@ -28,8 +29,12 @@ msgstr "https://plogins.com/giftcards/"
 
 #. Description of the plugin
 #: giftcards.php
-msgid "Sell gift cards that email a redeemable code to the recipient and apply as a discount at checkout."
-msgstr "Sprzedawaj karty podarunkowe, które wysyłają e-mailem kod do realizacji do odbiorcy i są stosowane jako rabat podczas składania zamówienia."
+msgid ""
+"Sell gift cards that email a redeemable code to the recipient and apply as a "
+"discount at checkout."
+msgstr ""
+"Sprzedawaj karty podarunkowe, które wysyłają e-mailem kod do realizacji do "
+"odbiorcy i są stosowane jako rabat podczas składania zamówienia."
 
 #. Author of the plugin
 #: giftcards.php
@@ -41,18 +46,15 @@ msgstr "WPPoland"
 msgid "https://plogins.com/"
 msgstr "https://plogins.com/"
 
-#: config/defaults.php:30
-#: src/Service/GiftCardService.php:65
+#: config/defaults.php:30 src/Service/GiftCardService.php:65
 msgid "Gift card ({code})"
 msgstr "Karta podarunkowa ({code})"
 
-#: config/defaults.php:37
-#: src/Service/GiftCardService.php:66
+#: config/defaults.php:37 src/Service/GiftCardService.php:66
 msgid "You have received a {amount} gift card"
 msgstr "Otrzymałeś kartę podarunkową o wartości {amount}"
 
-#: config/defaults.php:38
-#: src/Service/GiftCardService.php:67
+#: config/defaults.php:38 src/Service/GiftCardService.php:67
 msgid ""
 "You have received a gift card worth {amount}.\n"
 "\n"
@@ -63,23 +65,33 @@ msgstr ""
 "Użyj tego kodu podczas składania zamówienia: {code}"
 
 #: giftcards.php:47
-msgid "Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active."
-msgstr "Gift Cards – karty podarunkowe dla WooCommerce wymaga aktywnego WooCommerce."
+msgid ""
+"Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active."
+msgstr ""
+"Gift Cards – karty podarunkowe dla WooCommerce wymaga aktywnego WooCommerce."
 
 #: src/Admin/ProductFields.php:35
 msgid "Gift card"
 msgstr "Karta podarunkowa"
 
 #: src/Admin/ProductFields.php:37
-msgid "When checked, buying this product issues a unique code worth the product price and emails it to the recipient on order completion. Set the price to the card value (e.g. a $50 card → price $50). The recipient gets the code by email; the buyer also sees it on the order confirmation."
-msgstr "Po zaznaczeniu zakup tego produktu generuje unikalny kod o wartości ceny produktu i wysyła go e-mailem do odbiorcy po zrealizowaniu zamówienia. Ustaw cenę równą wartości karty (np. karta o wartości 200 zł → cena 200 zł). Odbiorca otrzymuje kod e-mailem; kupujący widzi go również w potwierdzeniu zamówienia."
+msgid ""
+"When checked, buying this product issues a unique code worth the product "
+"price and emails it to the recipient on order completion. Set the price to "
+"the card value (e.g. a $50 card → price $50). The recipient gets the code by "
+"email; the buyer also sees it on the order confirmation."
+msgstr ""
+"Po zaznaczeniu zakup tego produktu generuje unikalny kod o wartości ceny "
+"produktu i wysyła go e-mailem do odbiorcy po zrealizowaniu zamówienia. Ustaw "
+"cenę równą wartości karty (np. karta o wartości 200 zł → cena 200 zł). "
+"Odbiorca otrzymuje kod e-mailem; kupujący widzi go również w potwierdzeniu "
+"zamówienia."
 
 #: src/Admin/Settings.php:72
 msgid "More information"
 msgstr "Więcej informacji"
 
-#: src/Admin/Settings.php:81
-#: src/Admin/Settings.php:82
+#: src/Admin/Settings.php:81 src/Admin/Settings.php:82
 msgid "Gift Cards"
 msgstr "Karty podarunkowe"
 
@@ -96,8 +108,15 @@ msgid "Sell gift cards in three steps"
 msgstr "Sprzedawaj karty podarunkowe w trzech krokach"
 
 #: src/Admin/Settings.php:141
-msgid "1. Flag a product as a gift card (product editor → General tab → Gift card). 2. A buyer purchases it. 3. A unique code is emailed to the recipient and can be redeemed at checkout for a discount. Tune the wording below."
-msgstr "1. Oznacz produkt jako kartę podarunkową (edytor produktu → zakładka Ogólne → Karta podarunkowa). 2. Kupujący ją kupuje. 3. Unikalny kod jest wysyłany e-mailem do odbiorcy i można go zrealizować podczas składania zamówienia jako rabat. Dostosuj treść poniżej."
+msgid ""
+"1. Flag a product as a gift card (product editor → General tab → Gift card). "
+"2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
+"can be redeemed at checkout for a discount. Tune the wording below."
+msgstr ""
+"1. Oznacz produkt jako kartę podarunkową (edytor produktu → zakładka Ogólne "
+"→ Karta podarunkowa). 2. Kupujący ją kupuje. 3. Unikalny kod jest wysyłany e-"
+"mailem do odbiorcy i można go zrealizować podczas składania zamówienia jako "
+"rabat. Dostosuj treść poniżej."
 
 #: src/Admin/Settings.php:150
 msgid "General"
@@ -105,75 +124,119 @@ msgstr "Ogólne"
 
 #: src/Admin/Settings.php:152
 msgid "Core behaviour: whether gift cards are sold and how codes look."
-msgstr "Podstawowe działanie: czy karty podarunkowe są sprzedawane i jak wyglądają kody."
+msgstr ""
+"Podstawowe działanie: czy karty podarunkowe są sprzedawane i jak wyglądają "
+"kody."
 
 #: src/Admin/Settings.php:159
 msgid "Enable gift cards"
 msgstr "Włącz karty podarunkowe"
 
 #: src/Admin/Settings.php:160
-msgid "Master switch. When off, no codes are issued, the checkout redeem field is hidden, and existing balances cannot be spent. Turn this off to pause the feature without losing data."
-msgstr "Główny przełącznik. Po wyłączeniu nie są generowane żadne kody, pole realizacji w zamówieniu jest ukryte, a istniejących sald nie można wykorzystać. Wyłącz tę opcję, aby wstrzymać funkcję bez utraty danych."
+msgid ""
+"Master switch. When off, no codes are issued, the checkout redeem field is "
+"hidden, and existing balances cannot be spent. Turn this off to pause the "
+"feature without losing data."
+msgstr ""
+"Główny przełącznik. Po wyłączeniu nie są generowane żadne kody, pole "
+"realizacji w zamówieniu jest ukryte, a istniejących sald nie można "
+"wykorzystać. Wyłącz tę opcję, aby wstrzymać funkcję bez utraty danych."
 
 #: src/Admin/Settings.php:172
-msgid "Generate and email a code when a gift-card product is purchased, and accept codes at checkout."
-msgstr "Generuj i wysyłaj kod e-mailem przy zakupie produktu będącego kartą podarunkową oraz akceptuj kody podczas składania zamówienia."
+msgid ""
+"Generate and email a code when a gift-card product is purchased, and accept "
+"codes at checkout."
+msgstr ""
+"Generuj i wysyłaj kod e-mailem przy zakupie produktu będącego kartą "
+"podarunkową oraz akceptuj kody podczas składania zamówienia."
 
 #: src/Admin/Settings.php:179
 msgid "Code prefix"
 msgstr "Prefiks kodu"
 
 #: src/Admin/Settings.php:180
-msgid "A short tag added to the front of every code so customers and support can recognise it at a glance. Example: \"GIFT-\" produces GIFT-AB12CD34. Leave blank for codes with no prefix."
-msgstr "Krótki znacznik dodawany na początku każdego kodu, dzięki czemu klienci i obsługa od razu go rozpoznają. Przykład: „GIFT-” tworzy GIFT-AB12CD34. Pozostaw puste, aby kody nie miały prefiksu."
+msgid ""
+"A short tag added to the front of every code so customers and support can "
+"recognise it at a glance. Example: \"GIFT-\" produces GIFT-AB12CD34. Leave "
+"blank for codes with no prefix."
+msgstr ""
+"Krótki znacznik dodawany na początku każdego kodu, dzięki czemu klienci i "
+"obsługa od razu go rozpoznają. Przykład: „GIFT-” tworzy GIFT-AB12CD34. "
+"Pozostaw puste, aby kody nie miały prefiksu."
 
 #: src/Admin/Settings.php:193
-msgid "Optional. Prepended to every generated code, e.g. \"GIFT-\". Up to 12 characters."
-msgstr "Opcjonalne. Dodawany na początku każdego wygenerowanego kodu, np. „GIFT-”. Do 12 znaków."
+msgid ""
+"Optional. Prepended to every generated code, e.g. \"GIFT-\". Up to 12 "
+"characters."
+msgstr ""
+"Opcjonalne. Dodawany na początku każdego wygenerowanego kodu, np. „GIFT-”. "
+"Do 12 znaków."
 
 #: src/Admin/Settings.php:199
 msgid "Checkout discount label"
 msgstr "Etykieta rabatu w zamówieniu"
 
 #: src/Admin/Settings.php:200
-msgid "The text shown on the discount line at checkout when a code is applied (e.g. \"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied code."
-msgstr "Tekst wyświetlany w pozycji rabatu podczas składania zamówienia po zastosowaniu kodu (np. „Karta podarunkowa (GIFT-AB12CD34)”). Użyj znacznika {code}, aby uwzględnić zastosowany kod."
+msgid ""
+"The text shown on the discount line at checkout when a code is applied (e.g. "
+"\"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied "
+"code."
+msgstr ""
+"Tekst wyświetlany w pozycji rabatu podczas składania zamówienia po "
+"zastosowaniu kodu (np. „Karta podarunkowa (GIFT-AB12CD34)”). Użyj znacznika "
+"{code}, aby uwzględnić zastosowany kod."
 
 #: src/Admin/Settings.php:211
-msgid "Shown on the discount line at checkout. Use {code} for the applied code."
-msgstr "Wyświetlana w pozycji rabatu podczas składania zamówienia. Użyj {code} dla zastosowanego kodu."
+msgid ""
+"Shown on the discount line at checkout. Use {code} for the applied code."
+msgstr ""
+"Wyświetlana w pozycji rabatu podczas składania zamówienia. Użyj {code} dla "
+"zastosowanego kodu."
 
 #: src/Admin/Settings.php:217
 msgid "Show codes on order"
 msgstr "Pokaż kody w zamówieniu"
 
 #: src/Admin/Settings.php:218
-msgid "When a customer buys a gift card for themselves, this lists the issued code(s) right on the order-confirmation page and in their order emails — so they get the code instantly without waiting for the separate recipient email."
-msgstr "Gdy klient kupuje kartę podarunkową dla siebie, ta opcja wyświetla wygenerowany kod (lub kody) bezpośrednio na stronie potwierdzenia zamówienia oraz w wiadomościach e-mail z zamówieniem — dzięki czemu otrzymuje kod natychmiast, bez czekania na osobny e-mail dla odbiorcy."
+msgid ""
+"When a customer buys a gift card for themselves, this lists the issued "
+"code(s) right on the order-confirmation page and in their order emails — so "
+"they get the code instantly without waiting for the separate recipient email."
+msgstr ""
+"Gdy klient kupuje kartę podarunkową dla siebie, ta opcja wyświetla "
+"wygenerowany kod (lub kody) bezpośrednio na stronie potwierdzenia zamówienia "
+"oraz w wiadomościach e-mail z zamówieniem — dzięki czemu otrzymuje kod "
+"natychmiast, bez czekania na osobny e-mail dla odbiorcy."
 
 #: src/Admin/Settings.php:230
-msgid "List the issued gift-card codes on the buyer's order-confirmation page and in their order emails."
-msgstr "Wyświetl wygenerowane kody kart podarunkowych na stronie potwierdzenia zamówienia kupującego oraz w wiadomościach e-mail z zamówieniem."
+msgid ""
+"List the issued gift-card codes on the buyer's order-confirmation page and "
+"in their order emails."
+msgstr ""
+"Wyświetl wygenerowane kody kart podarunkowych na stronie potwierdzenia "
+"zamówienia kupującego oraz w wiadomościach e-mail z zamówieniem."
 
 #: src/Admin/Settings.php:239
 msgid "Recipient email"
 msgstr "E-mail do odbiorcy"
 
 #: src/Admin/Settings.php:241
-msgid "The email sent to whoever receives the gift card. Click a token to insert it where your cursor is."
-msgstr "Wiadomość e-mail wysyłana do osoby otrzymującej kartę podarunkową. Kliknij znacznik, aby wstawić go w miejscu kursora."
+msgid ""
+"The email sent to whoever receives the gift card. Click a token to insert it "
+"where your cursor is."
+msgstr ""
+"Wiadomość e-mail wysyłana do osoby otrzymującej kartę podarunkową. Kliknij "
+"znacznik, aby wstawić go w miejscu kursora."
 
 #: src/Admin/Settings.php:244
 msgid "Insert a template token"
 msgstr "Wstaw znacznik szablonu"
 
-#: src/Admin/Settings.php:246
-#: src/Admin/Settings.php:249
+#: src/Admin/Settings.php:246 src/Admin/Settings.php:249
 msgid "inserted"
 msgstr "wstawiono"
 
-#: src/Admin/Settings.php:247
-#: src/Admin/Settings.php:250
+#: src/Admin/Settings.php:247 src/Admin/Settings.php:250
 msgid "copied"
 msgstr "skopiowano"
 
@@ -186,8 +249,11 @@ msgid "Body"
 msgstr "Treść"
 
 #: src/Admin/Settings.php:280
-msgid "{code} becomes the gift-card code; {amount} becomes the formatted value."
-msgstr "{code} zostaje zastąpione kodem karty podarunkowej; {amount} zostaje zastąpione sformatowaną wartością."
+msgid ""
+"{code} becomes the gift-card code; {amount} becomes the formatted value."
+msgstr ""
+"{code} zostaje zastąpione kodem karty podarunkowej; {amount} zostaje "
+"zastąpione sformatowaną wartością."
 
 #: src/Admin/Settings.php:287
 msgid "Live preview"
@@ -206,8 +272,13 @@ msgid "Your gift cards"
 msgstr "Twoje karty podarunkowe"
 
 #: src/Service/GiftCardService.php:167
-msgid "Keep these codes safe. Enter a code at checkout to spend its balance; any unused amount stays on the card."
-msgstr "Przechowuj te kody w bezpiecznym miejscu. Wpisz kod podczas składania zamówienia, aby wykorzystać jego saldo; niewykorzystana kwota pozostaje na karcie."
+msgid ""
+"Keep these codes safe. Enter a code at checkout to spend its balance; any "
+"unused amount stays on the card."
+msgstr ""
+"Przechowuj te kody w bezpiecznym miejscu. Wpisz kod podczas składania "
+"zamówienia, aby wykorzystać jego saldo; niewykorzystana kwota pozostaje na "
+"karcie."
 
 #: src/Service/GiftCardService.php:170
 msgid "Code"
@@ -234,8 +305,12 @@ msgid "Have a gift card?"
 msgstr "Masz kartę podarunkową?"
 
 #: templates/checkout-redeem-field.php:32
-msgid "Enter your code to apply its balance to this order. Any unused balance stays on the card for next time."
-msgstr "Wpisz swój kod, aby wykorzystać jego saldo na tym zamówieniu. Niewykorzystane saldo pozostaje na karcie na następny raz."
+msgid ""
+"Enter your code to apply its balance to this order. Any unused balance stays "
+"on the card for next time."
+msgstr ""
+"Wpisz swój kod, aby wykorzystać jego saldo na tym zamówieniu. "
+"Niewykorzystane saldo pozostaje na karcie na następny raz."
 
 #: templates/checkout-redeem-field.php:36
 msgid "Gift card code"
@@ -249,6 +324,7 @@ msgstr "np. GIFT-AB12CD34"
 msgid "Apply"
 msgstr "Zastosuj"
 
-#: templates/checkout-redeem-field.php:60
+#: templates/checkout-redeem-field.php:62
 msgid "Gift card applied — the balance is shown in your order total."
-msgstr "Zastosowano kartę podarunkową — saldo jest widoczne w sumie zamówienia."
+msgstr ""
+"Zastosowano kartę podarunkową — saldo jest widoczne w sumie zamówienia."
