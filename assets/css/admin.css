@@ -6,15 +6,20 @@
  */
 
 .giftcards-admin {
-	--gc-accent: #6d3bf5;
-	--gc-accent-strong: #5326d9;
-	--gc-accent-soft: #f1ecfe;
+	/* Accent matches the storefront gift-card family (magenta), so admin and
+	   shopper surfaces read as one product. Computed against wp-admin white
+	   (#fff) / grey (#f0f0f1): accent #7a2e6d = 8.61:1 / 7.56:1,
+	   accent-strong #5d1f53 = 11.76:1 / 10.32:1 — both pass WCAG AA. */
+	--gc-accent: #7a2e6d;
+	--gc-accent-strong: #5d1f53;
+	--gc-accent-soft: #f7ecf5;
 	--gc-surface: #ffffff;
 	--gc-surface-muted: #f6f7f9;
 	--gc-border: #dcdfe5;
 	--gc-text: #1d2327;
 	--gc-text-muted: #646970;
-	--gc-success: #1a7f50;
+	/* #15683f on the pale-green pill (#e6f4ec) = 6.0:1 (was 4.41:1, sub-AA). */
+	--gc-success: #15683f;
 	--gc-radius: 10px;
 	--gc-radius-sm: 6px;
 	--gc-gap: clamp(0.75rem, 0.4rem + 1vw, 1.25rem);
@@ -284,7 +289,12 @@
 
 @media (prefers-color-scheme: dark) {
 	.giftcards-admin {
-		--gc-accent-soft: #2a2150;
+		/* Lightened magenta for dark surfaces, mirroring the storefront dark
+		   family. accent #c46db5 on #1e2127 = 5.6:1; accent-strong #d98fcb
+		   = 7.6:1 — both pass WCAG AA against the dark card surface. */
+		--gc-accent: #c46db5;
+		--gc-accent-strong: #d98fcb;
+		--gc-accent-soft: #3a2438;
 		--gc-surface: #1e2127;
 		--gc-surface-muted: #262a31;
 		--gc-border: #3a3f47;
@@ -292,6 +302,15 @@
 		--gc-text-muted: #a7acb3;
 		--gc-success: #4cc38a;
 		--gc-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+	}
+
+	/* The lighter dark-mode accent is too pale for white glyphs (3.4:1). Use
+	   the dark ink instead on filled accent chips: #1d2327 on #c46db5 = 4.7:1,
+	   passing AA for the "?" help glyph and the intro icon. */
+	.giftcards-admin__intro-icon,
+	.giftcards-admin .giftcards-help:hover,
+	.giftcards-admin .giftcards-help:focus-visible {
+		color: #1d2327;
 	}
 
 	.giftcards-admin__status--on {
