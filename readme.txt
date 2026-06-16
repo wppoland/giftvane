@@ -8,57 +8,67 @@ Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Sell gift cards that email a redeemable code to the recipient and apply as a discount at checkout.
+Sell gift cards as WooCommerce products. Each sale emails a unique code that buyers redeem at checkout for store credit.
 
 == Description ==
 
-Sell gift cards as ordinary WooCommerce products. Flag any product as a gift card; when the order completes, the plugin generates a unique code, stores its balance, and emails the code to the recipient. Customers redeem a code at checkout and the remaining balance is applied as a discount — partial balances carry over to the next order.
+Sell a gift card as an ordinary WooCommerce product. Tick the "Gift card" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique code worth that price, records its balance in its own table, and emails the code to the buyer's order email address.
 
-= Features =
+To spend a card, the customer enters the code in a field on the checkout. The balance is applied as a discount on that order. If the order costs less than the card is worth, the leftover stays on the code for a later purchase, so one card can cover several orders until it runs out.
 
-* Flag any product as a gift card from the product editor (General tab).
-* A unique code is generated and emailed to the recipient on order completion.
-* Redeem-code field at checkout applies the balance as a discount.
-* Partial redemption — the remaining balance is kept for later use.
-* Customisable code prefix, checkout discount label and recipient email subject/body.
-* Issued codes shown to the buyer on the order-confirmation page and in order emails.
-* WooCommerce HPOS (Custom Order Tables) and Cart/Checkout Blocks compatible.
+The buyer also sees the code(s) their order issued on the order-confirmation page and in their WooCommerce order emails, so they have the code in hand without hunting through their inbox.
+
+The code is built and tracked on GitHub. Source and bug reports: https://github.com/wppoland/giftcards
+
+= What it does =
+
+* Turns any product into a gift card with one checkbox on the product editor's General tab; the price is the card value.
+* Generates a unique code on order completion and emails it to the buyer's order email address.
+* Adds a redeem-code field to the checkout that applies the card balance as a discount.
+* Keeps the unused balance on the code after a partial spend, so it works across multiple orders.
+* Lets you set the code prefix, the checkout discount label and the recipient email subject and body.
+* Optionally lists the issued codes on the buyer's order page and in their order emails.
+* Works with WooCommerce HPOS (custom order tables) and the Cart and Checkout blocks.
 
 == Installation ==
 
-1. Upload the plugin to `/wp-content/plugins/giftcards`, or install via Plugins → Add New.
+1. Upload the plugin to `/wp-content/plugins/giftcards`, or install it from Plugins → Add New.
 2. Activate it. WooCommerce must be active.
-3. Edit a product, tick **Gift card** under the General tab, and set its price (the card value).
-4. Tune the code prefix and recipient email under **WooCommerce → Gift Cards**.
+3. Edit a product, tick **Gift card** on the General tab, and set its price to the value of the card.
+4. Set the code prefix and the recipient email under **WooCommerce → Gift Cards**.
 
 == Frequently Asked Questions ==
 
-= Does it require WooCommerce? =
+= Does it need WooCommerce? =
 
 Yes. WooCommerce 8.0 or later must be installed and active.
 
-= How is the gift-card amount set? =
+= How do I set the value of a gift card? =
 
-It is the price of the gift-card product. The recipient receives a code for that value; buying multiple quantities issues multiple codes.
+The value is the price of the gift-card product. Buying two of a $50 card issues two $50 codes.
 
-= How does redemption work? =
+= Who receives the code? =
 
-The customer enters their code in the field at checkout. The remaining balance is applied as a discount, and any unused balance is kept for a future order.
+The code is emailed to the order's billing email address, and the buyer can also see it on the order-confirmation page and in their order emails. There is no separate "send to a friend" field in this version.
+
+= How does redeeming a code work? =
+
+The customer types the code into the field at checkout. The balance comes off that order as a discount, and anything left over stays on the code for next time.
 
 == Screenshots ==
 
-1. Gift Cards – Store Credit for WooCommerce in action.
+1. The Gift Cards settings page under WooCommerce.
 
 == Changelog ==
 
 = 0.2.0 =
-* Recipient email subject and body set in **WooCommerce → Gift Cards** are now applied to the email the recipient receives (previously the stored values were ignored).
-* New setting: customise the checkout discount label shown when a code is applied (supports {code}).
-* New setting: show the issued gift-card codes to the buyer on the order-confirmation page and in their order emails (on by default).
-* Default email/label strings are now translatable.
-* Polished UI: redesigned settings page with inline help tooltips, click-to-insert email tokens and a live email preview.
-* Polished storefront: friendlier checkout redeem field and an issued-codes list with one-click copy.
-* Modern, themeable styling with dark-mode and reduced-motion support; no layout shift at checkout. Accessible (keyboard, ARIA, focus styles); assets ship as real files.
+* The recipient email subject and body set under **WooCommerce → Gift Cards** are now used for the email that's sent. Earlier these stored values were ignored and a built-in default was always used.
+* Added a setting for the checkout discount label shown when a code is applied; it accepts a {code} token.
+* Added a setting to list the issued codes on the buyer's order-confirmation page and order emails. It is on by default.
+* The default email and label text is now translatable.
+* Reworked the settings page: inline help, click-to-insert email tokens and a live preview of the email.
+* Reworked the checkout redeem field and added a copy button to the issued-codes list.
+* Storefront styles now follow the theme and respect dark mode and reduced-motion settings, with no layout shift at checkout. The markup is keyboard-accessible with ARIA labels and focus styles, and all CSS/JS ships as separate files.
 
 = 0.1.0 =
 * Initial release.
