@@ -55,10 +55,13 @@ $giftcards_is_applied = '' !== trim((string) $giftcards_applied_code);
     </p>
     <p class="giftcards-redeem__feedback<?php echo $giftcards_is_applied ? ' giftcards-redeem__feedback--applied' : ''; ?>"
         id="giftcards-redeem-feedback" role="status" aria-live="polite">
+        <span class="giftcards-redeem__seal" aria-hidden="true"></span>
+        <span class="giftcards-redeem__feedback-text">
         <?php
         if ($giftcards_is_applied) {
             echo esc_html__('Gift card applied — the balance is shown in your order total.', 'giftcards');
         }
         ?>
+        </span>
     </p>
 </div>
