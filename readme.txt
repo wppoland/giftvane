@@ -75,6 +75,10 @@ Yes. Gift Cards declares compatibility with WooCommerce HPOS and Cart/Checkout B
 
 1. The Gift Cards settings page under WooCommerce.
 
+== External Services ==
+
+This plugin does not connect to, send data to, or rely on any external service, API or CDN. Everything runs on your own site. Gift-card codes and balances are stored in a single custom database table (`{prefix}giftcards`), the gift-card flag and any recipient address are kept in WooCommerce product and order-item meta (`_giftcards_is_gift_card`, `_giftcards_recipient_email`), and settings live in the `giftcards_settings` and `giftcards_db_version` options. The email carrying a code is delivered through your site's own WooCommerce/WordPress mailer to the order's billing address; no message or customer data leaves your server.
+
 == Changelog ==
 
 = 0.2.0 =
