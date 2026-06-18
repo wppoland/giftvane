@@ -1,5 +1,5 @@
 === Gift Cards – Store Credit for WooCommerce ===
-Contributors: wppoland
+Contributors: motylanogha
 Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
