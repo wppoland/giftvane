@@ -20,6 +20,15 @@ The buyer also sees the code(s) their order issued on the order-confirmation pag
 
 The code is built and tracked on GitHub. Source and bug reports: https://github.com/wppoland/giftcards
 
+= Documentation and links =
+
+* **Documentation** - https://plogins.com/giftcards/docs/
+* **Plugin page** - https://plogins.com/giftcards/
+* **Source code** - https://github.com/wppoland/giftcards
+* **Bug reports and feature requests** - https://github.com/wppoland/giftcards/issues
+* **Discussions and questions** - https://github.com/wppoland/giftcards/discussions
+
+
 = What it does =
 
 * Turns any product into a gift card with one checkbox on the product editor's General tab; the price is the card value.
