@@ -82,7 +82,8 @@ Yes. Gift Cards declares compatibility with WooCommerce HPOS and Cart/Checkout B
 
 == Screenshots ==
 
-1. The Gift Cards settings page under WooCommerce.
+1. Redeeming a gift card at checkout, where a shopper applies a code to their order.
+2. The Gift Cards settings page under WooCommerce.
 
 == External Services ==
 
