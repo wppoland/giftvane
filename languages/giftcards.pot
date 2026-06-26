@@ -143,7 +143,7 @@ msgid "Show codes on order"
 msgstr ""
 
 #: src/Admin/Settings.php:218
-msgid "When a customer buys a gift card for themselves, this lists the issued code(s) right on the order-confirmation page and in their order emails — so they get the code instantly without waiting for the separate recipient email."
+msgid "When a customer buys a gift card for themselves, this lists the issued code(s) right on the order-confirmation page and in their order emails, so they get the code instantly without waiting for the separate recipient email."
 msgstr ""
 
 #: src/Admin/Settings.php:230
@@ -221,7 +221,7 @@ msgid "Copied"
 msgstr ""
 
 #: src/Service/GiftCardService.php:188
-msgid "Copy failed — select and copy manually"
+msgid "Copy failed: select and copy manually"
 msgstr ""
 
 #: templates/checkout-redeem-field.php:29
@@ -245,5 +245,5 @@ msgid "Apply"
 msgstr ""
 
 #: templates/checkout-redeem-field.php:62
-msgid "Gift card applied — the balance is shown in your order total."
+msgid "Gift card applied, the balance is shown in your order total."
 msgstr ""

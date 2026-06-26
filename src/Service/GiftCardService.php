@@ -185,7 +185,7 @@ final class GiftCardService implements HasHooks
                     '<button type="button" class="giftcards-copy" data-code="%1$s" data-copied-label="%2$s" data-error-label="%3$s" aria-label="%4$s" title="%4$s"><span aria-hidden="true">&#128203;</span></button>',
                     esc_attr($code),
                     esc_attr__('Copied', 'giftcards'),
-                    esc_attr__('Copy failed — select and copy manually', 'giftcards'),
+                    esc_attr__('Copy failed: select and copy manually', 'giftcards'),
                     esc_attr(sprintf('%s: %s', $copyLabel, $code)),
                 );
             }

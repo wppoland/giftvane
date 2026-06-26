@@ -59,7 +59,7 @@ $giftcards_is_applied = '' !== trim((string) $giftcards_applied_code);
         <span class="giftcards-redeem__feedback-text">
         <?php
         if ($giftcards_is_applied) {
-            echo esc_html__('Gift card applied — the balance is shown in your order total.', 'giftcards');
+            echo esc_html__('Gift card applied, the balance is shown in your order total.', 'giftcards');
         }
         ?>
         </span>

@@ -200,12 +200,12 @@ msgstr "Pokaż kody w zamówieniu"
 #: src/Admin/Settings.php:218
 msgid ""
 "When a customer buys a gift card for themselves, this lists the issued "
-"code(s) right on the order-confirmation page and in their order emails — so "
+"code(s) right on the order-confirmation page and in their order emails, so "
 "they get the code instantly without waiting for the separate recipient email."
 msgstr ""
 "Gdy klient kupuje kartę podarunkową dla siebie, ta opcja wyświetla "
 "wygenerowany kod (lub kody) bezpośrednio na stronie potwierdzenia zamówienia "
-"oraz w wiadomościach e-mail z zamówieniem — dzięki czemu otrzymuje kod "
+"oraz w wiadomościach e-mail z zamówieniem, dzięki czemu otrzymuje kod "
 "natychmiast, bez czekania na osobny e-mail dla odbiorcy."
 
 #: src/Admin/Settings.php:230
@@ -297,8 +297,8 @@ msgid "Copied"
 msgstr "Skopiowano"
 
 #: src/Service/GiftCardService.php:188
-msgid "Copy failed — select and copy manually"
-msgstr "Kopiowanie nie powiodło się — zaznacz i skopiuj ręcznie"
+msgid "Copy failed: select and copy manually"
+msgstr "Kopiowanie nie powiodło się, zaznacz i skopiuj ręcznie"
 
 #: templates/checkout-redeem-field.php:29
 msgid "Have a gift card?"
@@ -325,6 +325,6 @@ msgid "Apply"
 msgstr "Zastosuj"
 
 #: templates/checkout-redeem-field.php:62
-msgid "Gift card applied — the balance is shown in your order total."
+msgid "Gift card applied, the balance is shown in your order total."
 msgstr ""
-"Zastosowano kartę podarunkową — saldo jest widoczne w sumie zamówienia."
+"Zastosowano kartę podarunkową, saldo jest widoczne w sumie zamówienia."

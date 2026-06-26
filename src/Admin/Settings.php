@@ -215,7 +215,7 @@ final class Settings implements HasHooks
                                 <th scope="row">
                                     <span class="giftcards-admin__label">
                                         <?php esc_html_e('Show codes on order', 'giftcards'); ?>
-                                        <?php $this->help('gc-help-show', __('When a customer buys a gift card for themselves, this lists the issued code(s) right on the order-confirmation page and in their order emails — so they get the code instantly without waiting for the separate recipient email.', 'giftcards')); ?>
+                                        <?php $this->help('gc-help-show', __('When a customer buys a gift card for themselves, this lists the issued code(s) right on the order-confirmation page and in their order emails, so they get the code instantly without waiting for the separate recipient email.', 'giftcards')); ?>
                                     </span>
                                 </th>
                                 <td>
