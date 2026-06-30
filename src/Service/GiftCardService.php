@@ -62,11 +62,11 @@ final class GiftCardService implements HasHooks
             nonceAction: 'giftcards_redeem',
             fieldTemplate: 'checkout-redeem-field',
             labels: [
-                'fee_label'     => $this->label($settings, 'fee_label', __('Gift card ({code})', 'giftcards')),
-                'email_subject' => $this->label($settings, 'email_subject', __('You have received a {amount} gift card', 'giftcards')),
-                'email_body'    => $this->label($settings, 'email_body', __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'giftcards')),
-                'invalid_code'  => __('That gift card code is not valid.', 'giftcards'),
-                'applied'       => __('Gift card applied.', 'giftcards'),
+                'fee_label'     => $this->label($settings, 'fee_label', __('Gift card ({code})', 'plogins-giftcards')),
+                'email_subject' => $this->label($settings, 'email_subject', __('You have received a {amount} gift card', 'plogins-giftcards')),
+                'email_body'    => $this->label($settings, 'email_body', __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'plogins-giftcards')),
+                'invalid_code'  => __('That gift card code is not valid.', 'plogins-giftcards'),
+                'applied'       => __('Gift card applied.', 'plogins-giftcards'),
             ],
             isEnabled: fn (): bool => $this->isEnabled(),
             settings: fn (): array => $this->settings(),
@@ -161,17 +161,17 @@ final class GiftCardService implements HasHooks
         echo '<section class="giftcards-order-codes">';
         echo '<h2 class="giftcards-order-codes__title">';
         echo '<span aria-hidden="true">&#127873;</span> ';
-        echo esc_html__('Your gift cards', 'giftcards');
+        echo esc_html__('Your gift cards', 'plogins-giftcards');
         echo '</h2>';
         echo '<p class="giftcards-order-codes__intro">'
-            . esc_html__('Keep these codes safe. Enter a code at checkout to spend its balance; any unused amount stays on the card.', 'giftcards')
+            . esc_html__('Keep these codes safe. Enter a code at checkout to spend its balance; any unused amount stays on the card.', 'plogins-giftcards')
             . '</p>';
         echo '<table class="woocommerce-table giftcards-order-codes__table"><thead><tr>';
-        echo '<th scope="col">' . esc_html__('Code', 'giftcards') . '</th>';
-        echo '<th scope="col">' . esc_html__('Balance', 'giftcards') . '</th>';
+        echo '<th scope="col">' . esc_html__('Code', 'plogins-giftcards') . '</th>';
+        echo '<th scope="col">' . esc_html__('Balance', 'plogins-giftcards') . '</th>';
         echo '</tr></thead><tbody>';
 
-        $copyLabel = __('Copy code', 'giftcards');
+        $copyLabel = __('Copy code', 'plogins-giftcards');
 
         foreach ($cards as $card) {
             $code    = (string) $card['code'];
@@ -184,8 +184,8 @@ final class GiftCardService implements HasHooks
                 printf(
                     '<button type="button" class="giftcards-copy" data-code="%1$s" data-copied-label="%2$s" data-error-label="%3$s" aria-label="%4$s" title="%4$s"><span aria-hidden="true">&#128203;</span></button>',
                     esc_attr($code),
-                    esc_attr__('Copied', 'giftcards'),
-                    esc_attr__('Copy failed: select and copy manually', 'giftcards'),
+                    esc_attr__('Copied', 'plogins-giftcards'),
+                    esc_attr__('Copy failed: select and copy manually', 'plogins-giftcards'),
                     esc_attr(sprintf('%s: %s', $copyLabel, $code)),
                 );
             }

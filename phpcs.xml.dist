@@ -2,7 +2,7 @@
 <ruleset name="PluginName">
     <description>WordPress Coding Standards - output escaping, nonces, redirects, and SQL placeholder safety. WordPress.org Plugin Check is the full compliance gate.</description>
 
-    <file>giftcards.php</file>
+    <file>plogins-giftcards.php</file>
     <file>autoload.php</file>
     <file>src</file>
     <file>config</file>
@@ -33,7 +33,7 @@
     <rule ref="WordPress.WP.I18n">
         <properties>
             <property name="text_domain" type="array">
-                <element value="giftcards"/>
+                <element value="plogins-giftcards"/>
             </property>
         </properties>
     </rule>

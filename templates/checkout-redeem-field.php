@@ -26,14 +26,14 @@ $giftcards_is_applied = '' !== trim((string) $giftcards_applied_code);
 <div class="giftcards-redeem">
     <div class="giftcards-redeem__head">
         <span aria-hidden="true">&#127873;</span>
-        <h3 class="giftcards-redeem__title"><?php esc_html_e('Have a gift card?', 'giftcards'); ?></h3>
+        <h3 class="giftcards-redeem__title"><?php esc_html_e('Have a gift card?', 'plogins-giftcards'); ?></h3>
     </div>
     <p class="giftcards-redeem__hint" id="giftcards-redeem-hint">
-        <?php esc_html_e('Enter your code to apply its balance to this order. Any unused balance stays on the card for next time.', 'giftcards'); ?>
+        <?php esc_html_e('Enter your code to apply its balance to this order. Any unused balance stays on the card for next time.', 'plogins-giftcards'); ?>
     </p>
     <p class="form-row giftcards-redeem__row">
         <label class="giftcards-redeem__label" for="<?php echo esc_attr($giftcards_field_name); ?>">
-            <?php esc_html_e('Gift card code', 'giftcards'); ?>
+            <?php esc_html_e('Gift card code', 'plogins-giftcards'); ?>
         </label>
         <input
             type="text"
@@ -41,7 +41,7 @@ $giftcards_is_applied = '' !== trim((string) $giftcards_applied_code);
             name="<?php echo esc_attr($giftcards_field_name); ?>"
             value="<?php echo esc_attr($giftcards_applied_code); ?>"
             class="input-text giftcards-redeem__input"
-            placeholder="<?php esc_attr_e('e.g. GIFT-AB12CD34', 'giftcards'); ?>"
+            placeholder="<?php esc_attr_e('e.g. GIFT-AB12CD34', 'plogins-giftcards'); ?>"
             autocomplete="off"
             autocapitalize="characters"
             spellcheck="false"
@@ -49,7 +49,7 @@ $giftcards_is_applied = '' !== trim((string) $giftcards_applied_code);
             aria-describedby="giftcards-redeem-hint giftcards-redeem-feedback"
         />
         <button type="button" class="giftcards-redeem__apply" data-giftcards-apply>
-            <?php esc_html_e('Apply', 'giftcards'); ?>
+            <?php esc_html_e('Apply', 'plogins-giftcards'); ?>
         </button>
         <input type="hidden" name="<?php echo esc_attr($giftcards_field_name); ?>_nonce" value="<?php echo esc_attr($giftcards_nonce_field); ?>" />
     </p>
@@ -59,7 +59,7 @@ $giftcards_is_applied = '' !== trim((string) $giftcards_applied_code);
         <span class="giftcards-redeem__feedback-text">
         <?php
         if ($giftcards_is_applied) {
-            echo esc_html__('Gift card applied, the balance is shown in your order total.', 'giftcards');
+            echo esc_html__('Gift card applied, the balance is shown in your order total.', 'plogins-giftcards');
         }
         ?>
         </span>

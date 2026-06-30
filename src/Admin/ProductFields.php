@@ -32,9 +32,9 @@ final class ProductFields implements HasHooks
     {
         woocommerce_wp_checkbox([
             'id'          => self::META,
-            'label'       => __('Gift card', 'giftcards'),
+            'label'       => __('Gift card', 'plogins-giftcards'),
             // Visible hint below the field — never hidden behind a tooltip.
-            'description' => __('When checked, buying this product issues a unique code worth the product price and emails it to the recipient on order completion. Set the price to the card value (e.g. a $50 card → price $50). The recipient gets the code by email; the buyer also sees it on the order confirmation.', 'giftcards'),
+            'description' => __('When checked, buying this product issues a unique code worth the product price and emails it to the recipient on order completion. Set the price to the card value (e.g. a $50 card → price $50). The recipient gets the code by email; the buyer also sees it on the order confirmation.', 'plogins-giftcards'),
             // Show the help text visibly below the field (not hidden in a tip).
             'desc_tip'    => false,
         ]);

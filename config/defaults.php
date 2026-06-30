@@ -27,13 +27,13 @@ return [
 
     // Label of the discount line added at checkout when a code is applied.
     // {code} is interpolated with the applied gift-card code.
-    'fee_label' => __('Gift card ({code})', 'giftcards'),
+    'fee_label' => __('Gift card ({code})', 'plogins-giftcards'),
 
     // Whether the buyer's order-confirmation page and emails list the codes
     // issued by that order (so a self-purchase shows the code immediately).
     'show_codes_on_order' => true,
 
     // Recipient email templates. {code} and {amount} are interpolated.
-    'email_subject' => __('You have received a {amount} gift card', 'giftcards'),
-    'email_body'    => __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'giftcards'),
+    'email_subject' => __('You have received a {amount} gift card', 'plogins-giftcards'),
+    'email_body'    => __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'plogins-giftcards'),
 ];

@@ -4,7 +4,7 @@ includes:
 parameters:
     level: 6
     paths:
-        - giftcards.php
+        - plogins-giftcards.php
         - src
         - config
     excludePaths:

@@ -69,7 +69,7 @@ final class Settings implements HasHooks
                 . '<span id="%1$s" role="tooltip" popover class="giftcards-tooltip">%3$s</span>'
                 . '<span class="giftcards-help-fallback">%3$s</span>',
             esc_attr($id),
-            esc_attr__('More information', 'giftcards'),
+            esc_attr__('More information', 'plogins-giftcards'),
             esc_html($text),
         );
     }
@@ -78,8 +78,8 @@ final class Settings implements HasHooks
     {
         add_submenu_page(
             'woocommerce',
-            __('Gift Cards', 'giftcards'),
-            __('Gift Cards', 'giftcards'),
+            __('Gift Cards', 'plogins-giftcards'),
+            __('Gift Cards', 'plogins-giftcards'),
             'manage_woocommerce',
             self::PAGE,
             [$this, 'renderPage'],
@@ -124,11 +124,11 @@ final class Settings implements HasHooks
                 <?php echo esc_html(get_admin_page_title()); ?>
                 <?php if ($enabled) : ?>
                     <span class="giftcards-admin__status giftcards-admin__status--on">
-                        <?php esc_html_e('Active', 'giftcards'); ?>
+                        <?php esc_html_e('Active', 'plogins-giftcards'); ?>
                     </span>
                 <?php else : ?>
                     <span class="giftcards-admin__status giftcards-admin__status--off">
-                        <?php esc_html_e('Disabled', 'giftcards'); ?>
+                        <?php esc_html_e('Disabled', 'plogins-giftcards'); ?>
                     </span>
                 <?php endif; ?>
             </h1>
@@ -136,9 +136,9 @@ final class Settings implements HasHooks
             <div class="giftcards-admin__intro">
                 <span class="giftcards-admin__intro-icon" aria-hidden="true">&#127873;</span>
                 <div>
-                    <h2><?php esc_html_e('Sell gift cards in three steps', 'giftcards'); ?></h2>
+                    <h2><?php esc_html_e('Sell gift cards in three steps', 'plogins-giftcards'); ?></h2>
                     <p>
-                        <?php esc_html_e('1. Flag a product as a gift card (product editor → General tab → Gift card). 2. A buyer purchases it. 3. A unique code is emailed to the recipient and can be redeemed at checkout for a discount. Tune the wording below.', 'giftcards'); ?>
+                        <?php esc_html_e('1. Flag a product as a gift card (product editor → General tab → Gift card). 2. A buyer purchases it. 3. A unique code is emailed to the recipient and can be redeemed at checkout for a discount. Tune the wording below.', 'plogins-giftcards'); ?>
                     </p>
                 </div>
             </div>
@@ -147,17 +147,17 @@ final class Settings implements HasHooks
                 <?php settings_fields(self::PAGE); ?>
 
                 <div class="giftcards-admin__card">
-                    <h2><?php esc_html_e('General', 'giftcards'); ?></h2>
+                    <h2><?php esc_html_e('General', 'plogins-giftcards'); ?></h2>
                     <p class="giftcards-admin__card-hint">
-                        <?php esc_html_e('Core behaviour: whether gift cards are sold and how codes look.', 'giftcards'); ?>
+                        <?php esc_html_e('Core behaviour: whether gift cards are sold and how codes look.', 'plogins-giftcards'); ?>
                     </p>
                     <table class="form-table" role="presentation">
                         <tbody>
                             <tr>
                                 <th scope="row">
                                     <span class="giftcards-admin__label">
-                                        <?php esc_html_e('Enable gift cards', 'giftcards'); ?>
-                                        <?php $this->help('gc-help-enabled', __('Master switch. When off, no codes are issued, the checkout redeem field is hidden, and existing balances cannot be spent. Turn this off to pause the feature without losing data.', 'giftcards')); ?>
+                                        <?php esc_html_e('Enable gift cards', 'plogins-giftcards'); ?>
+                                        <?php $this->help('gc-help-enabled', __('Master switch. When off, no codes are issued, the checkout redeem field is hidden, and existing balances cannot be spent. Turn this off to pause the feature without losing data.', 'plogins-giftcards')); ?>
                                     </span>
                                 </th>
                                 <td>
@@ -169,15 +169,15 @@ final class Settings implements HasHooks
                                             value="1"
                                             <?php checked($enabled, true); ?>
                                         />
-                                        <?php esc_html_e('Generate and email a code when a gift-card product is purchased, and accept codes at checkout.', 'giftcards'); ?>
+                                        <?php esc_html_e('Generate and email a code when a gift-card product is purchased, and accept codes at checkout.', 'plogins-giftcards'); ?>
                                     </label>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
                                     <span class="giftcards-admin__label">
-                                        <label for="giftcards_code_prefix"><?php esc_html_e('Code prefix', 'giftcards'); ?></label>
-                                        <?php $this->help('gc-help-prefix', __('A short tag added to the front of every code so customers and support can recognise it at a glance. Example: "GIFT-" produces GIFT-AB12CD34. Leave blank for codes with no prefix.', 'giftcards')); ?>
+                                        <label for="giftcards_code_prefix"><?php esc_html_e('Code prefix', 'plogins-giftcards'); ?></label>
+                                        <?php $this->help('gc-help-prefix', __('A short tag added to the front of every code so customers and support can recognise it at a glance. Example: "GIFT-" produces GIFT-AB12CD34. Leave blank for codes with no prefix.', 'plogins-giftcards')); ?>
                                     </span>
                                 </th>
                                 <td>
@@ -190,14 +190,14 @@ final class Settings implements HasHooks
                                         placeholder="GIFT-"
                                         maxlength="12"
                                     />
-                                    <p class="description"><?php esc_html_e('Optional. Prepended to every generated code, e.g. "GIFT-". Up to 12 characters.', 'giftcards'); ?></p>
+                                    <p class="description"><?php esc_html_e('Optional. Prepended to every generated code, e.g. "GIFT-". Up to 12 characters.', 'plogins-giftcards'); ?></p>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
                                     <span class="giftcards-admin__label">
-                                        <label for="giftcards_fee_label"><?php esc_html_e('Checkout discount label', 'giftcards'); ?></label>
-                                        <?php $this->help('gc-help-fee', __('The text shown on the discount line at checkout when a code is applied (e.g. "Gift card (GIFT-AB12CD34)"). Use the {code} token to include the applied code.', 'giftcards')); ?>
+                                        <label for="giftcards_fee_label"><?php esc_html_e('Checkout discount label', 'plogins-giftcards'); ?></label>
+                                        <?php $this->help('gc-help-fee', __('The text shown on the discount line at checkout when a code is applied (e.g. "Gift card (GIFT-AB12CD34)"). Use the {code} token to include the applied code.', 'plogins-giftcards')); ?>
                                     </span>
                                 </th>
                                 <td>
@@ -208,14 +208,14 @@ final class Settings implements HasHooks
                                         value="<?php echo esc_attr((string) ($settings['fee_label'] ?? '')); ?>"
                                         class="regular-text"
                                     />
-                                    <p class="description"><?php esc_html_e('Shown on the discount line at checkout. Use {code} for the applied code.', 'giftcards'); ?></p>
+                                    <p class="description"><?php esc_html_e('Shown on the discount line at checkout. Use {code} for the applied code.', 'plogins-giftcards'); ?></p>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
                                     <span class="giftcards-admin__label">
-                                        <?php esc_html_e('Show codes on order', 'giftcards'); ?>
-                                        <?php $this->help('gc-help-show', __('When a customer buys a gift card for themselves, this lists the issued code(s) right on the order-confirmation page and in their order emails, so they get the code instantly without waiting for the separate recipient email.', 'giftcards')); ?>
+                                        <?php esc_html_e('Show codes on order', 'plogins-giftcards'); ?>
+                                        <?php $this->help('gc-help-show', __('When a customer buys a gift card for themselves, this lists the issued code(s) right on the order-confirmation page and in their order emails, so they get the code instantly without waiting for the separate recipient email.', 'plogins-giftcards')); ?>
                                     </span>
                                 </th>
                                 <td>
@@ -227,7 +227,7 @@ final class Settings implements HasHooks
                                             value="1"
                                             <?php checked((bool) ($settings['show_codes_on_order'] ?? true), true); ?>
                                         />
-                                        <?php esc_html_e('List the issued gift-card codes on the buyer\'s order-confirmation page and in their order emails.', 'giftcards'); ?>
+                                        <?php esc_html_e('List the issued gift-card codes on the buyer\'s order-confirmation page and in their order emails.', 'plogins-giftcards'); ?>
                                     </label>
                                 </td>
                             </tr>
@@ -236,25 +236,25 @@ final class Settings implements HasHooks
                 </div>
 
                 <div class="giftcards-admin__card">
-                    <h2><?php esc_html_e('Recipient email', 'giftcards'); ?></h2>
+                    <h2><?php esc_html_e('Recipient email', 'plogins-giftcards'); ?></h2>
                     <p class="giftcards-admin__card-hint">
-                        <?php esc_html_e('The email sent to whoever receives the gift card. Click a token to insert it where your cursor is.', 'giftcards'); ?>
+                        <?php esc_html_e('The email sent to whoever receives the gift card. Click a token to insert it where your cursor is.', 'plogins-giftcards'); ?>
                     </p>
 
-                    <div class="giftcards-tokens" role="group" aria-label="<?php esc_attr_e('Insert a template token', 'giftcards'); ?>">
+                    <div class="giftcards-tokens" role="group" aria-label="<?php esc_attr_e('Insert a template token', 'plogins-giftcards'); ?>">
                         <button type="button" class="giftcards-token" data-token="{code}"
-                            data-inserted="<?php esc_attr_e('inserted', 'giftcards'); ?>"
-                            data-copied="<?php esc_attr_e('copied', 'giftcards'); ?>">{code}</button>
+                            data-inserted="<?php esc_attr_e('inserted', 'plogins-giftcards'); ?>"
+                            data-copied="<?php esc_attr_e('copied', 'plogins-giftcards'); ?>">{code}</button>
                         <button type="button" class="giftcards-token" data-token="{amount}"
-                            data-inserted="<?php esc_attr_e('inserted', 'giftcards'); ?>"
-                            data-copied="<?php esc_attr_e('copied', 'giftcards'); ?>">{amount}</button>
+                            data-inserted="<?php esc_attr_e('inserted', 'plogins-giftcards'); ?>"
+                            data-copied="<?php esc_attr_e('copied', 'plogins-giftcards'); ?>">{amount}</button>
                     </div>
 
                     <table class="form-table" role="presentation">
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <label for="giftcards_email_subject"><?php esc_html_e('Subject', 'giftcards'); ?></label>
+                                    <label for="giftcards_email_subject"><?php esc_html_e('Subject', 'plogins-giftcards'); ?></label>
                                 </th>
                                 <td>
                                     <input
@@ -268,7 +268,7 @@ final class Settings implements HasHooks
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="giftcards_email_body"><?php esc_html_e('Body', 'giftcards'); ?></label>
+                                    <label for="giftcards_email_body"><?php esc_html_e('Body', 'plogins-giftcards'); ?></label>
                                 </th>
                                 <td>
                                     <textarea
@@ -277,14 +277,14 @@ final class Settings implements HasHooks
                                         rows="5"
                                         class="large-text"
                                     ><?php echo esc_textarea((string) ($settings['email_body'] ?? '')); ?></textarea>
-                                    <p class="description"><?php esc_html_e('{code} becomes the gift-card code; {amount} becomes the formatted value.', 'giftcards'); ?></p>
+                                    <p class="description"><?php esc_html_e('{code} becomes the gift-card code; {amount} becomes the formatted value.', 'plogins-giftcards'); ?></p>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="giftcards-preview" aria-hidden="true">
-                        <span class="giftcards-preview__label"><?php esc_html_e('Live preview', 'giftcards'); ?></span>
+                        <span class="giftcards-preview__label"><?php esc_html_e('Live preview', 'plogins-giftcards'); ?></span>
                         <div class="giftcards-preview__subject"></div>
                         <div class="giftcards-preview__body"></div>
                     </div>

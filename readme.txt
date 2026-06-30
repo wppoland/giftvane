@@ -1,10 +1,10 @@
-=== Gift Cards – Store Credit for WooCommerce ===
+=== Plogins Gift Cards for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,15 +18,14 @@ To spend a card, the customer enters the code in a field on the checkout. The ba
 
 The buyer also sees the code(s) their order issued on the order-confirmation page and in their WooCommerce order emails, so they have the code in hand without hunting through their inbox.
 
-The code is built and tracked on GitHub. Source and bug reports: https://github.com/wppoland/giftcards
+The code is built and tracked on GitHub. Source and bug reports: https://github.com/wppoland/plogins-giftcards
 
 = Documentation and links =
 
-* **Documentation** - https://plogins.com/giftcards/docs/
-* **Plugin page** - https://plogins.com/giftcards/
-* **Source code** - https://github.com/wppoland/giftcards
-* **Bug reports and feature requests** - https://github.com/wppoland/giftcards/issues
-* **Discussions and questions** - https://github.com/wppoland/giftcards/discussions
+* **Documentation** - https://plogins.com/plogins-giftcards/docs/
+* **Plugin page** - https://plogins.com/plogins-giftcards/
+* **Source code** - https://github.com/wppoland/plogins-giftcards
+* **Bug reports and feature requests** - https://github.com/wppoland/plogins-giftcards/issues
 
 
 = What it does =
@@ -41,7 +40,7 @@ The code is built and tracked on GitHub. Source and bug reports: https://github.
 
 == Installation ==
 
-1. Upload the plugin to `/wp-content/plugins/giftcards`, or install it from Plugins → Add New.
+1. Upload the plugin to `/wp-content/plugins/plogins-giftcards`, or install it from Plugins → Add New.
 2. Activate it. WooCommerce must be active.
 3. Edit a product, tick **Gift card** on the General tab, and set its price to the value of the card.
 4. Set the code prefix and the recipient email under **WooCommerce → Gift Cards**.
@@ -90,6 +89,9 @@ Yes. Gift Cards declares compatibility with WooCommerce HPOS and Cart/Checkout B
 This plugin does not connect to, send data to, or rely on any external service, API or CDN. Everything runs on your own site. Gift-card codes and balances are stored in a single custom database table (`{prefix}giftcards`), the gift-card flag and any recipient address are kept in WooCommerce product and order-item meta (`_giftcards_is_gift_card`, `_giftcards_recipient_email`), and settings live in the `giftcards_settings` and `giftcards_db_version` options. The email carrying a code is delivered through your site's own WooCommerce/WordPress mailer to the order's billing address; no message or customer data leaves your server.
 
 == Changelog ==
+
+= 0.2.1 =
+* Renamed to Plogins Gift Cards for WooCommerce for a more distinctive plugin name.
 
 = 0.2.0 =
 * The recipient email subject and body set under **WooCommerce → Gift Cards** are now used for the email that's sent. Earlier these stored values were ignored and a built-in default was always used.
