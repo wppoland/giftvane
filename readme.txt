@@ -1,4 +1,4 @@
-=== Plogins Gift Cards for WooCommerce ===
+=== Plogins Gift Cards - Store Credit for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
