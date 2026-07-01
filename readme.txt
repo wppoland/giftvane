@@ -79,6 +79,11 @@ Yes. Set the email subject and body under WooCommerce → Gift Cards, with token
 
 Yes. Gift Cards declares compatibility with WooCommerce HPOS and Cart/Checkout Blocks.
 
+
+= Does this plugin work on WordPress Multisite? =
+
+Yes. This plugin is compatible with WordPress Multisite. Network activate it or activate it on individual sites; each site keeps its own settings and data.
+
 == Screenshots ==
 
 1. Redeeming a gift card at checkout, where a shopper applies a code to their order.
