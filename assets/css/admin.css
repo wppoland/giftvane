@@ -346,3 +346,86 @@
 		flex-direction: column;
 	}
 }
+
+/* ------------------------------------------------------------------ *
+ * PRO upsell — dismissible banner, sidebar promo, "what PRO adds"
+ * locked cards. Pure advertising (no disabled inputs), scoped to
+ * .giftcards-admin, using the plugin's own magenta accent. The buttons
+ * and text-on-white use a FIXED dark shade (--gc-pro-cta #5d1f53) so
+ * white text clears WCAG AA (11.76:1) even when the theme's accent
+ * token flips lighter under prefers-color-scheme: dark; the lighter
+ * accent stays decorative only. Surfaces are hardcoded light on
+ * purpose so the promo reads as one consistent island in either mode.
+ * ------------------------------------------------------------------ */
+.giftcards-admin {
+	--gc-pro-cta: #5d1f53;
+	--gc-pro-muted: #646970;
+	--gc-pro-radius: 8px;
+	--gc-pro-radius-sm: 6px;
+	--gc-pro-gap: 20px;
+}
+
+/* Two-column wrapper (form + promo aside); single column on narrow screens. */
+.giftcards-admin .giftcards-cols { display: grid; gap: var(--gc-pro-gap); grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 1100px) {
+	.giftcards-admin .giftcards-cols { grid-template-columns: minmax(0, 1fr) 300px; }
+}
+
+/* Top banner */
+.giftcards-admin .giftcards-pro-banner {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin: 1rem 0 var(--gc-pro-gap);
+	padding: 12px 16px;
+	border: 1px solid color-mix(in srgb, var(--gc-accent) 30%, #dcdcde);
+	border-inline-start: 4px solid var(--gc-accent);
+	border-radius: var(--gc-pro-radius);
+	background: color-mix(in srgb, var(--gc-accent) 7%, #fff);
+}
+.giftcards-admin .giftcards-pro-banner__tag,
+.giftcards-admin .giftcards-pro-card__badge,
+.giftcards-admin .giftcards-pro-aside__eyebrow {
+	font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+.giftcards-admin .giftcards-pro-banner__tag { flex: 0 0 auto; padding: 2px 8px; border-radius: 999px; color: #fff; background: var(--gc-pro-cta); }
+.giftcards-admin .giftcards-pro-banner__text { flex: 1 1 auto; margin: 0; color: #1d2327; }
+.giftcards-admin .giftcards-pro-banner__sub { margin-inline-start: 4px; color: var(--gc-pro-muted); }
+.giftcards-admin .giftcards-pro-banner__price { margin-inline-start: 6px; color: var(--gc-pro-muted); font-weight: 600; white-space: nowrap; }
+.giftcards-admin .giftcards-pro-banner__dismiss { flex: 0 0 auto; font-size: 18px; line-height: 1; text-decoration: none; color: var(--gc-pro-muted); padding: 4px; border-radius: 4px; }
+.giftcards-admin .giftcards-pro-banner__dismiss:hover { color: #1d2327; background: rgba(0, 0, 0, .05); }
+
+/* Accent CTA buttons (override WP blue with the readable dark magenta) */
+.giftcards-admin .giftcards-pro-banner__cta.button-primary,
+.giftcards-admin .giftcards-pro-aside__cta.button-primary {
+	background: var(--gc-pro-cta); border-color: color-mix(in srgb, var(--gc-pro-cta) 80%, #000); color: #fff; text-shadow: none; box-shadow: none;
+}
+.giftcards-admin .giftcards-pro-banner__cta.button-primary:hover,
+.giftcards-admin .giftcards-pro-aside__cta.button-primary:hover { background: color-mix(in srgb, var(--gc-pro-cta) 88%, #000); }
+
+/* Sidebar promo card */
+.giftcards-admin .giftcards-pro-aside {
+	background: #fff; border: 1px solid #dcdcde; border-top: 3px solid var(--gc-accent); border-radius: var(--gc-pro-radius); padding: 18px 20px; position: sticky; top: 40px;
+}
+.giftcards-admin .giftcards-pro-aside__eyebrow { margin: 0 0 4px; color: var(--gc-pro-cta); }
+.giftcards-admin .giftcards-pro-aside__heading { margin: 0 0 12px; font-size: 16px; line-height: 1.3; color: #1d2327; }
+.giftcards-admin .giftcards-pro-aside__list { margin: 0 0 16px; padding: 0; list-style: none; }
+.giftcards-admin .giftcards-pro-aside__list li { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; color: #1d2327; font-size: 13px; }
+.giftcards-admin .giftcards-pro-aside__lock::before,
+.giftcards-admin .giftcards-pro-card__lock::before { content: "\f160"; font-family: dashicons; font-size: 15px; line-height: 1.2; color: var(--gc-accent); }
+.giftcards-admin .giftcards-pro-aside__cta { width: 100%; text-align: center; }
+.giftcards-admin .giftcards-pro-aside__price { margin: 10px 0 0; font-size: 12px; color: var(--gc-pro-muted); text-align: center; }
+
+/* "What PRO adds" locked cards */
+.giftcards-admin .giftcards-pro-cards { max-width: 60rem; margin: var(--gc-pro-gap) 0 0; }
+.giftcards-admin .giftcards-pro-cards__title { font-size: 15px; margin: 0 0 12px; color: #1d2327; }
+.giftcards-admin .giftcards-pro-cards__grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.giftcards-admin .giftcards-pro-card { position: relative; padding: 16px; border: 1px solid #dcdcde; border-radius: var(--gc-pro-radius-sm); background: color-mix(in srgb, var(--gc-accent) 3%, #fff); }
+.giftcards-admin .giftcards-pro-card__badge { position: absolute; top: 12px; inset-inline-end: 12px; padding: 1px 7px; border-radius: 999px; color: var(--gc-pro-cta); border: 1px solid color-mix(in srgb, var(--gc-accent) 40%, #fff); }
+.giftcards-admin .giftcards-pro-card__lock { display: inline-block; margin-bottom: 6px; }
+.giftcards-admin .giftcards-pro-card__title { margin: 0 0 6px; font-size: 14px; line-height: 1.3; color: #1d2327; }
+.giftcards-admin .giftcards-pro-card__desc { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--gc-pro-muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+	.giftcards-admin .giftcards-pro-banner__cta, .giftcards-admin .giftcards-pro-aside__cta { transition: background-color .15s ease, border-color .15s ease; }
+}

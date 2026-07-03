@@ -23,11 +23,19 @@ final class Settings implements HasHooks
 
     private const PAGE = 'giftcards-settings';
 
+    private ?ProUpsell $proUpsell = null;
+
+    private function proUpsell(): ProUpsell
+    {
+        return $this->proUpsell ??= new ProUpsell();
+    }
+
     public function registerHooks(): void
     {
         add_action('admin_menu', [$this, 'addMenuPage']);
         add_action('admin_init', [$this, 'registerSettings']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueAssets']);
+        $this->proUpsell()->registerHooks();
     }
 
     /**
@@ -133,6 +141,8 @@ final class Settings implements HasHooks
                 <?php endif; ?>
             </h1>
 
+            <?php $this->proUpsell()->banner(); ?>
+
             <div class="giftcards-admin__intro">
                 <span class="giftcards-admin__intro-icon" aria-hidden="true">&#127873;</span>
                 <div>
@@ -143,6 +153,7 @@ final class Settings implements HasHooks
                 </div>
             </div>
 
+            <div class="giftcards-cols">
             <form method="post" action="options.php">
                 <?php settings_fields(self::PAGE); ?>
 
@@ -292,6 +303,11 @@ final class Settings implements HasHooks
 
                 <?php submit_button(); ?>
             </form>
+
+                <?php $this->proUpsell()->aside(); ?>
+            </div>
+
+            <?php $this->proUpsell()->cards(); ?>
         </div>
         <?php
     }
