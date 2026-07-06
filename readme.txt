@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,9 @@ Yes. This plugin is compatible with WordPress Multisite. Network activate it or 
 This plugin does not connect to, send data to, or rely on any external service, API or CDN. Everything runs on your own site. Gift-card codes and balances are stored in a single custom database table (`{prefix}giftcards`), the gift-card flag and any recipient address are kept in WooCommerce product and order-item meta (`_giftcards_is_gift_card`, `_giftcards_recipient_email`), and settings live in the `giftcards_settings` and `giftcards_db_version` options. The email carrying a code is delivered through your site's own WooCommerce/WordPress mailer to the order's billing address; no message or customer data leaves your server.
 
 == Changelog ==
+
+= 0.2.2 =
+* Plugin Check: escaping/sanitisation/i18n/hygiene fixes.
 
 = 0.2.1 =
 * Renamed to Plogins Gift Cards for WooCommerce for a more distinctive plugin name.
