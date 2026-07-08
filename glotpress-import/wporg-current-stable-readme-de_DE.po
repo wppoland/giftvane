@@ -1,0 +1,79 @@
+# wp.org Stable Readme translation (de_DE)
+msgid ""
+msgstr ""
+"Project-Id-Version: giftcards Stable Readme\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: plogins-i18n\n"
+
+msgid "Sell WooCommerce gift cards, gift vouchers and store credit codes that customers redeem at checkout."
+msgstr "Verkaufe WooCommerce-Geschenkkarten, Geschenkgutscheine und Shop-Guthabencodes, die Kunden an der Kasse einlösen."
+
+msgid "Sell a gift card or gift voucher as an ordinary WooCommerce product. Tick the \"Gift card\" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique store credit code worth that price, records its balance in its own table, and emails the code to the buyer's order email address."
+msgstr "Verkaufe eine Geschenkkarte oder einen Geschenkgutschein als normales WooCommerce-Produkt. Aktiviere bei jedem Produkt das Kästchen „Geschenkkarte“ und stelle den Preis auf den Kartenwert ein. Wenn die Bestellung als abgeschlossen markiert wird, generiert das Plugin einen eindeutigen Store-Guthabencode im Wert dieses Preises, zeichnet den Kontostand in einer eigenen Tabelle auf und sendet den Code per E-Mail an die Bestell-E-Mail-Adresse des Käufers."
+
+msgid "To spend a card, the customer enters the code in a field on the checkout. The balance is applied as a discount on that order. If the order costs less than the card is worth, the leftover stays on the code for a later purchase, so one card can cover several orders until it runs out."
+msgstr "Um eine Karte auszugeben, gibt der Kunde den Code in ein Feld an der Kasse ein. Der Restbetrag wird als Rabatt auf diese Bestellung angerechnet. Wenn die Bestellung weniger kostet, als die Karte wert ist, bleibt der Rest für einen späteren Einkauf auf dem Code, sodass eine Karte mehrere Bestellungen abdecken kann, bis sie aufgebraucht ist."
+
+msgid "The buyer also sees the code(s) their order issued on the order-confirmation page and in their WooCommerce order emails, so they have the code in hand without hunting through their inbox."
+msgstr "Der Käufer sieht den/die von seiner Bestellung ausgegebenen Code(s) auch auf der Bestellbestätigungsseite und in seinen WooCommerce-Bestell-E-Mails, sodass er den Code zur Hand hat, ohne seinen Posteingang durchsuchen zu müssen."
+
+msgid "The code is built and tracked on GitHub. Source and bug reports: https://github.com/wppoland/plogins-giftcards"
+msgstr "Der Code wird auf GitHub erstellt und verfolgt. Quellen- und Fehlerberichte: https://github.com/wppoland/plogins-giftcards"
+
+msgid "* <strong>Documentation</strong> - https://plogins.com/plogins-giftcards/docs/\n* <strong>Plugin page</strong> - https://plogins.com/plogins-giftcards/\n* <strong>Source code</strong> - https://github.com/wppoland/plogins-giftcards\n* <strong>Bug reports and feature requests</strong> - https://github.com/wppoland/plogins-giftcards/issues"
+msgstr "* <strong>Dokumentation</strong> - https://plogins.com/de/plogins-giftcards/docs/\n* <strong>Plugin-Seite</strong> - https://plogins.com/de/plogins-giftcards/\n* <strong>Quellcode</strong> – https://github.com/wppoland/plogins-giftcards\n* <strong>Fehlerberichte und Funktionsanfragen</strong> – https://github.com/wppoland/plogins-giftcards/issues"
+
+msgid "* Turns any product into a gift card with one checkbox on the product editor's General tab; the price is the card value.\n* Generates a unique code on order completion and emails it to the buyer's order email address.\n* Adds a redeem-code field to the checkout that applies the card balance as a discount.\n* Keeps the unused balance on the code after a partial spend, so it works across multiple orders.\n* Lets you set the code prefix, the checkout discount label and the recipient email subject and body.\n* Optionally lists the issued codes on the buyer's order page and in their order emails.\n* Works with WooCommerce HPOS (custom order tables) and the Cart and Checkout blocks."
+msgstr "* Verwandelt jedes Produkt mit einem Kontrollkästchen auf der Registerkarte „Allgemein“ des Produkteditors in eine Geschenkkarte. Der Preis entspricht dem Kartenwert.\n* Generiert bei Abschluss der Bestellung einen eindeutigen Code und sendet ihn per E-Mail an die Bestell-E-Mail-Adresse des Käufers.\n* Fügt dem Checkout ein Einlösecode-Feld hinzu, das das Kartenguthaben als Rabatt anrechnet.\n* Behält das ungenutzte Guthaben des Codes nach einer Teilausgabe bei, sodass es über mehrere Bestellungen hinweg funktioniert.\n* Ermöglicht das Festlegen des Code-Präfixes, des Rabattetiketts an der Kasse sowie des Betreffs und des Textes der E-Mail des Empfängers.\n* Optional werden die ausgegebenen Codes auf der Bestellseite des Käufers und in seinen Bestell-E-Mails aufgeführt.\n* Funktioniert mit WooCommerce HPOS (benutzerdefinierte Bestelltabellen) und den Warenkorb- und Checkout-Blöcken."
+
+msgid "1. Upload the plugin to `/wp-content/plugins/plogins-giftcards`, or install it from Plugins → Add New.\n2. Activate it. WooCommerce must be active.\n3. Edit a product, tick <strong>Gift card<strong> on the General tab, and set its price to the value of the card. 4. Set the code prefix and the recipient email under </strong>WooCommerce → Gift Cards</strong>."
+msgstr "1. Lade das Plugin nach „/wp-content/plugins/plogins-giftcards“ hoch oder installiere es über Plugins → Neu hinzufügen.\n2. Aktiviere es. WooCommerce muss aktiv sein.\n3. Bearbeite ein Produkt, markiere <strong>Geschenkkarte<strong> auf der Registerkarte „Allgemein“ und lege den Preis auf den Wert der Karte fest. 4. Lege unter </strong>WooCommerce → Gift Cards</strong> das Code-Präfix und die E-Mail-Adresse des Empfängers fest."
+
+msgid "Yes. WooCommerce 8.0 or later must be installed and active."
+msgstr "Ja. WooCommerce 8.0 oder höher muss installiert und aktiv sein."
+
+msgid "The value is the price of the gift-card product. Buying two of a $50 card issues two $50 codes."
+msgstr "Der Wert ist der Preis des Geschenkkartenprodukts. Beim Kauf von zwei 50-Dollar-Karten werden zwei 50-Dollar-Codes ausgegeben."
+
+msgid "The code is emailed to the order's billing email address, and the buyer can also see it on the order-confirmation page and in their order emails. There is no separate \"send to a friend\" field in this version."
+msgstr "Der Code wird per E-Mail an die Rechnungs-E-Mail-Adresse der Bestellung gesendet und der Käufer kann ihn auch auf der Bestellbestätigungsseite und in seinen Bestell-E-Mails sehen. In dieser Version gibt es kein separates Feld „An einen Freund senden“."
+
+msgid "The customer types the code into the field at checkout. The balance comes off that order as a discount, and anything left over stays on the code for next time."
+msgstr "Der Kunde gibt den Code an der Kasse in das Feld ein. Der Restbetrag dieser Bestellung wird als Rabatt abgezogen und alles, was übrig bleibt, bleibt für das nächste Mal auf dem Code."
+
+msgid "Yes. If checkout uses only part of the balance, the remaining store credit stays on the same code for a later order."
+msgstr "Ja. Wenn beim Bezahlen nur ein Teil des Guthabens verbraucht wird, bleibt das verbleibende Guthaben für eine spätere Bestellung auf dem gleichen Code."
+
+msgid "Yes. Buying two units of a gift card product issues two separate store credit codes with the product price as each value."
+msgstr "Ja. Beim Kauf von zwei Einheiten eines Geschenkkartenprodukts werden zwei separate Gutschriftcodes mit dem Produktpreis als Wert ausgegeben."
+
+msgid "Yes. Set the email subject and body under WooCommerce → Gift Cards, with tokens for the code and amount."
+msgstr "Ja. Lege den Betreff und den Text der E-Mail unter WooCommerce → Geschenkkarten fest, mit Token für den Code und den Betrag."
+
+msgid "Yes. Gift Cards declares compatibility with WooCommerce HPOS and Cart/Checkout Blocks."
+msgstr "Ja. Gift Cards erklärt die Kompatibilität mit WooCommerce HPOS und Cart/Checkout Blocks."
+
+msgid "Yes. This plugin is compatible with WordPress Multisite. Network activate it or activate it on individual sites; each site keeps its own settings and data."
+msgstr "Ja. Dieses Plugin ist mit WordPress Multisite kompatibel. Aktiviere es im Netzwerk oder auf einzelnen Websites. Jede Site behält ihre eigenen Einstellungen und Daten."
+
+msgid "1. Redeeming a gift card at checkout, where a shopper applies a code to their order.\n2. The Gift Cards settings page under WooCommerce."
+msgstr "1. Einlösen einer Geschenkkarte an der Kasse, bei der ein Käufer einen Code auf seine Bestellung anwendet.\n2. Die Einstellungsseite für Geschenkkarten unter WooCommerce."
+
+msgid "This plugin does not connect to, send data to, or rely on any external service, API or CDN. Everything runs on your own site. Gift-card codes and balances are stored in a single custom database table (`{prefix}giftcards`), the gift-card flag and any recipient address are kept in WooCommerce product and order-item meta (`_giftcards_is_gift_card`, `_giftcards_recipient_email`), and settings live in the `giftcards_settings` and `giftcards_db_version` options. The email carrying a code is delivered through your site's own WooCommerce/WordPress mailer to the order's billing address; no message or customer data leaves your server."
+msgstr "Dieses Plugin stellt keine Verbindung zu externen Diensten, APIs oder CDNs her, sendet keine Daten an diese und verlässt sich nicht auf diese. Alles läuft auf deiner eigenen Website. Geschenkkartencodes und Guthaben werden in einer einzigen benutzerdefinierten Datenbanktabelle („{prefix}giftcards“) gespeichert, das Geschenkkarten-Flag und alle Empfängeradressen werden im WooCommerce-Produkt- und Bestellartikel-Meta („_giftcards_is_gift_card“, „_giftcards_recipient_email“) gespeichert und die Einstellungen befinden sich in den Optionen „giftcards_settings“ und „giftcards_db_version“. Die E-Mail mit einem Code wird über den WooCommerce/WordPress-Mailer deiner Website an die Rechnungsadresse der Bestellung gesendet. Keine Nachricht oder Kundendaten verlassen deinen Server."
+
+msgid "* First stable release."
+msgstr "* Erste stabile Version."
+
+msgid "* Renamed to Plogins Gift Cards for WooCommerce for a more distinctive plugin name."
+msgstr "* Umbenannt in „Plogins-Geschenkkarten für WooCommerce“, um einen markanteren Plugin-Namen zu erhalten."
+
+msgid "* The recipient email subject and body set under <strong>WooCommerce → Gift Cards</strong> are now used for the email that's sent. Earlier these stored values were ignored and a built-in default was always used.\n* Added a setting for the checkout discount label shown when a code is applied; it accepts a {code} token.\n* Added a setting to list the issued codes on the buyer's order-confirmation page and order emails. It is on by default.\n* The default email and label text is now translatable.\n* Reworked the settings page: inline help, click-to-insert email tokens and a live preview of the email.\n* Reworked the checkout redeem field and added a copy button to the issued-codes list.\n* Storefront styles now follow the theme and respect dark mode and reduced-motion settings, with no layout shift at checkout. The markup is keyboard-accessible with ARIA labels and focus styles, and all CSS/JS ships as separate files."
+msgstr "* Der unter <strong>WooCommerce → Geschenkkarten</strong> festgelegte Betreff und Text der Empfänger-E-Mail wird jetzt für die gesendete E-Mail verwendet. Früher wurden diese gespeicherten Werte ignoriert und immer ein integrierter Standardwert verwendet.\n* Es wurde eine Einstellung für das Rabattetikett an der Kasse hinzugefügt, das angezeigt wird, wenn ein Code angewendet wird. Es akzeptiert ein {code}-Token.\n* Es wurde eine Einstellung hinzugefügt, um die ausgegebenen Codes auf der Bestellbestätigungsseite und in den Bestell-E-Mails des Käufers aufzulisten. Es ist standardmäßig aktiviert.\n* Der Standard-E-Mail- und Etikettentext ist jetzt übersetzbar.\n* Die Einstellungsseite wurde überarbeitet: Inline-Hilfe, per Mausklick einzufügende E-Mail-Tokens und eine Live-Vorschau der E-Mail.\n* Das Einlösefeld an der Kasse wurde überarbeitet und der Liste der ausgegebenen Codes eine Schaltfläche zum Kopieren hinzugefügt.\n* Storefront-Stile folgen jetzt dem Thema und respektieren den Dunkelmodus und die Einstellungen für reduzierte Bewegung, ohne dass sich das Layout an der Kasse ändert. Das Markup ist mit ARIA-Beschriftungen und Fokusstilen über die Tastatur zugänglich und alle CSS/JS-Dateien werden als separate Dateien geliefert."
+
+msgid "* Initial release."
+msgstr "* Erstveröffentlichung."
+

@@ -1,0 +1,331 @@
+# Copyright (C) 2026 WPPoland
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Gift Cards – Store Credit for WooCommerce 0.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/giftcards\n"
+"POT-Creation-Date: 2026-06-16T20:25:36+00:00\n"
+"PO-Revision-Date: 2026-06-16T20:25:36+00:00\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: plogins-giftcards\n"
+"X-Generator: WP-CLI 2.12.0\n"
+
+#. Plugin Name of the plugin
+#: giftcards.php
+msgid "Gift Cards – Store Credit for WooCommerce"
+msgstr "Geschenkkarten – Shop-Guthaben für WooCommerce"
+
+#. Plugin URI of the plugin
+#: giftcards.php
+msgid "https://plogins.com/giftcards/"
+msgstr "https://plogins.com/de/giftcards/"
+
+#. Description of the plugin
+#: giftcards.php
+msgid ""
+"Sell gift cards that email a redeemable code to the recipient and apply as a"
+" discount at checkout."
+msgstr ""
+"Verkaufe Geschenkgutscheine, bei denen ein einlösbarer Code per E-Mail an "
+"den Empfänger gesendet und an der Kasse als Rabatt gewährt wird."
+
+#. Author of the plugin
+#: giftcards.php
+msgid "WPPoland"
+msgstr "WPPoland"
+
+#. Author URI of the plugin
+#: giftcards.php
+msgid "https://plogins.com/"
+msgstr "https://plogins.com/"
+
+#: config/defaults.php:30 src/Service/GiftCardService.php:65
+msgid "Gift card ({code})"
+msgstr "Geschenkkarte ({code})"
+
+#: config/defaults.php:37 src/Service/GiftCardService.php:66
+msgid "You have received a {amount} gift card"
+msgstr "Du hast eine {amount}-Geschenkkarte erhalten"
+
+#: config/defaults.php:38 src/Service/GiftCardService.php:67
+msgid ""
+"You have received a gift card worth {amount}.\n"
+"\n"
+"Use this code at checkout: {code}"
+msgstr ""
+"Du hast eine Geschenkkarte im Wert von {amount} erhalten.\n"
+"\n"
+"Verwende diesen Code an der Kasse: {code}"
+
+#: giftcards.php:47
+msgid ""
+"Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active."
+msgstr ""
+"Für Geschenkkarten – Shop-Guthaben für WooCommerce muss WooCommerce aktiv "
+"sein."
+
+#: src/Admin/ProductFields.php:35
+msgid "Gift card"
+msgstr "Geschenkkarte"
+
+#: src/Admin/ProductFields.php:37
+msgid ""
+"When checked, buying this product issues a unique code worth the product "
+"price and emails it to the recipient on order completion. Set the price to "
+"the card value (e.g. a $50 card → price $50). The recipient gets the code by"
+" email; the buyer also sees it on the order confirmation."
+msgstr ""
+"Wenn diese Option aktiviert ist, wird beim Kauf dieses Produkts ein "
+"eindeutiger Code im Wert des Produktpreises ausgestellt und nach Abschluss "
+"der Bestellung per E-Mail an den Empfänger gesendet. Lege den Preis auf den "
+"Kartenwert fest (z. B. eine 50-Dollar-Karte → Preis 50 $). Der Empfänger "
+"erhält den Code per E-Mail; der Käufer sieht dies auch in der "
+"Auftragsbestätigung."
+
+#: src/Admin/Settings.php:72
+msgid "More information"
+msgstr "Weitere Informationen"
+
+#: src/Admin/Settings.php:81 src/Admin/Settings.php:82
+msgid "Gift Cards"
+msgstr "Geschenkkarten"
+
+#: src/Admin/Settings.php:127
+msgid "Active"
+msgstr "Aktiv"
+
+#: src/Admin/Settings.php:131
+msgid "Disabled"
+msgstr "Deaktiviert"
+
+#: src/Admin/Settings.php:139
+msgid "Sell gift cards in three steps"
+msgstr "Verkaufe Geschenkkarten in drei Schritten"
+
+#: src/Admin/Settings.php:141
+msgid ""
+"1. Flag a product as a gift card (product editor → General tab → Gift card)."
+" 2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
+"can be redeemed at checkout for a discount. Tune the wording below."
+msgstr ""
+"1. Markiere ein Produkt als Geschenkkarte (Produkteditor → Registerkarte "
+"„Allgemein“ → Geschenkkarte). 2. Ein Käufer kauft es. 3. Ein einzigartiger "
+"Code wird per E-Mail an den Empfänger gesendet und kann an der Kasse gegen "
+"einen Rabatt eingelöst werden. Passe den Wortlaut unten an."
+
+#: src/Admin/Settings.php:150
+msgid "General"
+msgstr "Allgemein"
+
+#: src/Admin/Settings.php:152
+msgid "Core behaviour: whether gift cards are sold and how codes look."
+msgstr ""
+"Kernverhalten: ob Geschenkkarten verkauft werden und wie Codes aussehen."
+
+#: src/Admin/Settings.php:159
+msgid "Enable gift cards"
+msgstr "Geschenkkarten aktivieren"
+
+#: src/Admin/Settings.php:160
+msgid ""
+"Master switch. When off, no codes are issued, the checkout redeem field is "
+"hidden, and existing balances cannot be spent. Turn this off to pause the "
+"feature without losing data."
+msgstr ""
+"Hauptschalter. Wenn diese Option deaktiviert ist, werden keine Codes "
+"ausgegeben, das Feld zum Einlösen an der Kasse ist ausgeblendet und "
+"vorhandene Guthaben können nicht ausgegeben werden. Deaktiviere diese "
+"Option, um die Funktion anzuhalten, ohne Daten zu verlieren."
+
+#: src/Admin/Settings.php:172
+msgid ""
+"Generate and email a code when a gift-card product is purchased, and accept "
+"codes at checkout."
+msgstr ""
+"Generiere einen Code, sende ihn per E-Mail, wenn du ein "
+"Geschenkkartenprodukt kaufen, und akzeptiere Codes an der Kasse."
+
+#: src/Admin/Settings.php:179
+msgid "Code prefix"
+msgstr "Code-Präfix"
+
+#: src/Admin/Settings.php:180
+msgid ""
+"A short tag added to the front of every code so customers and support can "
+"recognise it at a glance. Example: \"GIFT-\" produces GIFT-AB12CD34. Leave "
+"blank for codes with no prefix."
+msgstr ""
+"Vor jedem Code wird ein kurzes Etikett angebracht, damit Kunden und Support "
+"ihn auf einen Blick erkennen können. Beispiel: „GIFT-“ erzeugt GIFT-"
+"AB12CD34. Für Codes ohne Präfix leer lassen."
+
+#: src/Admin/Settings.php:193
+msgid ""
+"Optional. Prepended to every generated code, e.g. \"GIFT-\". Up to 12 "
+"characters."
+msgstr ""
+"Optional. Wird jedem generierten Code vorangestellt, z.B. \"GESCHENK-\". Bis"
+" zu 12 Zeichen."
+
+#: src/Admin/Settings.php:199
+msgid "Checkout discount label"
+msgstr "Rabattetikett an der Kasse"
+
+#: src/Admin/Settings.php:200
+msgid ""
+"The text shown on the discount line at checkout when a code is applied (e.g."
+" \"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied"
+" code."
+msgstr ""
+"Der Text, der beim Bezahlen in der Rabattzeile angezeigt wird, wenn ein Code"
+" angewendet wird (z. B. „Geschenkkarte (GIFT-AB12CD34)“). Verwende das "
+"{code}-Token, um den angewendeten Code einzuschließen."
+
+#: src/Admin/Settings.php:211
+msgid ""
+"Shown on the discount line at checkout. Use {code} for the applied code."
+msgstr ""
+"Wird an der Kasse in der Rabattzeile angezeigt. Verwende {code} für den "
+"angewendeten Code."
+
+#: src/Admin/Settings.php:217
+msgid "Show codes on order"
+msgstr "Codes bei Bestellung anzeigen"
+
+#: src/Admin/Settings.php:218
+msgid ""
+"When a customer buys a gift card for themselves, this lists the issued "
+"code(s) right on the order-confirmation page and in their order emails, so "
+"they get the code instantly without waiting for the separate recipient "
+"email."
+msgstr ""
+"Wenn ein Kunde eine Geschenkkarte für sich selbst kauft, werden die "
+"ausgegebenen Codes direkt auf der Bestellbestätigungsseite und in seinen "
+"Bestell-E-Mails aufgeführt, sodass er den Code sofort erhält, ohne auf die "
+"separate E-Mail des Empfängers warten zu müssen."
+
+#: src/Admin/Settings.php:230
+msgid ""
+"List the issued gift-card codes on the buyer's order-confirmation page and "
+"in their order emails."
+msgstr ""
+"Liste die ausgestellten Geschenkkartencodes auf der Bestellbestätigungsseite"
+" des Käufers und in seinen Bestell-E-Mails auf."
+
+#: src/Admin/Settings.php:239
+msgid "Recipient email"
+msgstr "Empfänger-E-Mail"
+
+#: src/Admin/Settings.php:241
+msgid ""
+"The email sent to whoever receives the gift card. Click a token to insert it"
+" where your cursor is."
+msgstr ""
+"Die E-Mail, die an denjenigen gesendet wird, der die Geschenkkarte erhält. "
+"Klicke auf ein Token, um es dort einzufügen, wo sich dein Cursor befindet."
+
+#: src/Admin/Settings.php:244
+msgid "Insert a template token"
+msgstr "Füge ein Vorlagentoken ein"
+
+#: src/Admin/Settings.php:246 src/Admin/Settings.php:249
+msgid "inserted"
+msgstr "eingefügt"
+
+#: src/Admin/Settings.php:247 src/Admin/Settings.php:250
+msgid "copied"
+msgstr "kopiert"
+
+#: src/Admin/Settings.php:257
+msgid "Subject"
+msgstr "Betreff"
+
+#: src/Admin/Settings.php:271
+msgid "Body"
+msgstr "Inhalt"
+
+#: src/Admin/Settings.php:280
+msgid ""
+"{code} becomes the gift-card code; {amount} becomes the formatted value."
+msgstr ""
+"{code} wird zum Geschenkkartencode; {amount} wird zum formatierten Wert."
+
+#: src/Admin/Settings.php:287
+msgid "Live preview"
+msgstr "Live-Vorschau"
+
+#: src/Service/GiftCardService.php:68
+msgid "That gift card code is not valid."
+msgstr "Dieser Geschenkkartencode ist ungültig."
+
+#: src/Service/GiftCardService.php:69
+msgid "Gift card applied."
+msgstr "Geschenkkarte angewendet."
+
+#: src/Service/GiftCardService.php:164
+msgid "Your gift cards"
+msgstr "deine Geschenkkarten"
+
+#: src/Service/GiftCardService.php:167
+msgid ""
+"Keep these codes safe. Enter a code at checkout to spend its balance; any "
+"unused amount stays on the card."
+msgstr ""
+"Bewahre diese Codes sicher auf. Gib an der Kasse einen Code ein, um den "
+"Restbetrag auszugeben. Der nicht genutzte Betrag verbleibt auf der Karte."
+
+#: src/Service/GiftCardService.php:170
+msgid "Code"
+msgstr "Code"
+
+#: src/Service/GiftCardService.php:171
+msgid "Balance"
+msgstr "Guthaben"
+
+#: src/Service/GiftCardService.php:174
+msgid "Copy code"
+msgstr "Code kopieren"
+
+#: src/Service/GiftCardService.php:187
+msgid "Copied"
+msgstr "Kopiert"
+
+#: src/Service/GiftCardService.php:188
+msgid "Copy failed: select and copy manually"
+msgstr "Kopieren fehlgeschlagen: manuell auswählen und kopieren"
+
+#: templates/checkout-redeem-field.php:29
+msgid "Have a gift card?"
+msgstr "Hast du eine Geschenkkarte?"
+
+#: templates/checkout-redeem-field.php:32
+msgid ""
+"Enter your code to apply its balance to this order. Any unused balance stays"
+" on the card for next time."
+msgstr ""
+"Gib deinen Code ein, um den Restbetrag auf diese Bestellung anzuwenden. "
+"Ungenutztes Guthaben verbleibt für das nächste Mal auf der Karte."
+
+#: templates/checkout-redeem-field.php:36
+msgid "Gift card code"
+msgstr "Geschenkkartencode"
+
+#: templates/checkout-redeem-field.php:44
+msgid "e.g. GIFT-AB12CD34"
+msgstr "z.B. GESCHENK-AB12CD34"
+
+#: templates/checkout-redeem-field.php:52
+msgid "Apply"
+msgstr "Anwenden"
+
+#: templates/checkout-redeem-field.php:62
+msgid "Gift card applied, the balance is shown in your order total."
+msgstr ""
+"Geschenkkarte angewendet, der Restbetrag wird in der Gesamtsumme deiner "
+"Bestellung angezeigt."
