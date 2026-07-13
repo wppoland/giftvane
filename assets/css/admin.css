@@ -286,46 +286,6 @@
 }
 
 /* ---- Dark mode ------------------------------------------------------- */
-
-@media (prefers-color-scheme: dark) {
-	.giftcards-admin {
-		/* Lightened magenta for dark surfaces, mirroring the storefront dark
-		   family. accent #c46db5 on #1e2127 = 5.6:1; accent-strong #d98fcb
-		   = 7.6:1 — both pass WCAG AA against the dark card surface. */
-		--gc-accent: #c46db5;
-		--gc-accent-strong: #d98fcb;
-		--gc-accent-soft: #3a2438;
-		--gc-surface: #1e2127;
-		--gc-surface-muted: #262a31;
-		--gc-border: #3a3f47;
-		--gc-text: #e7e9ec;
-		--gc-text-muted: #a7acb3;
-		--gc-success: #4cc38a;
-		--gc-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-	}
-
-	/* The lighter dark-mode accent is too pale for white glyphs (3.4:1). Use
-	   the dark ink instead on filled accent chips: #1d2327 on #c46db5 = 4.7:1,
-	   passing AA for the "?" help glyph and the intro icon. */
-	.giftcards-admin__intro-icon,
-	.giftcards-admin .giftcards-help:hover,
-	.giftcards-admin .giftcards-help:focus-visible {
-		color: #1d2327;
-	}
-
-	.giftcards-admin__status--on {
-		background: #143727;
-	}
-
-	.giftcards-admin__status--off {
-		background: #2a2e35;
-	}
-
-	.giftcards-tooltip {
-		background: #0f1115;
-	}
-}
-
 /* ---- Motion ---------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
