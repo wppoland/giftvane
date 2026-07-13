@@ -4,11 +4,11 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Sprzedawaj karty upominkowe WooCommerce, bony upominkowe i kody kredytowe sklepu, które klienci realizują przy kasie.
+Sprzedawaj karty podarunkowe WooCommerce, bony podarunkowe i kody kredytu sklepowego, które klienci realizują przy kasie.
 
 == Description ==
 
@@ -42,7 +42,8 @@ Kod jest tworzony i śledzony w GitHubie. Źródło i raporty o błędach: https
 
 1. Prześlij wtyczkę do `/wp-content/plugins/plogins-giftcards` lub zainstaluj ją z Wtyczki → Dodaj nowe.
 2. Aktywuj. WooCommerce musi być aktywny.
-3. Edytuj produkt, w zakładce Ogólne zaznacz <strong>Karta Podarunkowa<strong> i ustaw jego cenę na wartość karty. 4. Ustaw prefiks kodu i adres e-mail odbiorcy w </strong>WooCommerce → Karty podarunkowe</strong>.
+3. Edytuj produkt, w zakładce Ogólne zaznacz <strong>Karta podarunkowa</strong> i ustaw jego cenę na wartość karty.
+4. Ustaw prefiks kodu i adres e-mail odbiorcy w <strong>WooCommerce → Karty podarunkowe</strong>.
 
 == Frequently Asked Questions ==
 
@@ -81,7 +82,7 @@ Tak. Karty podarunkowe deklarują kompatybilność z WooCommerce HPOS i blokami 
 
 = Does this plugin work on WordPress Multisite? =
 
-Tak. Ta wtyczka jest kompatybilna z WordPress Multisite. Aktywuj go w sieci lub aktywuj na poszczególnych stronach; każda witryna przechowuje własne ustawienia i dane.
+Tak. Ta wtyczka jest kompatybilna z WordPress Multisite. Włącz ją dla całej sieci lub na poszczególnych stronach; każda witryna przechowuje własne ustawienia i dane.
 
 == Screenshots ==
 
@@ -90,15 +91,22 @@ Tak. Ta wtyczka jest kompatybilna z WordPress Multisite. Aktywuj go w sieci lub 
 
 == External Services ==
 
-Ta wtyczka nie łączy się, nie wysyła danych ani nie polega na żadnej zewnętrznej usłudze, API ani CDN. Wszystko działa na Twojej własnej stronie. Kody i salda kart podarunkowych są przechowywane w jednej niestandardowej tabeli bazy danych (`{prefix}giftcards`), flaga karty podarunkowej i dowolny adres odbiorcy są przechowywane w metaproduktach i pozycjach zamówienia WooCommerce (`_giftcards_is_gift_card`, `_giftcards_recipient_email`), a ustawienia są dostępne w opcjach `giftcards_settings` i `giftcards_db_version`. Wiadomość e-mail zawierająca kod jest dostarczana za pośrednictwem poczty WooCommerce/WordPress Twojej witryny na adres rozliczeniowy zamówienia; żadna wiadomość ani dane klienta nie opuszczą Twojego serwera.
+Ta wtyczka nie łączy się, nie wysyła danych ani nie polega na żadnej zewnętrznej usłudze, API ani CDN. Wszystko działa na Twojej własnej stronie. Kody i salda kart podarunkowych są przechowywane w jednej niestandardowej tabeli bazy danych (`{prefix}giftcards`), flaga karty podarunkowej i ewentualny adres odbiorcy są przechowywane w metadanych produktu i pozycji zamówienia WooCommerce (`_giftcards_is_gift_card`, `_giftcards_recipient_email`), a ustawienia są przechowywane w opcjach `giftcards_settings` i `giftcards_db_version`. Wiadomość e-mail zawierająca kod jest dostarczana za pośrednictwem poczty WooCommerce/WordPress Twojej witryny na adres rozliczeniowy zamówienia; żadna wiadomość ani dane klienta nie opuszczą Twojego serwera.
+
+== Translations ==
+
+Plogins Gift Cards zawiera tłumaczenia interfejsu wtyczki na język polski, niemiecki i hiszpański. Domena tekstowa to `plogins-giftcards`, więc pakiety językowe WordPress.org mogą również zastąpić lub rozszerzyć te dołączone tłumaczenia.
 
 == Changelog ==
+
+= 1.0.2 =
+* Dodano dołączone tłumaczenia na język polski, niemiecki i hiszpański dla interfejsu wtyczki.
 
 = 1.0.1 =
 * Pierwsza stabilna wersja.
 
 = 0.2.1 =
-* Zmieniono nazwę na Karty upominkowe Plogins dla WooCommerce, aby uzyskać bardziej charakterystyczną nazwę wtyczki.
+* Zmieniono nazwę na Plogins Gift Cards for WooCommerce, aby nadać wtyczce bardziej charakterystyczną nazwę.
 
 = 0.2.0 =
 * Temat i treść wiadomości e-mail odbiorcy ustawione w sekcji <strong>WooCommerce → Karty podarunkowe</strong> są teraz używane w wysyłanej wiadomości e-mail. Wcześniej te przechowywane wartości były ignorowane i zawsze używano wbudowanych wartości domyślnych.

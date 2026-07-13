@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,7 +42,8 @@ Der Code wird auf GitHub erstellt und verfolgt. Quellen- und Fehlerberichte: htt
 
 1. Lade das Plugin nach „/wp-content/plugins/plogins-giftcards“ hoch oder installiere es über Plugins → Neu hinzufügen.
 2. Aktiviere es. WooCommerce muss aktiv sein.
-3. Bearbeite ein Produkt, markiere <strong>Geschenkkarte<strong> auf der Registerkarte „Allgemein“ und lege den Preis auf den Wert der Karte fest. 4. Lege unter </strong>WooCommerce → Gift Cards</strong> das Code-Präfix und die E-Mail-Adresse des Empfängers fest.
+3. Bearbeite ein Produkt, markiere <strong>Geschenkkarte</strong> auf der Registerkarte „Allgemein“ und lege den Preis auf den Wert der Karte fest.
+4. Lege unter <strong>WooCommerce → Geschenkkarten</strong> das Code-Präfix und die E-Mail-Adresse des Empfängers fest.
 
 == Frequently Asked Questions ==
 
@@ -92,13 +93,20 @@ Ja. Dieses Plugin ist mit WordPress Multisite kompatibel. Aktiviere es im Netzwe
 
 Dieses Plugin stellt keine Verbindung zu externen Diensten, APIs oder CDNs her, sendet keine Daten an diese und verlässt sich nicht auf diese. Alles läuft auf deiner eigenen Website. Geschenkkartencodes und Guthaben werden in einer einzigen benutzerdefinierten Datenbanktabelle („{prefix}giftcards“) gespeichert, das Geschenkkarten-Flag und alle Empfängeradressen werden im WooCommerce-Produkt- und Bestellartikel-Meta („_giftcards_is_gift_card“, „_giftcards_recipient_email“) gespeichert und die Einstellungen befinden sich in den Optionen „giftcards_settings“ und „giftcards_db_version“. Die E-Mail mit einem Code wird über den WooCommerce/WordPress-Mailer deiner Website an die Rechnungsadresse der Bestellung gesendet. Keine Nachricht oder Kundendaten verlassen deinen Server.
 
+== Translations ==
+
+Plogins Gift Cards umfasst polnische, deutsche und spanische Übersetzungen für die Plugin-Schnittstelle. Die Textdomain ist `plogins-giftcards`, sodass WordPress.org-Sprachpakete diese gebündelten Übersetzungen auch überschreiben oder erweitern können.
+
 == Changelog ==
+
+= 1.0.2 =
+* Gebündelte polnische, deutsche und spanische Übersetzungen für die Plugin-Schnittstelle hinzugefügt.
 
 = 1.0.1 =
 * Erste stabile Version.
 
 = 0.2.1 =
-* Umbenannt in „Plogins-Geschenkkarten für WooCommerce“, um einen markanteren Plugin-Namen zu erhalten.
+* Für einen unverwechselbareren Plugin-Namen in Plogins Gift Cards for WooCommerce umbenannt.
 
 = 0.2.0 =
 * Der unter <strong>WooCommerce → Geschenkkarten</strong> festgelegte Betreff und Text der Empfänger-E-Mail wird jetzt für die gesendete E-Mail verwendet. Früher wurden diese gespeicherten Werte ignoriert und immer ein integrierter Standardwert verwendet.
@@ -107,7 +115,7 @@ Dieses Plugin stellt keine Verbindung zu externen Diensten, APIs oder CDNs her, 
 * Der Standard-E-Mail- und Etikettentext ist jetzt übersetzbar.
 * Die Einstellungsseite wurde überarbeitet: Inline-Hilfe, per Mausklick einzufügende E-Mail-Tokens und eine Live-Vorschau der E-Mail.
 * Das Einlösefeld an der Kasse wurde überarbeitet und der Liste der ausgegebenen Codes eine Schaltfläche zum Kopieren hinzugefügt.
-* Storefront-Stile folgen jetzt dem Thema und respektieren den Dunkelmodus und die Einstellungen für reduzierte Bewegung, ohne dass sich das Layout an der Kasse ändert. Das Markup ist mit ARIA-Beschriftungen und Fokusstilen über die Tastatur zugänglich und alle CSS/JS-Dateien werden als separate Dateien geliefert.
+* Shop-Stile folgen jetzt dem Theme und berücksichtigen den Dunkelmodus und die Einstellungen für reduzierte Bewegung, ohne dass sich das Layout an der Kasse ändert. Das Markup ist mit ARIA-Beschriftungen und Fokusstilen über die Tastatur zugänglich und alle CSS/JS-Dateien werden als separate Dateien geliefert.
 
 = 0.1.0 =
 * Erstveröffentlichung.

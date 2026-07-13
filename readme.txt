@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Plogins Gift Cards includes Polish, German and Spanish translations for the plugin interface. The text domain is `plogins-giftcards`, so WordPress.org language packs can also override or extend these bundled translations.
 
 == Changelog ==
+
+= 1.0.3 =
+* Accessibility improvements to the admin and storefront markup.
+* Fixed low-contrast admin headings under an OS dark-mode preference.
 
 = 1.0.2 =
 * Added bundled Polish, German and Spanish translations for the plugin interface.
