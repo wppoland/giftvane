@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: giftcards Stable Readme\n"
-"Last-Translator: wppoland.com <hello@wppoland.com>\n"
+"Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
