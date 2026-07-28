@@ -99,6 +99,9 @@ Plogins Gift Cards includes Polish, German and Spanish translations for the plug
 
 == Changelog ==
 
+= Unreleased =
+* prepared-SQL hardening in the migrator (%i placeholders for table names)
+
 = 1.0.4 =
 * Translations: completed Polish, German and Spanish for the PRO upgrade panel.
 
