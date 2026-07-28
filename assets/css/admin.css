@@ -1,5 +1,5 @@
 /**
- * Gift Cards — admin settings UI.
+ * Gift Cards, admin settings UI.
  *
  * Scoped to .giftcards-admin so nothing leaks into core wp-admin. Themeable via
  * custom properties; respects prefers-color-scheme and prefers-reduced-motion.
@@ -9,7 +9,7 @@
 	/* Accent matches the storefront gift-card family (magenta), so admin and
 	   shopper surfaces read as one product. Computed against wp-admin white
 	   (#fff) / grey (#f0f0f1): accent #7a2e6d = 8.61:1 / 7.56:1,
-	   accent-strong #5d1f53 = 11.76:1 / 10.32:1 — both pass WCAG AA. */
+	   accent-strong #5d1f53 = 11.76:1 / 10.32:1, both pass WCAG AA. */
 	--gc-accent: #7a2e6d;
 	--gc-accent-strong: #5d1f53;
 	--gc-accent-soft: #f7ecf5;
@@ -308,7 +308,7 @@
 }
 
 /* ------------------------------------------------------------------ *
- * PRO upsell — dismissible banner + "what PRO adds" locked cards.
+ * PRO upsell, dismissible banner + "what PRO adds" locked cards.
  * Pure advertising (no disabled inputs), scoped to .giftcards-admin.
  * Reuses the family magenta accent (--gc-accent / --gc-accent-strong).
  * ------------------------------------------------------------------ */

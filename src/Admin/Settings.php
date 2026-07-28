@@ -40,7 +40,7 @@ final class Settings implements HasHooks
 
     /**
      * Enqueue the settings-page styles and progressive-enhancement script as
-     * real files (wp.org Plugin-Check clean — no inline blobs). Only on our
+     * real files (wp.org Plugin-Check clean, no inline blobs). Only on our
      * page; script is deferred and footer-loaded.
      */
     public function enqueueAssets(string $hook): void
@@ -325,7 +325,7 @@ final class Settings implements HasHooks
 
         // Normalise the prefix to the same character set the engine keeps when
         // generating codes (A-Z, 0-9, hyphen), uppercased and capped at 12, so
-        // what the merchant types is exactly what appears on every code — no
+        // what the merchant types is exactly what appears on every code, no
         // silent stripping of spaces or punctuation later.
         $rawPrefix = isset($raw['code_prefix']) ? sanitize_text_field((string) $raw['code_prefix']) : '';
         $prefix    = strtoupper((string) preg_replace('/[^A-Za-z0-9\-]/', '', $rawPrefix));

@@ -3,7 +3,7 @@
  * Plugin Name:       Gift Cards - Store Credit for WooCommerce
  * Plugin URI:        https://plogins.com/plogins-giftcards/
  * Description:        Sell gift cards that email a redeemable code to the recipient and apply as a discount at checkout.
- * Version:           1.0.4
+ * Version:           1.0.5
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -25,7 +25,7 @@ namespace GiftCards;
 
 defined('ABSPATH') || exit;
 
-const VERSION     = '1.0.4';
+const VERSION     = '1.0.5';
 const PLUGIN_FILE = __FILE__;
 
 define('GIFTCARDS_DIR', plugin_dir_path(__FILE__));
@@ -45,7 +45,7 @@ add_action('plugins_loaded', static function (): void {
     if (! class_exists('WooCommerce')) {
         add_action('admin_notices', static function (): void {
             echo '<div class="notice notice-error"><p>';
-            echo esc_html__('Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active.', 'plogins-giftcards');
+            echo esc_html__('Gift Cards, Store Credit for WooCommerce requires WooCommerce to be active.', 'plogins-giftcards');
             echo '</p></div>';
         });
         return;
@@ -57,7 +57,7 @@ add_action('plugins_loaded', static function (): void {
 }, 10);
 
 // Create the gift-cards table on activation. Services are registered in the
-// Plugin constructor, so the container is ready here — before boot() runs.
+// Plugin constructor, so the container is ready here, before boot() runs.
 register_activation_hook(PLUGIN_FILE, static function (): void {
     require_once __DIR__ . '/autoload.php';
     Plugin::instance()->container()->get(Migrator::class)->maybeMigrate();

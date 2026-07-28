@@ -19,8 +19,8 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: giftcards.php
-msgid "Gift Cards – Store Credit for WooCommerce"
-msgstr "Gift Cards – karty podarunkowe dla WooCommerce"
+msgid "Gift Cards, Store Credit for WooCommerce"
+msgstr "Gift Cards, karty podarunkowe dla WooCommerce"
 
 #. Plugin URI of the plugin
 #: giftcards.php
@@ -66,9 +66,9 @@ msgstr ""
 
 #: giftcards.php:47
 msgid ""
-"Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active."
+"Gift Cards, Store Credit for WooCommerce requires WooCommerce to be active."
 msgstr ""
-"Gift Cards – karty podarunkowe dla WooCommerce wymaga aktywnego WooCommerce."
+"Gift Cards, karty podarunkowe dla WooCommerce wymaga aktywnego WooCommerce."
 
 #: src/Admin/ProductFields.php:35
 msgid "Gift card"

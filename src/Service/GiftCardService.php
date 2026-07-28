@@ -20,11 +20,11 @@ defined('ABSPATH') || exit;
  * the balance) lives in the kit. This class supplies the three closures the
  * engine needs:
  *
- *  - `isGiftCard`  — true when a product is flagged via `_giftcards_is_gift_card`.
- *  - `resolveCard` — `[amount, recipient_email]` for a purchased gift-card line:
+ *  - `isGiftCard`, true when a product is flagged via `_giftcards_is_gift_card`.
+ *  - `resolveCard`, `[amount, recipient_email]` for a purchased gift-card line:
  *                    amount is the per-unit line total, recipient is the line's
  *                    custom recipient (cart meta) or the order billing email.
- *  - `renderField` — echoes the packaged checkout redeem-code template.
+ *  - `renderField`, echoes the packaged checkout redeem-code template.
  *
  * Storage is delegated to {@see GiftCardTableRepository}.
  */
@@ -153,7 +153,7 @@ final class GiftCardService implements HasHooks
 
         if ($cards === []) {
             // An order that issued no cards (e.g. all lines were ordinary
-            // products) shows nothing here — handled by the caller's gate; this
+            // products) shows nothing here, handled by the caller's gate; this
             // guard simply keeps the section from rendering an empty shell.
             return;
         }

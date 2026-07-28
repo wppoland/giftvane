@@ -15,7 +15,7 @@ defined('ABSPATH') || exit;
  * A gift-card record is `{code, balance, recipient_email, order_id}`, persisted
  * in `{$wpdb->prefix}giftcards`. The table is created by the
  * {@see \GiftCards\Migrator}. Storage lives here (not in the kit) so the library
- * hard-codes no table name and no `$wpdb` access — the same delegation the kit
+ * hard-codes no table name and no `$wpdb` access, the same delegation the kit
  * uses for the waitlist. The `$wpdb->prefix`-derived table name cannot be passed
  * as a placeholder, so the direct-query / unescaped-DB-parameter sniffs are
  * disabled with justification, mirroring restock's WaitlistRepository.

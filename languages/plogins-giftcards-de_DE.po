@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Gift Cards – Store Credit for WooCommerce 0.2.0\n"
+"Project-Id-Version: Gift Cards, Store Credit for WooCommerce 0.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/giftcards\n"
 "POT-Creation-Date: 2026-06-16T20:25:36+00:00\n"
 "PO-Revision-Date: 2026-06-16T20:25:36+00:00\n"
@@ -18,8 +18,8 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: giftcards.php
-msgid "Gift Cards – Store Credit for WooCommerce"
-msgstr "Geschenkkarten – Shop-Guthaben für WooCommerce"
+msgid "Gift Cards, Store Credit for WooCommerce"
+msgstr "Geschenkkarten, Shop-Guthaben für WooCommerce"
 
 #. Plugin URI of the plugin
 #: giftcards.php
@@ -65,9 +65,9 @@ msgstr ""
 
 #: giftcards.php:47
 msgid ""
-"Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active."
+"Gift Cards, Store Credit for WooCommerce requires WooCommerce to be active."
 msgstr ""
-"Für Geschenkkarten – Shop-Guthaben für WooCommerce muss WooCommerce aktiv "
+"Für Geschenkkarten, Shop-Guthaben für WooCommerce muss WooCommerce aktiv "
 "sein."
 
 #: src/Admin/ProductFields.php:35

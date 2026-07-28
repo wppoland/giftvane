@@ -24,8 +24,8 @@ Der Code wird auf GitHub erstellt und verfolgt. Quellen- und Fehlerberichte: htt
 
 * <strong>Dokumentation</strong> - https://plogins.com/de/plogins-giftcards/docs/
 * <strong>Plugin-Seite</strong> - https://plogins.com/de/plogins-giftcards/
-* <strong>Quellcode</strong> – https://github.com/wppoland/plogins-giftcards
-* <strong>Fehlerberichte und Funktionsanfragen</strong> – https://github.com/wppoland/plogins-giftcards/issues
+* <strong>Quellcode</strong>, https://github.com/wppoland/plogins-giftcards
+* <strong>Fehlerberichte und Funktionsanfragen</strong>, https://github.com/wppoland/plogins-giftcards/issues
 
 
 = What it does =

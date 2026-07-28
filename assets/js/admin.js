@@ -1,5 +1,5 @@
 /**
- * Gift Cards — admin settings enhancements (vanilla JS, no jQuery).
+ * Gift Cards, admin settings enhancements (vanilla JS, no jQuery).
  *
  * Progressive enhancement only; every feature degrades gracefully:
  *  - Help "?" buttons reveal an accessible tooltip via the native Popover API
