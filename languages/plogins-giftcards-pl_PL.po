@@ -12,7 +12,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
 "X-Domain: plogins-giftcards\n"
 "X-Generator: WP-CLI 2.12.0\n"
 
@@ -29,8 +30,8 @@ msgstr "https://plogins.com/giftcards/"
 #. Description of the plugin
 #: giftcards.php
 msgid ""
-"Sell gift cards that email a redeemable code to the recipient and apply as a"
-" discount at checkout."
+"Sell gift cards that email a redeemable code to the recipient and apply as a "
+"discount at checkout."
 msgstr ""
 "Sprzedawaj karty podarunkowe, które wysyłają e-mailem kod do realizacji do "
 "odbiorcy i są stosowane jako rabat podczas składania zamówienia."
@@ -77,12 +78,12 @@ msgstr "Karta podarunkowa"
 msgid ""
 "When checked, buying this product issues a unique code worth the product "
 "price and emails it to the recipient on order completion. Set the price to "
-"the card value (e.g. a $50 card → price $50). The recipient gets the code by"
-" email; the buyer also sees it on the order confirmation."
+"the card value (e.g. a $50 card → price $50). The recipient gets the code by "
+"email; the buyer also sees it on the order confirmation."
 msgstr ""
 "Po zaznaczeniu zakup tego produktu generuje unikalny kod o wartości ceny "
-"produktu i wysyła go e-mailem do odbiorcy po zrealizowaniu zamówienia. Ustaw"
-" cenę równą wartości karty (np. karta o wartości 200 zł → cena 200 zł). "
+"produktu i wysyła go e-mailem do odbiorcy po zrealizowaniu zamówienia. Ustaw "
+"cenę równą wartości karty (np. karta o wartości 200 zł → cena 200 zł). "
 "Odbiorca otrzymuje kod e-mailem; kupujący widzi go również w potwierdzeniu "
 "zamówienia."
 
@@ -108,14 +109,14 @@ msgstr "Sprzedawaj karty podarunkowe w trzech krokach"
 
 #: src/Admin/Settings.php:141
 msgid ""
-"1. Flag a product as a gift card (product editor → General tab → Gift card)."
-" 2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
+"1. Flag a product as a gift card (product editor → General tab → Gift card). "
+"2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
 "can be redeemed at checkout for a discount. Tune the wording below."
 msgstr ""
 "1. Oznacz produkt jako kartę podarunkową (edytor produktu → zakładka Ogólne "
-"→ Karta podarunkowa). 2. Kupujący ją kupuje. 3. Unikalny kod jest wysyłany "
-"e-mailem do odbiorcy i można go zrealizować podczas składania zamówienia "
-"jako rabat. Dostosuj treść poniżej."
+"→ Karta podarunkowa). 2. Kupujący ją kupuje. 3. Unikalny kod jest wysyłany e-"
+"mailem do odbiorcy i można go zrealizować podczas składania zamówienia jako "
+"rabat. Dostosuj treść poniżej."
 
 #: src/Admin/Settings.php:150
 msgid "General"
@@ -177,9 +178,9 @@ msgstr "Etykieta rabatu w zamówieniu"
 
 #: src/Admin/Settings.php:200
 msgid ""
-"The text shown on the discount line at checkout when a code is applied (e.g."
-" \"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied"
-" code."
+"The text shown on the discount line at checkout when a code is applied (e.g. "
+"\"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied "
+"code."
 msgstr ""
 "Tekst wyświetlany w pozycji rabatu podczas składania zamówienia po "
 "zastosowaniu kodu (np. „Karta podarunkowa (GIFT-AB12CD34)”). Użyj znacznika "
@@ -200,12 +201,11 @@ msgstr "Pokaż kody w zamówieniu"
 msgid ""
 "When a customer buys a gift card for themselves, this lists the issued "
 "code(s) right on the order-confirmation page and in their order emails, so "
-"they get the code instantly without waiting for the separate recipient "
-"email."
+"they get the code instantly without waiting for the separate recipient email."
 msgstr ""
 "Gdy klient kupuje kartę podarunkową dla siebie, ta opcja wyświetla "
-"wygenerowany kod (lub kody) bezpośrednio na stronie potwierdzenia zamówienia"
-" oraz w wiadomościach e-mail z zamówieniem, dzięki czemu otrzymuje kod "
+"wygenerowany kod (lub kody) bezpośrednio na stronie potwierdzenia zamówienia "
+"oraz w wiadomościach e-mail z zamówieniem, dzięki czemu otrzymuje kod "
 "natychmiast, bez czekania na osobny e-mail dla odbiorcy."
 
 #: src/Admin/Settings.php:230
@@ -222,8 +222,8 @@ msgstr "E-mail do odbiorcy"
 
 #: src/Admin/Settings.php:241
 msgid ""
-"The email sent to whoever receives the gift card. Click a token to insert it"
-" where your cursor is."
+"The email sent to whoever receives the gift card. Click a token to insert it "
+"where your cursor is."
 msgstr ""
 "Wiadomość e-mail wysyłana do osoby otrzymującej kartę podarunkową. Kliknij "
 "znacznik, aby wstawić go w miejscu kursora."
@@ -306,8 +306,8 @@ msgstr "Masz kartę podarunkową?"
 
 #: templates/checkout-redeem-field.php:32
 msgid ""
-"Enter your code to apply its balance to this order. Any unused balance stays"
-" on the card for next time."
+"Enter your code to apply its balance to this order. Any unused balance stays "
+"on the card for next time."
 msgstr ""
 "Wpisz swój kod, aby wykorzystać jego saldo na tym zamówieniu. "
 "Niewykorzystane saldo pozostaje na karcie na następny raz."
@@ -326,5 +326,64 @@ msgstr "Zastosuj"
 
 #: templates/checkout-redeem-field.php:62
 msgid "Gift card applied, the balance is shown in your order total."
-msgstr ""
-"Zastosowano kartę podarunkową, saldo jest widoczne w sumie zamówienia."
+msgstr "Zastosowano kartę podarunkową, saldo jest widoczne w sumie zamówienia."
+
+#: src/Admin/ProUpsell.php:79
+msgid "Wkrótce"
+msgstr "Wkrótce"
+
+#: src/Admin/ProUpsell.php:79
+msgid "Coming soon"
+msgstr "Wkrótce"
+
+#. translators: %d: yearly price in PLN
+#: src/Admin/ProUpsell.php:84
+#, php-format
+msgid "od %d zł/rok"
+msgstr "od %d zł/rok"
+
+#. translators: 1: currency symbol, 2: yearly price
+#: src/Admin/ProUpsell.php:89
+#, php-format
+msgid "from %1$s%2$d/yr"
+msgstr "od %1$s%2$d/rok"
+
+#: src/Admin/ProUpsell.php:98
+msgid "Upgrade to PRO"
+msgstr "Przejdź na PRO"
+
+#: src/Admin/ProUpsell.php:99
+msgid "Powiadom mnie"
+msgstr "Powiadom mnie"
+
+#: src/Admin/ProUpsell.php:99
+msgid "Get notified"
+msgstr "Powiadom mnie"
+
+#: src/Admin/ProUpsell.php:129
+msgid "Permission denied."
+msgstr "Brak uprawnień."
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:159
+#, php-format
+msgid "Do more with %s"
+msgstr "Zrób więcej dzięki %s"
+
+#: src/Admin/ProUpsell.php:166
+msgid "Dismiss this notice"
+msgstr "Odrzuć to powiadomienie"
+
+#: src/Admin/ProUpsell.php:183
+msgid "Unlock every PRO feature"
+msgstr "Odblokuj wszystkie funkcje PRO"
+
+#: src/Admin/ProUpsell.php:196
+msgid "one licence, every PRO feature"
+msgstr "jedna licencja, wszystkie funkcje PRO"
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:215
+#, php-format
+msgid "What %s adds"
+msgstr "Co dodaje %s"

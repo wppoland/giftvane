@@ -29,8 +29,8 @@ msgstr "https://plogins.com/de/giftcards/"
 #. Description of the plugin
 #: giftcards.php
 msgid ""
-"Sell gift cards that email a redeemable code to the recipient and apply as a"
-" discount at checkout."
+"Sell gift cards that email a redeemable code to the recipient and apply as a "
+"discount at checkout."
 msgstr ""
 "Verkaufe Geschenkgutscheine, bei denen ein einlösbarer Code per E-Mail an "
 "den Empfänger gesendet und an der Kasse als Rabatt gewährt wird."
@@ -78,8 +78,8 @@ msgstr "Geschenkkarte"
 msgid ""
 "When checked, buying this product issues a unique code worth the product "
 "price and emails it to the recipient on order completion. Set the price to "
-"the card value (e.g. a $50 card → price $50). The recipient gets the code by"
-" email; the buyer also sees it on the order confirmation."
+"the card value (e.g. a $50 card → price $50). The recipient gets the code by "
+"email; the buyer also sees it on the order confirmation."
 msgstr ""
 "Wenn diese Option aktiviert ist, wird beim Kauf dieses Produkts ein "
 "eindeutiger Code im Wert des Produktpreises ausgestellt und nach Abschluss "
@@ -110,8 +110,8 @@ msgstr "Verkaufe Geschenkkarten in drei Schritten"
 
 #: src/Admin/Settings.php:141
 msgid ""
-"1. Flag a product as a gift card (product editor → General tab → Gift card)."
-" 2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
+"1. Flag a product as a gift card (product editor → General tab → Gift card). "
+"2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
 "can be redeemed at checkout for a discount. Tune the wording below."
 msgstr ""
 "1. Markiere ein Produkt als Geschenkkarte (Produkteditor → Registerkarte "
@@ -170,8 +170,8 @@ msgid ""
 "Optional. Prepended to every generated code, e.g. \"GIFT-\". Up to 12 "
 "characters."
 msgstr ""
-"Optional. Wird jedem generierten Code vorangestellt, z.B. \"GESCHENK-\". Bis"
-" zu 12 Zeichen."
+"Optional. Wird jedem generierten Code vorangestellt, z.B. \"GESCHENK-\". Bis "
+"zu 12 Zeichen."
 
 #: src/Admin/Settings.php:199
 msgid "Checkout discount label"
@@ -179,13 +179,13 @@ msgstr "Rabattetikett an der Kasse"
 
 #: src/Admin/Settings.php:200
 msgid ""
-"The text shown on the discount line at checkout when a code is applied (e.g."
-" \"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied"
-" code."
+"The text shown on the discount line at checkout when a code is applied (e.g. "
+"\"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied "
+"code."
 msgstr ""
-"Der Text, der beim Bezahlen in der Rabattzeile angezeigt wird, wenn ein Code"
-" angewendet wird (z. B. „Geschenkkarte (GIFT-AB12CD34)“). Verwende das "
-"{code}-Token, um den angewendeten Code einzuschließen."
+"Der Text, der beim Bezahlen in der Rabattzeile angezeigt wird, wenn ein Code "
+"angewendet wird (z. B. „Geschenkkarte (GIFT-AB12CD34)“). Verwende das {code}-"
+"Token, um den angewendeten Code einzuschließen."
 
 #: src/Admin/Settings.php:211
 msgid ""
@@ -202,8 +202,7 @@ msgstr "Codes bei Bestellung anzeigen"
 msgid ""
 "When a customer buys a gift card for themselves, this lists the issued "
 "code(s) right on the order-confirmation page and in their order emails, so "
-"they get the code instantly without waiting for the separate recipient "
-"email."
+"they get the code instantly without waiting for the separate recipient email."
 msgstr ""
 "Wenn ein Kunde eine Geschenkkarte für sich selbst kauft, werden die "
 "ausgegebenen Codes direkt auf der Bestellbestätigungsseite und in seinen "
@@ -215,8 +214,8 @@ msgid ""
 "List the issued gift-card codes on the buyer's order-confirmation page and "
 "in their order emails."
 msgstr ""
-"Liste die ausgestellten Geschenkkartencodes auf der Bestellbestätigungsseite"
-" des Käufers und in seinen Bestell-E-Mails auf."
+"Liste die ausgestellten Geschenkkartencodes auf der Bestellbestätigungsseite "
+"des Käufers und in seinen Bestell-E-Mails auf."
 
 #: src/Admin/Settings.php:239
 msgid "Recipient email"
@@ -224,8 +223,8 @@ msgstr "Empfänger-E-Mail"
 
 #: src/Admin/Settings.php:241
 msgid ""
-"The email sent to whoever receives the gift card. Click a token to insert it"
-" where your cursor is."
+"The email sent to whoever receives the gift card. Click a token to insert it "
+"where your cursor is."
 msgstr ""
 "Die E-Mail, die an denjenigen gesendet wird, der die Geschenkkarte erhält. "
 "Klicke auf ein Token, um es dort einzufügen, wo sich dein Cursor befindet."
@@ -306,8 +305,8 @@ msgstr "Hast du eine Geschenkkarte?"
 
 #: templates/checkout-redeem-field.php:32
 msgid ""
-"Enter your code to apply its balance to this order. Any unused balance stays"
-" on the card for next time."
+"Enter your code to apply its balance to this order. Any unused balance stays "
+"on the card for next time."
 msgstr ""
 "Gib deinen Code ein, um den Restbetrag auf diese Bestellung anzuwenden. "
 "Ungenutztes Guthaben verbleibt für das nächste Mal auf der Karte."
@@ -329,3 +328,63 @@ msgid "Gift card applied, the balance is shown in your order total."
 msgstr ""
 "Geschenkkarte angewendet, der Restbetrag wird in der Gesamtsumme deiner "
 "Bestellung angezeigt."
+
+#: src/Admin/ProUpsell.php:79
+msgid "Wkrótce"
+msgstr "Demnächst"
+
+#: src/Admin/ProUpsell.php:79
+msgid "Coming soon"
+msgstr "Demnächst"
+
+#. translators: %d: yearly price in PLN
+#: src/Admin/ProUpsell.php:84
+#, php-format
+msgid "od %d zł/rok"
+msgstr "ab %d zł/Jahr"
+
+#. translators: 1: currency symbol, 2: yearly price
+#: src/Admin/ProUpsell.php:89
+#, php-format
+msgid "from %1$s%2$d/yr"
+msgstr "ab %1$s%2$d/Jahr"
+
+#: src/Admin/ProUpsell.php:98
+msgid "Upgrade to PRO"
+msgstr "Auf PRO upgraden"
+
+#: src/Admin/ProUpsell.php:99
+msgid "Powiadom mnie"
+msgstr "Benachrichtige mich"
+
+#: src/Admin/ProUpsell.php:99
+msgid "Get notified"
+msgstr "Benachrichtige mich"
+
+#: src/Admin/ProUpsell.php:129
+msgid "Permission denied."
+msgstr "Zugriff verweigert."
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:159
+#, php-format
+msgid "Do more with %s"
+msgstr "Mehr erreichen mit %s"
+
+#: src/Admin/ProUpsell.php:166
+msgid "Dismiss this notice"
+msgstr "Diesen Hinweis ausblenden"
+
+#: src/Admin/ProUpsell.php:183
+msgid "Unlock every PRO feature"
+msgstr "Alle PRO-Funktionen freischalten"
+
+#: src/Admin/ProUpsell.php:196
+msgid "one licence, every PRO feature"
+msgstr "eine Lizenz, alle PRO-Funktionen"
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:215
+#, php-format
+msgid "What %s adds"
+msgstr "Was %s ergänzt"

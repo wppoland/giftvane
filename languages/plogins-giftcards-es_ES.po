@@ -29,8 +29,8 @@ msgstr "https://plogins.com/es/tarjetasregalo/"
 #. Description of the plugin
 #: giftcards.php
 msgid ""
-"Sell gift cards that email a redeemable code to the recipient and apply as a"
-" discount at checkout."
+"Sell gift cards that email a redeemable code to the recipient and apply as a "
+"discount at checkout."
 msgstr ""
 "Venda tarjetas de regalo que envíen por correo electrónico un código "
 "canjeable al destinatario y se apliquen como descuento al finalizar la "
@@ -79,15 +79,15 @@ msgstr "Tarjeta de regalo"
 msgid ""
 "When checked, buying this product issues a unique code worth the product "
 "price and emails it to the recipient on order completion. Set the price to "
-"the card value (e.g. a $50 card → price $50). The recipient gets the code by"
-" email; the buyer also sees it on the order confirmation."
+"the card value (e.g. a $50 card → price $50). The recipient gets the code by "
+"email; the buyer also sees it on the order confirmation."
 msgstr ""
 "Cuando se marca, la compra de este producto emite un código único que vale "
 "el precio del producto y se envía por correo electrónico al destinatario al "
 "finalizar el pedido. Establezca el precio según el valor de la tarjeta (por "
 "ejemplo, una tarjeta de $50 → precio de $50). El destinatario recibe el "
-"código por correo electrónico; el comprador también lo ve en la confirmación"
-" del pedido."
+"código por correo electrónico; el comprador también lo ve en la confirmación "
+"del pedido."
 
 #: src/Admin/Settings.php:72
 msgid "More information"
@@ -111,14 +111,14 @@ msgstr "Vender tarjetas regalo en tres pasos"
 
 #: src/Admin/Settings.php:141
 msgid ""
-"1. Flag a product as a gift card (product editor → General tab → Gift card)."
-" 2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
+"1. Flag a product as a gift card (product editor → General tab → Gift card). "
+"2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
 "can be redeemed at checkout for a discount. Tune the wording below."
 msgstr ""
 "1. Marcar un producto como tarjeta regalo (editor de producto → pestaña "
 "General → Tarjeta regalo). 2. Un comprador lo compra. 3. Se envía un código "
-"único por correo electrónico al destinatario y se puede canjear al finalizar"
-" la compra para obtener un descuento. Ajuste el texto a continuación."
+"único por correo electrónico al destinatario y se puede canjear al finalizar "
+"la compra para obtener un descuento. Ajuste el texto a continuación."
 
 #: src/Admin/Settings.php:150
 msgid "General"
@@ -140,8 +140,8 @@ msgid ""
 "hidden, and existing balances cannot be spent. Turn this off to pause the "
 "feature without losing data."
 msgstr ""
-"Interruptor maestro. Cuando está desactivado, no se emiten códigos, el campo"
-" de canje de pago está oculto y no se pueden gastar los saldos existentes. "
+"Interruptor maestro. Cuando está desactivado, no se emiten códigos, el campo "
+"de canje de pago está oculto y no se pueden gastar los saldos existentes. "
 "Desactívelo para pausar la función sin perder datos."
 
 #: src/Admin/Settings.php:172
@@ -149,8 +149,8 @@ msgid ""
 "Generate and email a code when a gift-card product is purchased, and accept "
 "codes at checkout."
 msgstr ""
-"Genere y envíe un código por correo electrónico cuando se compre un producto"
-" con tarjeta de regalo y acepte códigos al finalizar la compra."
+"Genere y envíe un código por correo electrónico cuando se compre un producto "
+"con tarjeta de regalo y acepte códigos al finalizar la compra."
 
 #: src/Admin/Settings.php:179
 msgid "Code prefix"
@@ -162,8 +162,8 @@ msgid ""
 "recognise it at a glance. Example: \"GIFT-\" produces GIFT-AB12CD34. Leave "
 "blank for codes with no prefix."
 msgstr ""
-"Se añade una etiqueta corta al frente de cada código para que los clientes y"
-" el soporte puedan reconocerlo de un vistazo. Ejemplo: \"REGALO-\" produce "
+"Se añade una etiqueta corta al frente de cada código para que los clientes y "
+"el soporte puedan reconocerlo de un vistazo. Ejemplo: \"REGALO-\" produce "
 "GIFT-AB12CD34. Déjelo en blanco para códigos sin prefijo."
 
 #: src/Admin/Settings.php:193
@@ -180,9 +180,9 @@ msgstr "Etiqueta de descuento de pago"
 
 #: src/Admin/Settings.php:200
 msgid ""
-"The text shown on the discount line at checkout when a code is applied (e.g."
-" \"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied"
-" code."
+"The text shown on the discount line at checkout when a code is applied (e.g. "
+"\"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied "
+"code."
 msgstr ""
 "El texto que se muestra en la línea de descuento al finalizar la compra "
 "cuando se aplica un código (por ejemplo, \"Tarjeta de regalo (GIFT-"
@@ -203,8 +203,7 @@ msgstr "Mostrar códigos en el pedido"
 msgid ""
 "When a customer buys a gift card for themselves, this lists the issued "
 "code(s) right on the order-confirmation page and in their order emails, so "
-"they get the code instantly without waiting for the separate recipient "
-"email."
+"they get the code instantly without waiting for the separate recipient email."
 msgstr ""
 "Cuando un cliente compra una tarjeta de regalo para sí mismo, se enumeran "
 "los códigos emitidos directamente en la página de confirmación del pedido y "
@@ -227,11 +226,11 @@ msgstr "Correo electrónico del destinatario"
 
 #: src/Admin/Settings.php:241
 msgid ""
-"The email sent to whoever receives the gift card. Click a token to insert it"
-" where your cursor is."
+"The email sent to whoever receives the gift card. Click a token to insert it "
+"where your cursor is."
 msgstr ""
-"El correo electrónico enviado a quien recibe la tarjeta regalo. Haga clic en"
-" un token para insertarlo donde está el cursor."
+"El correo electrónico enviado a quien recibe la tarjeta regalo. Haga clic en "
+"un token para insertarlo donde está el cursor."
 
 #: src/Admin/Settings.php:244
 msgid "Insert a template token"
@@ -311,8 +310,8 @@ msgstr "¿Tienes una tarjeta de regalo?"
 
 #: templates/checkout-redeem-field.php:32
 msgid ""
-"Enter your code to apply its balance to this order. Any unused balance stays"
-" on the card for next time."
+"Enter your code to apply its balance to this order. Any unused balance stays "
+"on the card for next time."
 msgstr ""
 "Ingrese su código para aplicar su saldo a este pedido. Cualquier saldo no "
 "utilizado permanece en la tarjeta para la próxima vez."
@@ -333,3 +332,63 @@ msgstr "Aplicar"
 msgid "Gift card applied, the balance is shown in your order total."
 msgstr ""
 "Tarjeta de regalo aplicada, el saldo se muestra en el total de su pedido."
+
+#: src/Admin/ProUpsell.php:79
+msgid "Wkrótce"
+msgstr "Próximamente"
+
+#: src/Admin/ProUpsell.php:79
+msgid "Coming soon"
+msgstr "Próximamente"
+
+#. translators: %d: yearly price in PLN
+#: src/Admin/ProUpsell.php:84
+#, php-format
+msgid "od %d zł/rok"
+msgstr "desde %d zł/año"
+
+#. translators: 1: currency symbol, 2: yearly price
+#: src/Admin/ProUpsell.php:89
+#, php-format
+msgid "from %1$s%2$d/yr"
+msgstr "desde %1$s%2$d/año"
+
+#: src/Admin/ProUpsell.php:98
+msgid "Upgrade to PRO"
+msgstr "Mejora a PRO"
+
+#: src/Admin/ProUpsell.php:99
+msgid "Powiadom mnie"
+msgstr "Avísame"
+
+#: src/Admin/ProUpsell.php:99
+msgid "Get notified"
+msgstr "Avísame"
+
+#: src/Admin/ProUpsell.php:129
+msgid "Permission denied."
+msgstr "Permiso denegado."
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:159
+#, php-format
+msgid "Do more with %s"
+msgstr "Haz más con %s"
+
+#: src/Admin/ProUpsell.php:166
+msgid "Dismiss this notice"
+msgstr "Descartar este aviso"
+
+#: src/Admin/ProUpsell.php:183
+msgid "Unlock every PRO feature"
+msgstr "Desbloquea todas las funciones PRO"
+
+#: src/Admin/ProUpsell.php:196
+msgid "one licence, every PRO feature"
+msgstr "una licencia, todas las funciones PRO"
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:215
+#, php-format
+msgid "What %s adds"
+msgstr "Lo que añade %s"

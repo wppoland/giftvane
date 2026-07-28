@@ -26,7 +26,9 @@ msgstr ""
 
 #. Description of the plugin
 #: giftcards.php
-msgid "Sell gift cards that email a redeemable code to the recipient and apply as a discount at checkout."
+msgid ""
+"Sell gift cards that email a redeemable code to the recipient and apply as a "
+"discount at checkout."
 msgstr ""
 
 #. Author of the plugin
@@ -39,18 +41,15 @@ msgstr ""
 msgid "https://plogins.com/"
 msgstr ""
 
-#: config/defaults.php:30
-#: src/Service/GiftCardService.php:65
+#: config/defaults.php:30 src/Service/GiftCardService.php:65
 msgid "Gift card ({code})"
 msgstr ""
 
-#: config/defaults.php:37
-#: src/Service/GiftCardService.php:66
+#: config/defaults.php:37 src/Service/GiftCardService.php:66
 msgid "You have received a {amount} gift card"
 msgstr ""
 
-#: config/defaults.php:38
-#: src/Service/GiftCardService.php:67
+#: config/defaults.php:38 src/Service/GiftCardService.php:67
 msgid ""
 "You have received a gift card worth {amount}.\n"
 "\n"
@@ -58,7 +57,8 @@ msgid ""
 msgstr ""
 
 #: giftcards.php:47
-msgid "Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active."
+msgid ""
+"Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active."
 msgstr ""
 
 #: src/Admin/ProductFields.php:35
@@ -66,15 +66,18 @@ msgid "Gift card"
 msgstr ""
 
 #: src/Admin/ProductFields.php:37
-msgid "When checked, buying this product issues a unique code worth the product price and emails it to the recipient on order completion. Set the price to the card value (e.g. a $50 card → price $50). The recipient gets the code by email; the buyer also sees it on the order confirmation."
+msgid ""
+"When checked, buying this product issues a unique code worth the product "
+"price and emails it to the recipient on order completion. Set the price to "
+"the card value (e.g. a $50 card → price $50). The recipient gets the code by "
+"email; the buyer also sees it on the order confirmation."
 msgstr ""
 
 #: src/Admin/Settings.php:72
 msgid "More information"
 msgstr ""
 
-#: src/Admin/Settings.php:81
-#: src/Admin/Settings.php:82
+#: src/Admin/Settings.php:81 src/Admin/Settings.php:82
 msgid "Gift Cards"
 msgstr ""
 
@@ -91,7 +94,10 @@ msgid "Sell gift cards in three steps"
 msgstr ""
 
 #: src/Admin/Settings.php:141
-msgid "1. Flag a product as a gift card (product editor → General tab → Gift card). 2. A buyer purchases it. 3. A unique code is emailed to the recipient and can be redeemed at checkout for a discount. Tune the wording below."
+msgid ""
+"1. Flag a product as a gift card (product editor → General tab → Gift card). "
+"2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
+"can be redeemed at checkout for a discount. Tune the wording below."
 msgstr ""
 
 #: src/Admin/Settings.php:150
@@ -107,11 +113,16 @@ msgid "Enable gift cards"
 msgstr ""
 
 #: src/Admin/Settings.php:160
-msgid "Master switch. When off, no codes are issued, the checkout redeem field is hidden, and existing balances cannot be spent. Turn this off to pause the feature without losing data."
+msgid ""
+"Master switch. When off, no codes are issued, the checkout redeem field is "
+"hidden, and existing balances cannot be spent. Turn this off to pause the "
+"feature without losing data."
 msgstr ""
 
 #: src/Admin/Settings.php:172
-msgid "Generate and email a code when a gift-card product is purchased, and accept codes at checkout."
+msgid ""
+"Generate and email a code when a gift-card product is purchased, and accept "
+"codes at checkout."
 msgstr ""
 
 #: src/Admin/Settings.php:179
@@ -119,11 +130,16 @@ msgid "Code prefix"
 msgstr ""
 
 #: src/Admin/Settings.php:180
-msgid "A short tag added to the front of every code so customers and support can recognise it at a glance. Example: \"GIFT-\" produces GIFT-AB12CD34. Leave blank for codes with no prefix."
+msgid ""
+"A short tag added to the front of every code so customers and support can "
+"recognise it at a glance. Example: \"GIFT-\" produces GIFT-AB12CD34. Leave "
+"blank for codes with no prefix."
 msgstr ""
 
 #: src/Admin/Settings.php:193
-msgid "Optional. Prepended to every generated code, e.g. \"GIFT-\". Up to 12 characters."
+msgid ""
+"Optional. Prepended to every generated code, e.g. \"GIFT-\". Up to 12 "
+"characters."
 msgstr ""
 
 #: src/Admin/Settings.php:199
@@ -131,11 +147,15 @@ msgid "Checkout discount label"
 msgstr ""
 
 #: src/Admin/Settings.php:200
-msgid "The text shown on the discount line at checkout when a code is applied (e.g. \"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied code."
+msgid ""
+"The text shown on the discount line at checkout when a code is applied (e.g. "
+"\"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied "
+"code."
 msgstr ""
 
 #: src/Admin/Settings.php:211
-msgid "Shown on the discount line at checkout. Use {code} for the applied code."
+msgid ""
+"Shown on the discount line at checkout. Use {code} for the applied code."
 msgstr ""
 
 #: src/Admin/Settings.php:217
@@ -143,11 +163,16 @@ msgid "Show codes on order"
 msgstr ""
 
 #: src/Admin/Settings.php:218
-msgid "When a customer buys a gift card for themselves, this lists the issued code(s) right on the order-confirmation page and in their order emails, so they get the code instantly without waiting for the separate recipient email."
+msgid ""
+"When a customer buys a gift card for themselves, this lists the issued "
+"code(s) right on the order-confirmation page and in their order emails, so "
+"they get the code instantly without waiting for the separate recipient email."
 msgstr ""
 
 #: src/Admin/Settings.php:230
-msgid "List the issued gift-card codes on the buyer's order-confirmation page and in their order emails."
+msgid ""
+"List the issued gift-card codes on the buyer's order-confirmation page and "
+"in their order emails."
 msgstr ""
 
 #: src/Admin/Settings.php:239
@@ -155,20 +180,20 @@ msgid "Recipient email"
 msgstr ""
 
 #: src/Admin/Settings.php:241
-msgid "The email sent to whoever receives the gift card. Click a token to insert it where your cursor is."
+msgid ""
+"The email sent to whoever receives the gift card. Click a token to insert it "
+"where your cursor is."
 msgstr ""
 
 #: src/Admin/Settings.php:244
 msgid "Insert a template token"
 msgstr ""
 
-#: src/Admin/Settings.php:246
-#: src/Admin/Settings.php:249
+#: src/Admin/Settings.php:246 src/Admin/Settings.php:249
 msgid "inserted"
 msgstr ""
 
-#: src/Admin/Settings.php:247
-#: src/Admin/Settings.php:250
+#: src/Admin/Settings.php:247 src/Admin/Settings.php:250
 msgid "copied"
 msgstr ""
 
@@ -181,7 +206,8 @@ msgid "Body"
 msgstr ""
 
 #: src/Admin/Settings.php:280
-msgid "{code} becomes the gift-card code; {amount} becomes the formatted value."
+msgid ""
+"{code} becomes the gift-card code; {amount} becomes the formatted value."
 msgstr ""
 
 #: src/Admin/Settings.php:287
@@ -201,7 +227,9 @@ msgid "Your gift cards"
 msgstr ""
 
 #: src/Service/GiftCardService.php:167
-msgid "Keep these codes safe. Enter a code at checkout to spend its balance; any unused amount stays on the card."
+msgid ""
+"Keep these codes safe. Enter a code at checkout to spend its balance; any "
+"unused amount stays on the card."
 msgstr ""
 
 #: src/Service/GiftCardService.php:170
@@ -229,7 +257,9 @@ msgid "Have a gift card?"
 msgstr ""
 
 #: templates/checkout-redeem-field.php:32
-msgid "Enter your code to apply its balance to this order. Any unused balance stays on the card for next time."
+msgid ""
+"Enter your code to apply its balance to this order. Any unused balance stays "
+"on the card for next time."
 msgstr ""
 
 #: templates/checkout-redeem-field.php:36
@@ -246,4 +276,64 @@ msgstr ""
 
 #: templates/checkout-redeem-field.php:62
 msgid "Gift card applied, the balance is shown in your order total."
+msgstr ""
+
+#: src/Admin/ProUpsell.php:79
+msgid "Wkrótce"
+msgstr ""
+
+#: src/Admin/ProUpsell.php:79
+msgid "Coming soon"
+msgstr ""
+
+#. translators: %d: yearly price in PLN
+#: src/Admin/ProUpsell.php:84
+#, php-format
+msgid "od %d zł/rok"
+msgstr ""
+
+#. translators: 1: currency symbol, 2: yearly price
+#: src/Admin/ProUpsell.php:89
+#, php-format
+msgid "from %1$s%2$d/yr"
+msgstr ""
+
+#: src/Admin/ProUpsell.php:98
+msgid "Upgrade to PRO"
+msgstr ""
+
+#: src/Admin/ProUpsell.php:99
+msgid "Powiadom mnie"
+msgstr ""
+
+#: src/Admin/ProUpsell.php:99
+msgid "Get notified"
+msgstr ""
+
+#: src/Admin/ProUpsell.php:129
+msgid "Permission denied."
+msgstr ""
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:159
+#, php-format
+msgid "Do more with %s"
+msgstr ""
+
+#: src/Admin/ProUpsell.php:166
+msgid "Dismiss this notice"
+msgstr ""
+
+#: src/Admin/ProUpsell.php:183
+msgid "Unlock every PRO feature"
+msgstr ""
+
+#: src/Admin/ProUpsell.php:196
+msgid "one licence, every PRO feature"
+msgstr ""
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:215
+#, php-format
+msgid "What %s adds"
 msgstr ""
