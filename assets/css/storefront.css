@@ -1,5 +1,5 @@
 /**
- * Gift Cards — storefront UI (checkout redeem field + issued-codes table).
+ * Gift Cards, storefront UI (checkout redeem field + issued-codes table).
  *
  * CWV-native: fixed control sizing reserves space so applying a code or
  * revealing a message causes no layout shift. Themeable via custom properties;
@@ -56,7 +56,7 @@
 	color: var(--gcs-paper-ink);
 }
 
-/* Foil ribbon along the top — the gift wrap. */
+/* Foil ribbon along the top, the gift wrap. */
 .giftcards-redeem::before {
 	content: "";
 	position: absolute;
@@ -189,7 +189,7 @@
 /* ---- The moment: a foil seal presses onto the voucher ----------------- */
 
 /*
- * THE BOLD MOVE. When a code applies, a wax/foil seal stamps onto the voucher —
+ * THE BOLD MOVE. When a code applies, a wax/foil seal stamps onto the voucher, 
  * the gift card is validated and sealed. The seal occupies a fixed 1.5em square
  * that is always in the layout box (reserved), so the stamp toggle is purely
  * visual: zero layout shift. The medallion has a milled "coin" edge (conic
@@ -240,7 +240,7 @@
 	transform: rotate(-45deg) scale(1);
 }
 
-/* On an error, no seal — keep the slot empty (still reserved). */
+/* On an error, no seal, keep the slot empty (still reserved). */
 .giftcards-redeem__feedback--error .giftcards-redeem__seal {
 	opacity: 0;
 }
@@ -365,7 +365,7 @@
 		transition: none !important;
 	}
 
-	/* The seal still appears — it just doesn't animate the press. */
+	/* The seal still appears, it just doesn't animate the press. */
 	.giftcards-redeem__seal {
 		transform: scale(1) rotate(0deg);
 	}

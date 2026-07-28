@@ -1,5 +1,5 @@
 /**
- * Gift Cards — storefront enhancements (vanilla JS, no jQuery).
+ * Gift Cards, storefront enhancements (vanilla JS, no jQuery).
  *
  * Progressive enhancement only:
  *  - Copy buttons on issued gift-card codes use the async Clipboard API with a

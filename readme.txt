@@ -1,10 +1,10 @@
-=== Plogins Gift Cards - Store Credit for WooCommerce ===
+=== Gift Cards - Store Credit for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 0.2.2
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,10 +93,23 @@ Yes. This plugin is compatible with WordPress Multisite. Network activate it or 
 
 This plugin does not connect to, send data to, or rely on any external service, API or CDN. Everything runs on your own site. Gift-card codes and balances are stored in a single custom database table (`{prefix}giftcards`), the gift-card flag and any recipient address are kept in WooCommerce product and order-item meta (`_giftcards_is_gift_card`, `_giftcards_recipient_email`), and settings live in the `giftcards_settings` and `giftcards_db_version` options. The email carrying a code is delivered through your site's own WooCommerce/WordPress mailer to the order's billing address; no message or customer data leaves your server.
 
+== Translations ==
+
+Plogins Gift Cards includes Polish, German and Spanish translations for the plugin interface. The text domain is `plogins-giftcards`, so WordPress.org language packs can also override or extend these bundled translations.
+
 == Changelog ==
 
-= 0.2.2 =
-* Plugin Check: escaping/sanitisation/i18n/hygiene fixes.
+= 1.0.4 =
+* Translations: completed Polish, German and Spanish for the PRO upgrade panel.
+
+= 1.0.3 =
+* Fixed low-contrast admin headings under an OS dark-mode preference.
+
+= 1.0.2 =
+* Added bundled Polish, German and Spanish translations for the plugin interface.
+
+= 1.0.1 =
+* First stable release.
 
 = 0.2.1 =
 * Renamed to Plogins Gift Cards for WooCommerce for a more distinctive plugin name.

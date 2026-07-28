@@ -31,8 +31,8 @@ final class Migrator
     /**
      * Schema version. Bump when a forward migration step is added.
      *
-     *  - "1" — initial gift-cards table.
-     *  - "2" — enforce a DB-level UNIQUE index on the code column so the kit's
+     *  - "1", initial gift-cards table.
+     *  - "2", enforce a DB-level UNIQUE index on the code column so the kit's
      *          collision-safe issuance (catch + regenerate) has a real authority
      *          to fail against on concurrent inserts.
      */
@@ -95,7 +95,7 @@ final class Migrator
      * is already present it does nothing. Because a pre-existing duplicate code
      * (only possible on the old, index-less schema where a collision could slip
      * through) would make the `ALTER` fail, any duplicates are de-duplicated
-     * first — the oldest row per code keeps the code, later rows have their code
+     * first, the oldest row per code keeps the code, later rows have their code
      * suffixed with their row id so they stay unique without losing the row or
      * its balance.
      */

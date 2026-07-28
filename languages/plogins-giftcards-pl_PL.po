@@ -6,21 +6,21 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/giftcards\n"
 "POT-Creation-Date: 2026-06-16T20:25:36+00:00\n"
 "PO-Revision-Date: 2026-06-15 10:00+0000\n"
-"Last-Translator: WPPoland <hello@plogins.com>\n"
-"Language-Team: Polish <pl_PL@li.org>\n"
+"Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
+"Language-Team: Polish <pl@li.org>\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: plogins-giftcards\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
+"X-Domain: plogins-giftcards\n"
+"X-Generator: WP-CLI 2.12.0\n"
 
 #. Plugin Name of the plugin
 #: giftcards.php
-msgid "Gift Cards – Store Credit for WooCommerce"
-msgstr "Gift Cards – karty podarunkowe dla WooCommerce"
+msgid "Gift Cards, Store Credit for WooCommerce"
+msgstr "Gift Cards, karty podarunkowe dla WooCommerce"
 
 #. Plugin URI of the plugin
 #: giftcards.php
@@ -66,9 +66,9 @@ msgstr ""
 
 #: giftcards.php:47
 msgid ""
-"Gift Cards – Store Credit for WooCommerce requires WooCommerce to be active."
+"Gift Cards, Store Credit for WooCommerce requires WooCommerce to be active."
 msgstr ""
-"Gift Cards – karty podarunkowe dla WooCommerce wymaga aktywnego WooCommerce."
+"Gift Cards, karty podarunkowe dla WooCommerce wymaga aktywnego WooCommerce."
 
 #: src/Admin/ProductFields.php:35
 msgid "Gift card"
@@ -326,5 +326,64 @@ msgstr "Zastosuj"
 
 #: templates/checkout-redeem-field.php:62
 msgid "Gift card applied, the balance is shown in your order total."
-msgstr ""
-"Zastosowano kartę podarunkową, saldo jest widoczne w sumie zamówienia."
+msgstr "Zastosowano kartę podarunkową, saldo jest widoczne w sumie zamówienia."
+
+#: src/Admin/ProUpsell.php:79
+msgid "Wkrótce"
+msgstr "Wkrótce"
+
+#: src/Admin/ProUpsell.php:79
+msgid "Coming soon"
+msgstr "Wkrótce"
+
+#. translators: %d: yearly price in PLN
+#: src/Admin/ProUpsell.php:84
+#, php-format
+msgid "od %d zł/rok"
+msgstr "od %d zł/rok"
+
+#. translators: 1: currency symbol, 2: yearly price
+#: src/Admin/ProUpsell.php:89
+#, php-format
+msgid "from %1$s%2$d/yr"
+msgstr "od %1$s%2$d/rok"
+
+#: src/Admin/ProUpsell.php:98
+msgid "Upgrade to PRO"
+msgstr "Przejdź na PRO"
+
+#: src/Admin/ProUpsell.php:99
+msgid "Powiadom mnie"
+msgstr "Powiadom mnie"
+
+#: src/Admin/ProUpsell.php:99
+msgid "Get notified"
+msgstr "Powiadom mnie"
+
+#: src/Admin/ProUpsell.php:129
+msgid "Permission denied."
+msgstr "Brak uprawnień."
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:159
+#, php-format
+msgid "Do more with %s"
+msgstr "Zrób więcej dzięki %s"
+
+#: src/Admin/ProUpsell.php:166
+msgid "Dismiss this notice"
+msgstr "Odrzuć to powiadomienie"
+
+#: src/Admin/ProUpsell.php:183
+msgid "Unlock every PRO feature"
+msgstr "Odblokuj wszystkie funkcje PRO"
+
+#: src/Admin/ProUpsell.php:196
+msgid "one licence, every PRO feature"
+msgstr "jedna licencja, wszystkie funkcje PRO"
+
+#. translators: %s: PRO edition name
+#: src/Admin/ProUpsell.php:215
+#, php-format
+msgid "What %s adds"
+msgstr "Co dodaje %s"
