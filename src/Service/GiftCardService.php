@@ -70,12 +70,34 @@ final class GiftCardService implements HasHooks
             ],
             isEnabled: fn (): bool => $this->isEnabled(),
             settings: fn (): array => $this->settings(),
-            isGiftCard: static fn (\WC_Product $product): bool => 'yes' === $product->get_meta('_giftcards_is_gift_card'),
+            isGiftCard: static fn (\WC_Product $product): bool => 'yes' === self::giftCardMeta($product),
             resolveCard: fn (\WC_Order_Item_Product $item): array => $this->resolveCard($item),
             renderField: function (string $template, array $context): void {
                 $this->renderField($template, $context);
             },
         );
+    }
+
+    /**
+     * The gift-card flag, read from the parent when given a variation.
+     *
+     * The admin checkbox sits on the general product tab, so it is offered for
+     * variable products and stores the flag on the parent. An order line for a
+     * variable product resolves to the variation, and a variation does not
+     * inherit arbitrary parent meta, so the flag read back as empty and no card
+     * was ever issued: the buyer paid for a gift card and received nothing.
+     */
+    private static function giftCardMeta(\WC_Product $product): string
+    {
+        $flag = (string) $product->get_meta('_giftcards_is_gift_card');
+
+        if ($flag !== '' || ! $product instanceof \WC_Product_Variation) {
+            return $flag;
+        }
+
+        $parent = wc_get_product($product->get_parent_id());
+
+        return $parent instanceof \WC_Product ? (string) $parent->get_meta('_giftcards_is_gift_card') : '';
     }
 
     public function registerHooks(): void
