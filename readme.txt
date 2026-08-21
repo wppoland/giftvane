@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 1.0.5
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,14 +18,14 @@ To spend a card, the customer enters the code in a field on the checkout. The ba
 
 The buyer also sees the code(s) their order issued on the order-confirmation page and in their WooCommerce order emails, so they have the code in hand without hunting through their inbox.
 
-The code is built and tracked on GitHub. Source and bug reports: https://github.com/wppoland/plogins-giftcards
+The code is built and tracked on GitHub. Source and bug reports: [github.com/wppoland/plogins-giftcards](https://github.com/wppoland/plogins-giftcards)
 
 = Documentation and links =
 
-* **Documentation** - https://plogins.com/plogins-giftcards/docs/
-* **Plugin page** - https://plogins.com/plogins-giftcards/
-* **Source code** - https://github.com/wppoland/plogins-giftcards
-* **Bug reports and feature requests** - https://github.com/wppoland/plogins-giftcards/issues
+* **Documentation**: [plogins.com/plogins-giftcards/docs/](https://plogins.com/plogins-giftcards/docs/)
+* **Plugin page**: [plogins.com/plogins-giftcards/](https://plogins.com/plogins-giftcards/)
+* **Source code**: [github.com/wppoland/plogins-giftcards](https://github.com/wppoland/plogins-giftcards)
+* **Bug reports and feature requests**: [github.com/wppoland/plogins-giftcards/issues](https://github.com/wppoland/plogins-giftcards/issues)
 
 
 = What it does =
@@ -37,6 +37,7 @@ The code is built and tracked on GitHub. Source and bug reports: https://github.
 * Lets you set the code prefix, the checkout discount label and the recipient email subject and body.
 * Optionally lists the issued codes on the buyer's order page and in their order emails.
 * Works with WooCommerce HPOS (custom order tables) and the Cart and Checkout blocks.
+* Lets an AI assistant in your admin look up a code's balance and list the codes an order issued, through the WordPress Abilities API on WordPress 6.9 and later. Reading only; it cannot change a balance or issue a code.
 
 == Installation ==
 
@@ -98,6 +99,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Plogins Gift Cards includes Polish, German and Spanish translations for the plugin interface. The text domain is `plogins-giftcards`, so WordPress.org language packs can also override or extend these bundled translations.
 
 == Changelog ==
+
+= 1.1.0 =
+* An AI assistant working in your wp-admin can now read your gift cards for you, through the WordPress Abilities API (WordPress 6.9 and later). Ask it what is left on a code, which codes an order issued, whether a product is set up as a gift card, or how gift cards are configured on the shop.
+* Reading only. Nothing an assistant can call changes a balance, issues a code or voids one, and no recipient address is ever returned. Only shop managers can use these, and on WordPress 6.8 and earlier nothing changes.
 
 = 1.0.4 =
 * Translations: completed Polish, German and Spanish for the PRO upgrade panel.
