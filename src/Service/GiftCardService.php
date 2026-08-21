@@ -36,12 +36,9 @@ final class GiftCardService implements HasHooks
 
     private ?GiftCardEngine $engine = null;
 
-    private readonly GiftCardTableRepository $repository;
-
-    public function __construct()
-    {
-        $this->repository = new GiftCardTableRepository();
-
+    public function __construct(
+        private readonly GiftCardTableRepository $repository,
+    ) {
         // The engine ships with storefront-kit >= 1.5.0. When present, wire it
         // with this plugin's text-domain / option storage / asset paths.
         // Otherwise leave the service inert (see registerHooks()).
@@ -70,12 +67,22 @@ final class GiftCardService implements HasHooks
             ],
             isEnabled: fn (): bool => $this->isEnabled(),
             settings: fn (): array => $this->settings(),
-            isGiftCard: static fn (\WC_Product $product): bool => 'yes' === self::giftCardMeta($product),
+            isGiftCard: fn (\WC_Product $product): bool => $this->isGiftCardProduct($product),
             resolveCard: fn (\WC_Order_Item_Product $item): array => $this->resolveCard($item),
             renderField: function (string $template, array $context): void {
                 $this->renderField($template, $context);
             },
         );
+    }
+
+    /**
+     * Whether buying this product issues a gift card. This is the resolver the
+     * engine is wired with, so anything else that needs the answer (the
+     * Abilities API surface, for one) gets exactly what the engine would see.
+     */
+    public function isGiftCardProduct(\WC_Product $product): bool
+    {
+        return 'yes' === self::giftCardMeta($product);
     }
 
     /**
@@ -309,11 +316,13 @@ final class GiftCardService implements HasHooks
     }
 
     /**
-     * Stored settings merged over packaged defaults.
+     * Stored settings merged over packaged defaults. Public because it is the
+     * one honest answer to "how are gift cards configured here", which the
+     * Abilities API surface reports rather than re-reading the option itself.
      *
      * @return array<string, mixed>
      */
-    private function settings(): array
+    public function settings(): array
     {
         $stored = get_option(self::OPTION, []);
 

@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 use GiftCards\Admin\ProductFields;
 use GiftCards\Admin\Settings;
+use GiftCards\Service\AbilitiesService;
 use GiftCards\Service\GiftCardService;
 
 defined('ABSPATH') || exit;
 
 return [
     GiftCardService::class,
+    // Registers nothing on cores without the Abilities API (WP < 6.9).
+    AbilitiesService::class,
     ...(is_admin() ? [Settings::class, ProductFields::class] : []),
 ];
