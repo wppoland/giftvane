@@ -184,4 +184,58 @@ final class GiftCardTableRepository implements GiftCardRepository
 
         return $cards;
     }
+
+    /**
+     * @return list<array{id: int, code: string, balance: float, recipient_email: string, order_id: int, created_at: string}>
+     */
+    public function findByRecipientEmail(string $email, int $limit = 100, int $offset = 0): array
+    {
+        global $wpdb;
+
+        $limit  = max(1, $limit);
+        $offset = max(0, $offset);
+
+        $rows = $wpdb->get_results(
+            $wpdb->prepare(
+                'SELECT id, code, balance, recipient_email, order_id, created_at FROM %i WHERE recipient_email = %s ORDER BY id ASC LIMIT %d OFFSET %d',
+                $this->table(),
+                $email,
+                $limit,
+                $offset,
+            ),
+            ARRAY_A,
+        );
+
+        if (! is_array($rows)) {
+            return [];
+        }
+
+        return array_map(
+            static fn (array $r): array => [
+                'id'              => (int) $r['id'],
+                'code'            => (string) $r['code'],
+                'balance'         => (float) $r['balance'],
+                'recipient_email' => (string) $r['recipient_email'],
+                'order_id'        => (int) $r['order_id'],
+                'created_at'      => (string) ($r['created_at'] ?? ''),
+            ],
+            $rows,
+        );
+    }
+
+    public function anonymizeByRecipientEmail(string $email): int
+    {
+        global $wpdb;
+
+        $updated = $wpdb->query(
+            $wpdb->prepare(
+                'UPDATE %i SET recipient_email = %s WHERE recipient_email = %s',
+                $this->table(),
+                'anonymized@privacy.invalid',
+                $email,
+            ),
+        );
+
+        return is_int($updated) ? $updated : 0;
+    }
 }

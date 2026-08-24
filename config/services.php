@@ -41,6 +41,10 @@ return static function (Container $c): void {
         $c->get(GiftCardService::class),
     ));
 
+    $c->singleton(\GiftCards\Service\GiftCardPrivacyService::class, static fn (Container $c): \GiftCards\Service\GiftCardPrivacyService => new \GiftCards\Service\GiftCardPrivacyService(
+        $c->get(GiftCardTableRepository::class),
+    ));
+
     // Admin (only needed in wp-admin context).
     if (is_admin()) {
         $c->singleton(Settings::class, static fn (): Settings => new Settings());
