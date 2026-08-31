@@ -25,7 +25,7 @@ namespace GiftCards;
 
 defined('ABSPATH') || exit;
 
-const VERSION     = '1.1.0';
+const VERSION     = '1.1.1';
 const PLUGIN_FILE = __FILE__;
 
 define('GIFTCARDS_DIR', plugin_dir_path(__FILE__));
