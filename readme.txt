@@ -36,7 +36,7 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 * Keeps the unused balance on the code after a partial spend, so it works across multiple orders.
 * Lets you set the code prefix, the checkout discount label and the recipient email subject and body.
 * Optionally lists the issued codes on the buyer's order page and in their order emails.
-* Works with WooCommerce HPOS (custom order tables) and the Cart and Checkout blocks.
+* Works with WooCommerce HPOS (custom order tables).
 * Lets an AI assistant in your admin look up a code's balance and list the codes an order issued, through the WordPress Abilities API on WordPress 6.9 and later. Reading only; it cannot change a balance or issue a code.
 
 == Installation ==
@@ -78,7 +78,8 @@ Yes. Set the email subject and body under WooCommerce → Gift Cards, with token
 
 = Does it work with WooCommerce checkout blocks? =
 
-Yes. Gift Cards declares compatibility with WooCommerce HPOS and Cart/Checkout Blocks.
+HPOS, yes. Redeeming a gift card is currently a classic-checkout feature; on the
+block checkout the redemption field does not appear.
 
 
 = Does this plugin work on WordPress Multisite? =
