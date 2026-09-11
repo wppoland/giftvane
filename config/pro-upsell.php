@@ -33,16 +33,16 @@ return [
             'pl' => ['title' => 'Shortcode salda', 'desc' => 'Shortcode [giftcards_balance], obdarowany sprawdza pozostałe saldo po wpisaniu kodu.'],
         ],
         [
-            'en' => ['title' => 'Redemption history', 'desc' => 'WooCommerce → Gift card lookup, search a code and view partial-redemption history.'],
-            'pl' => ['title' => 'Historia realizacji', 'desc' => 'WooCommerce → Gift card lookup, wyszukaj kod i zobacz historię częściowych realizacji.'],
+            'en' => ['title' => 'Redemption history', 'desc' => 'WooCommerce > Gift card lookup, search a code and view partial-redemption history.'],
+            'pl' => ['title' => 'Historia realizacji', 'desc' => 'WooCommerce > Gift card lookup, wyszukaj kod i zobacz historię częściowych realizacji.'],
         ],
         [
             'en' => ['title' => 'Custom card designs', 'desc' => 'Branded HTML emails with three templates (Classic, Celebration, Minimal), optional accent colour and header banner.'],
             'pl' => ['title' => 'Własne projekty kart', 'desc' => 'Branded HTML e-maile z trzema szablonami (Classic, Celebration, Minimal), opcjonalnym kolorem i banerem.'],
         ],
         [
-            'en' => ['title' => 'Bulk generation', 'desc' => 'WooCommerce → Bulk gift cards, issue up to 500 codes per batch and download CSV.'],
-            'pl' => ['title' => 'Generowanie masowe', 'desc' => 'WooCommerce → Bulk gift cards, wystaw do 500 kodów na partię i pobierz CSV.'],
+            'en' => ['title' => 'Bulk generation', 'desc' => 'WooCommerce > Bulk gift cards, issue up to 500 codes per batch and download CSV.'],
+            'pl' => ['title' => 'Generowanie masowe', 'desc' => 'WooCommerce > Bulk gift cards, wystaw do 500 kodów na partię i pobierz CSV.'],
         ],
         [
             'en' => ['title' => 'PDF gift cards', 'desc' => 'Printable PDF attachment on recipient emails with amount, code and shop link.'],
