@@ -40,10 +40,10 @@ El código se crea y se rastrea en GitHub. Código fuente e informes de errores:
 
 == Installation ==
 
-1. Sube el complemento a `/wp-content/plugins/plogins-giftcards`, o instálalo desde Complementos → Añadir nuevo.
+1. Sube el complemento a `/wp-content/plugins/plogins-giftcards`, o instálalo desde Complementos > Añadir nuevo.
 2. Actívalo. WooCommerce debe estar activo.
 3. Edita un producto, marca <strong>Tarjeta regalo</strong> en la pestaña General y establece su precio según el valor de la tarjeta.
-4. Configura el prefijo del código y el correo electrónico del destinatario en <strong>WooCommerce → Tarjetas de regalo</strong>.
+4. Configura el prefijo del código y el correo electrónico del destinatario en <strong>WooCommerce > Tarjetas de regalo</strong>.
 
 == Frequently Asked Questions ==
 
@@ -73,7 +73,7 @@ Sí. Al comprar dos unidades de un producto de tarjeta de regalo, se emiten dos 
 
 = Can I customise the email? =
 
-Sí. Establece el asunto y el cuerpo del correo electrónico en WooCommerce → Tarjetas de regalo, con tokens para el código y el importe.
+Sí. Establece el asunto y el cuerpo del correo electrónico en WooCommerce > Tarjetas de regalo, con tokens para el código y el importe.
 
 = Does it work with WooCommerce checkout blocks? =
 
@@ -109,7 +109,7 @@ Plogins Gift Cards incluye traducciones al polaco, alemán y español para la in
 * Renombrado a Plogins Gift Cards for WooCommerce para un nombre de complemento más distintivo.
 
 = 0.2.0 =
-* El asunto y el cuerpo del correo electrónico del destinatario establecidos en <strong>WooCommerce → Tarjetas de regalo</strong> ahora se utilizan para el correo electrónico que se envía. Anteriormente, estos valores almacenados se ignoraban y siempre se usaba un valor predeterminado incorporado.
+* El asunto y el cuerpo del correo electrónico del destinatario establecidos en <strong>WooCommerce > Tarjetas de regalo</strong> ahora se utilizan para el correo electrónico que se envía. Anteriormente, estos valores almacenados se ignoraban y siempre se usaba un valor predeterminado incorporado.
 * Se añadió un ajuste para la etiqueta de descuento en el pago que se muestra cuando se aplica un código; acepta un token {code}.
 * Se añadió un ajuste para enumerar los códigos emitidos en la página de confirmación del pedido del comprador y en los correos electrónicos del pedido. Está activado de forma predeterminada.
 * El correo electrónico predeterminado y el texto de la etiqueta ahora se pueden traducir.

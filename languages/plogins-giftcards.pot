@@ -66,7 +66,7 @@ msgid "Gift card"
 msgstr ""
 
 #: src/Admin/ProductFields.php:37
-msgid "When checked, buying this product issues a unique code worth the product price and emails it to the recipient on order completion. Set the price to the card value (e.g. a $50 card → price $50). The recipient gets the code by email; the buyer also sees it on the order confirmation."
+msgid "When checked, buying this product issues a unique code worth the product price and emails it to the recipient on order completion. Set the price to the card value (e.g. a $50 card > price $50). The recipient gets the code by email; the buyer also sees it on the order confirmation."
 msgstr ""
 
 #: src/Admin/ProUpsell.php:79
@@ -148,7 +148,7 @@ msgid "Sell gift cards in three steps"
 msgstr ""
 
 #: src/Admin/Settings.php:151
-msgid "1. Flag a product as a gift card (product editor → General tab → Gift card). 2. A buyer purchases it. 3. A unique code is emailed to the recipient and can be redeemed at checkout for a discount. Tune the wording below."
+msgid "1. Flag a product as a gift card (product editor > General tab > Gift card). 2. A buyer purchases it. 3. A unique code is emailed to the recipient and can be redeemed at checkout for a discount. Tune the wording below."
 msgstr ""
 
 #: src/Admin/Settings.php:160

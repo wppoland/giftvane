@@ -49,6 +49,13 @@ final class ProUpsell
     /** Whether to render the promo at all (filterable for white-label builds). */
     public function enabled(): bool
     {
+
+        // Somebody running the paid edition has already bought what this sells.
+        // Only the banner was ever dismissible, so without this the sidebar promo
+        // and the locked cards followed a paying customer around for ever.
+        if (defined('GiftCards\\Pro\\VERSION')) {
+            return false;
+        }
         /**
          * Filters whether the Gift Cards PRO promo is shown on the settings screen.
          *

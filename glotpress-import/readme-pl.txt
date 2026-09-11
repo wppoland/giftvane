@@ -40,10 +40,10 @@ Kod jest tworzony i śledzony w GitHubie. Źródło i raporty o błędach: https
 
 == Installation ==
 
-1. Prześlij wtyczkę do `/wp-content/plugins/plogins-giftcards` lub zainstaluj ją z Wtyczki → Dodaj nowe.
+1. Prześlij wtyczkę do `/wp-content/plugins/plogins-giftcards` lub zainstaluj ją z Wtyczki > Dodaj nowe.
 2. Aktywuj. WooCommerce musi być aktywny.
 3. Edytuj produkt, w zakładce Ogólne zaznacz <strong>Karta podarunkowa</strong> i ustaw jego cenę na wartość karty.
-4. Ustaw prefiks kodu i adres e-mail odbiorcy w <strong>WooCommerce → Karty podarunkowe</strong>.
+4. Ustaw prefiks kodu i adres e-mail odbiorcy w <strong>WooCommerce > Karty podarunkowe</strong>.
 
 == Frequently Asked Questions ==
 
@@ -73,7 +73,7 @@ Tak. Kupując dwie jednostki produktu w postaci karty podarunkowej, wystawiane s
 
 = Can I customise the email? =
 
-Tak. Ustaw temat i treść wiadomości e-mail w obszarze WooCommerce → Karty podarunkowe wraz z tokenami na kod i kwotę.
+Tak. Ustaw temat i treść wiadomości e-mail w obszarze WooCommerce > Karty podarunkowe wraz z tokenami na kod i kwotę.
 
 = Does it work with WooCommerce checkout blocks? =
 
@@ -109,7 +109,7 @@ Plogins Gift Cards zawiera tłumaczenia interfejsu wtyczki na język polski, nie
 * Zmieniono nazwę na Plogins Gift Cards for WooCommerce, aby nadać wtyczce bardziej charakterystyczną nazwę.
 
 = 0.2.0 =
-* Temat i treść wiadomości e-mail odbiorcy ustawione w sekcji <strong>WooCommerce → Karty podarunkowe</strong> są teraz używane w wysyłanej wiadomości e-mail. Wcześniej te przechowywane wartości były ignorowane i zawsze używano wbudowanych wartości domyślnych.
+* Temat i treść wiadomości e-mail odbiorcy ustawione w sekcji <strong>WooCommerce > Karty podarunkowe</strong> są teraz używane w wysyłanej wiadomości e-mail. Wcześniej te przechowywane wartości były ignorowane i zawsze używano wbudowanych wartości domyślnych.
 * Dodano ustawienie etykiety rabatu przy kasie wyświetlanej po zastosowaniu kodu; akceptuje token {code}.
 * Dodano ustawienie umożliwiające wyświetlenie listy wydanych kodów na stronie potwierdzenia zamówienia kupującego i w wiadomościach e-mail dotyczących zamówień. Domyślnie jest włączone.
 * Domyślny tekst wiadomości e-mail i etykiety można teraz przetłumaczyć.

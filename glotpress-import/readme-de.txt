@@ -40,10 +40,10 @@ Der Code wird auf GitHub erstellt und verfolgt. Quellen- und Fehlerberichte: htt
 
 == Installation ==
 
-1. Lade das Plugin nach „/wp-content/plugins/plogins-giftcards“ hoch oder installiere es über Plugins → Neu hinzufügen.
+1. Lade das Plugin nach „/wp-content/plugins/plogins-giftcards“ hoch oder installiere es über Plugins > Neu hinzufügen.
 2. Aktiviere es. WooCommerce muss aktiv sein.
 3. Bearbeite ein Produkt, markiere <strong>Geschenkkarte</strong> auf der Registerkarte „Allgemein“ und lege den Preis auf den Wert der Karte fest.
-4. Lege unter <strong>WooCommerce → Geschenkkarten</strong> das Code-Präfix und die E-Mail-Adresse des Empfängers fest.
+4. Lege unter <strong>WooCommerce > Geschenkkarten</strong> das Code-Präfix und die E-Mail-Adresse des Empfängers fest.
 
 == Frequently Asked Questions ==
 
@@ -73,7 +73,7 @@ Ja. Beim Kauf von zwei Einheiten eines Geschenkkartenprodukts werden zwei separa
 
 = Can I customise the email? =
 
-Ja. Lege den Betreff und den Text der E-Mail unter WooCommerce → Geschenkkarten fest, mit Token für den Code und den Betrag.
+Ja. Lege den Betreff und den Text der E-Mail unter WooCommerce > Geschenkkarten fest, mit Token für den Code und den Betrag.
 
 = Does it work with WooCommerce checkout blocks? =
 
@@ -109,7 +109,7 @@ Plogins Gift Cards umfasst polnische, deutsche und spanische Übersetzungen für
 * Für einen unverwechselbareren Plugin-Namen in Plogins Gift Cards for WooCommerce umbenannt.
 
 = 0.2.0 =
-* Der unter <strong>WooCommerce → Geschenkkarten</strong> festgelegte Betreff und Text der Empfänger-E-Mail wird jetzt für die gesendete E-Mail verwendet. Früher wurden diese gespeicherten Werte ignoriert und immer ein integrierter Standardwert verwendet.
+* Der unter <strong>WooCommerce > Geschenkkarten</strong> festgelegte Betreff und Text der Empfänger-E-Mail wird jetzt für die gesendete E-Mail verwendet. Früher wurden diese gespeicherten Werte ignoriert und immer ein integrierter Standardwert verwendet.
 * Es wurde eine Einstellung für das Rabattetikett an der Kasse hinzugefügt, das angezeigt wird, wenn ein Code angewendet wird. Es akzeptiert ein {code}-Token.
 * Es wurde eine Einstellung hinzugefügt, um die ausgegebenen Codes auf der Bestellbestätigungsseite und in den Bestell-E-Mails des Käufers aufzulisten. Es ist standardmäßig aktiviert.
 * Der Standard-E-Mail- und Etikettentext ist jetzt übersetzbar.

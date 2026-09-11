@@ -148,7 +148,7 @@ final class Settings implements HasHooks
                 <div>
                     <h2><?php esc_html_e('Sell gift cards in three steps', 'plogins-giftcards'); ?></h2>
                     <p>
-                        <?php esc_html_e('1. Flag a product as a gift card (product editor → General tab → Gift card). 2. A buyer purchases it. 3. A unique code is emailed to the recipient and can be redeemed at checkout for a discount. Tune the wording below.', 'plogins-giftcards'); ?>
+                        <?php esc_html_e('1. Flag a product as a gift card (product editor > General tab > Gift card). 2. A buyer purchases it. 3. A unique code is emailed to the recipient and can be redeemed at checkout for a discount. Tune the wording below.', 'plogins-giftcards'); ?>
                     </p>
                 </div>
             </div>

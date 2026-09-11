@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,10 +41,10 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 
 == Installation ==
 
-1. Upload the plugin to `/wp-content/plugins/plogins-giftcards`, or install it from Plugins → Add New.
+1. Upload the plugin to `/wp-content/plugins/plogins-giftcards`, or install it from Plugins > Add New.
 2. Activate it. WooCommerce must be active.
 3. Edit a product, tick **Gift card** on the General tab, and set its price to the value of the card.
-4. Set the code prefix and the recipient email under **WooCommerce → Gift Cards**.
+4. Set the code prefix and the recipient email under **WooCommerce > Gift Cards**.
 
 == Frequently Asked Questions ==
 
@@ -74,7 +74,7 @@ Yes. Buying two units of a gift card product issues two separate store credit co
 
 = Can I customise the email? =
 
-Yes. Set the email subject and body under WooCommerce → Gift Cards, with tokens for the code and amount.
+Yes. Set the email subject and body under WooCommerce > Gift Cards, with tokens for the code and amount.
 
 = Does it work with WooCommerce checkout blocks? =
 
@@ -100,6 +100,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Plogins Gift Cards is fully translatable and ships the `plogins-giftcards.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.1.6 =
+* Fixed: the PRO upgrade promo kept selling to people who had already bought the paid edition. Only the banner could be dismissed, so the sidebar promo and the locked feature cards followed a paying customer around for good. The promo now checks whether the paid edition is active and steps aside when it is.
+* Fixed: arrow glyphs in the admin menu paths, and in the strings handed to translators. An arrow inside a translatable string makes the glyph every translator's problem and changes the layout in any locale that drops it.
 
 = 1.1.5 =
 * Fixed: deleting the plugin left the per-user "dismiss" flag from the PRO notice in the database. Uninstall now removes it for every user, not just the one who dismissed it.
@@ -136,7 +140,7 @@ Plogins Gift Cards is fully translatable and ships the `plogins-giftcards.pot` t
 * Renamed to Plogins Gift Cards for WooCommerce for a more distinctive plugin name.
 
 = 0.2.0 =
-* The recipient email subject and body set under **WooCommerce → Gift Cards** are now used for the email that's sent. Earlier these stored values were ignored and a built-in default was always used.
+* The recipient email subject and body set under **WooCommerce > Gift Cards** are now used for the email that's sent. Earlier these stored values were ignored and a built-in default was always used.
 * Added a setting for the checkout discount label shown when a code is applied; it accepts a {code} token.
 * Added a setting to list the issued codes on the buyer's order-confirmation page and order emails. It is on by default.
 * The default email and label text is now translatable.
