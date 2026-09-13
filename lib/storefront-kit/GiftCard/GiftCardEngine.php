@@ -150,22 +150,53 @@ final class GiftCardEngine
             return;
         }
 
-        // Guard against an order being completed more than once (e.g.
-        // completed -> refunded -> completed, or a manual re-trigger), which
-        // would otherwise re-issue cards and decrement balances twice.
+        // Orders completed before this flag stopped being written up front are
+        // still judged by it: nothing recorded what those orders received, so
+        // the only safe reading of the flag is "hands off".
         $processedFlag = $this->sessionKey . '_processed';
 
         if ($order->get_meta($processedFlag) === 'yes') {
             return;
         }
 
-        $order->update_meta_data($processedFlag, 'yes');
-        $order->save();
+        // Two completions of the same order arriving at the same moment (a
+        // gateway callback racing the shop admin) would both find no per-unit
+        // record and both issue. This narrows that window to a transient read
+        // and write. It is not what makes a repeat safe, the per-unit records
+        // below are; it expires on its own, so an interrupted run is retried
+        // rather than blocked for good.
+        $lock = $this->sessionKey . '_lock_' . $orderId;
 
-        $this->issueGiftCards($order);
-        $this->redeemAppliedCard($order);
+        if (get_transient($lock) !== false) {
+            return;
+        }
+
+        set_transient($lock, 1, 5 * MINUTE_IN_SECONDS);
+
+        try {
+            $this->issueGiftCards($order);
+            $this->redeemAppliedCard($order);
+
+            // Written last, and only once every card on the order exists and
+            // has been emailed. Written first (as it used to be), a timeout in
+            // the middle of the loop below left the rest of the cards the
+            // customer had paid for permanently unissued: nothing retried them,
+            // because the flag said the order was done.
+            $order->update_meta_data($processedFlag, 'yes');
+            $order->save();
+        } finally {
+            delete_transient($lock);
+        }
     }
 
+    /**
+     * Issue one card per purchased unit, recording each one as it is issued.
+     *
+     * The record is per unit and it is written before the email, so an
+     * interrupted run costs at worst a repeated email carrying the code that
+     * was already issued, never a second funded card and never a card the
+     * customer paid for and never received.
+     */
     private function issueGiftCards(\WC_Order $order): void
     {
         foreach ($order->get_items() as $item) {
@@ -186,15 +217,87 @@ final class GiftCardEngine
             }
 
             $quantity = max(1, (int) $item->get_quantity());
+            $issued   = $this->issuedUnits($item);
 
             for ($i = 0; $i < $quantity; $i++) {
-                $code = $this->issueUniqueCard($amount, $recipientEmail, $order->get_id());
+                $code = (string) ($issued[$i]['code'] ?? '');
 
-                if ($code !== '') {
-                    $this->sendRecipientEmail($recipientEmail, $code, $amount);
+                if ($code === '') {
+                    $code = $this->issueUniqueCard($amount, $recipientEmail, $order->get_id());
+
+                    // Could not persist a card this run (a code collision that
+                    // outlasted the retries, or a transient DB error): leave the
+                    // unit unrecorded so the next completion tries again.
+                    if ($code === '') {
+                        continue;
+                    }
+
+                    // The card is funded from here on, so the code is stored
+                    // before the email goes out.
+                    $issued[$i] = ['code' => $code, 'emailed' => false];
+                    $this->saveIssuedUnits($item, $issued);
                 }
+
+                if (! empty($issued[$i]['emailed'])) {
+                    continue;
+                }
+
+                $this->sendRecipientEmail($recipientEmail, $code, $amount);
+
+                $issued[$i]['emailed'] = true;
+                $this->saveIssuedUnits($item, $issued);
             }
         }
+    }
+
+    /**
+     * The cards already issued for one order line, keyed by unit index.
+     *
+     * @return array<int, array{code: string, emailed: bool}>
+     */
+    private function issuedUnits(\WC_Order_Item_Product $item): array
+    {
+        $stored = $item->get_meta($this->issuedMetaKey(), true);
+
+        if (! is_array($stored)) {
+            return [];
+        }
+
+        $units = [];
+
+        foreach ($stored as $index => $unit) {
+            if (! is_array($unit)) {
+                continue;
+            }
+
+            $code = (string) ($unit['code'] ?? '');
+
+            if ($code === '') {
+                continue;
+            }
+
+            $units[(int) $index] = ['code' => $code, 'emailed' => ! empty($unit['emailed'])];
+        }
+
+        return $units;
+    }
+
+    /**
+     * @param array<int, array{code: string, emailed: bool}> $units
+     */
+    private function saveIssuedUnits(\WC_Order_Item_Product $item, array $units): void
+    {
+        $item->update_meta_data($this->issuedMetaKey(), $units);
+        $item->save_meta_data();
+    }
+
+    /**
+     * Underscore-prefixed, so WooCommerce keeps it out of the order line the
+     * customer and the shop manager read.
+     */
+    private function issuedMetaKey(): string
+    {
+        return '_' . $this->sessionKey . '_issued';
     }
 
     private function redeemAppliedCard(\WC_Order $order): void
@@ -202,6 +305,17 @@ final class GiftCardEngine
         $code = (string) $order->get_meta($this->sessionKey);
 
         if ($code === '') {
+            return;
+        }
+
+        // Unlike issuing, this one is claimed before the work, not after. The
+        // work is a single balance write with nothing slow in front of it, and
+        // the two failures are not equal: a second decrement takes the shopper's
+        // remaining balance away twice, while a lost decrement costs the shop
+        // one discount it already gave.
+        $redeemedFlag = $this->sessionKey . '_redeemed';
+
+        if ($order->get_meta($redeemedFlag) === 'yes') {
             return;
         }
 
@@ -222,6 +336,10 @@ final class GiftCardEngine
         }
 
         $newBalance = max(0.0, $card->balance - $used);
+
+        $order->update_meta_data($redeemedFlag, 'yes');
+        $order->save();
+
         $this->repository->updateBalance($card->id, $newBalance);
     }
 

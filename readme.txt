@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.6
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,11 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Plogins Gift Cards is fully translatable and ships the `plogins-giftcards.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.1.7 =
+* Fixed: when the order-completion run was interrupted part-way through (a fatal error, or the host stopping it on max execution time), the order had already been marked as done before the first card was created. Nothing ever retried it, so every remaining card on that order was paid for and never issued. Each card is now recorded as it is created, and the order is marked done only once every card exists and has been emailed, so a later completion of the same order finishes the job.
+* Changed: after an interruption, the one recipient whose email was in flight can receive that email again. It carries the same code and the same balance as the first, it is not a second card.
+* Fixed: a balance redeemed at checkout could be taken off the gift card twice if the completion run was interrupted after the deduction. The deduction is now claimed on the order before it is made, so a repeat completion leaves the shopper's remaining balance alone.
 
 = 1.1.6 =
 * Fixed: the PRO upgrade promo kept selling to people who had already bought the paid edition. Only the banner could be dismissed, so the sidebar promo and the locked feature cards followed a paying customer around for good. The promo now checks whether the paid edition is active and steps aside when it is.

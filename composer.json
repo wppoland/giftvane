@@ -22,7 +22,8 @@
     "scripts": {
         "cs": "phpcs --standard=phpcs.xml.dist",
         "cs:fix": "phpcbf --standard=phpcs.xml.dist",
-        "analyse": "phpstan analyse -c phpstan.neon.dist --memory-limit=2G"
+        "analyse": "phpstan analyse -c phpstan.neon.dist --memory-limit=2G",
+        "test": "php tests/gift-card-issue-resume.php"
     },
     "config": {
         "allow-plugins": {
