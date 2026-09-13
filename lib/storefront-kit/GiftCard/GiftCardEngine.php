@@ -173,6 +173,21 @@ final class GiftCardEngine
             return;
         }
 
+        // A retry fires up to five times across more than an hour, and an order
+        // can leave Completed inside that window: refunded, cancelled, or put
+        // back on hold while a chargeback is looked at. WooCommerce fires
+        // `order_status_completed` on the way in only, so nothing else ever
+        // re-reads the status, and the run below does not ask. Without this, a
+        // refunded order still had the rest of its cards funded and emailed,
+        // and the balance the shopper redeemed still taken off their card.
+        // Attempt 0 is the transition itself, where the order is Completed by
+        // definition, so only the scheduled attempts are judged here. Returning
+        // also books no further retry, which ends the chain; a later return to
+        // Completed fires the transition again and starts a fresh one.
+        if ($attempt > 0 && ! $order->has_status('completed')) {
+            return;
+        }
+
         // Orders completed before this flag stopped being written up front are
         // still judged by it: nothing recorded what those orders received, so
         // the only safe reading of the flag is "hands off".
@@ -220,6 +235,35 @@ final class GiftCardEngine
         // decided by the per-unit records, not by this event.
         $this->scheduleRetry($order, $attempt);
 
+        // The last attempt has no retry left to book, so a note on the order is
+        // the only thing that can tell the merchant cards may be missing. It
+        // therefore has to be written by the attempt that fails, and only by
+        // it: booked up front, as it used to be, an order whose final attempt
+        // SUCCEEDED still got the alarm, and the merchant went looking through
+        // an order that was complete. `finally` covers the run that unwinds,
+        // shutdown covers the run that is killed instead, the same split the
+        // lock release above makes, and $noted keeps the two from doubling up.
+        $finished = false;
+        $noted    = false;
+        $giveUp   = function () use ($order, $attempt, &$finished, &$noted): void {
+            if ($finished || $noted || $attempt < self::MAX_RETRIES) {
+                return;
+            }
+
+            $noted = true;
+
+            $order->add_order_note(
+                Formatter::interpolate(
+                    $this->message('retry_exhausted'),
+                    ['attempts' => (string) self::MAX_RETRIES],
+                )
+            );
+        };
+
+        if ($attempt >= self::MAX_RETRIES) {
+            register_shutdown_function($giveUp);
+        }
+
         try {
             $this->issueGiftCards($order);
             $this->redeemAppliedCard($order);
@@ -231,8 +275,11 @@ final class GiftCardEngine
             // because the flag said the order was done.
             $order->update_meta_data($processedFlag, 'yes');
             $order->save();
+
+            $finished = true;
         } finally {
             $release();
+            $giveUp();
         }
 
         // Reached only when every card exists and the order is marked done, so
@@ -249,16 +296,11 @@ final class GiftCardEngine
             // A retry only fires because the run that booked it never came back
             // to clear it, so reaching here proves this order has now failed to
             // finish that many times. Retrying it every quarter of an hour for
-            // ever is worse than stopping, so this run is the last one and it
-            // says so on the order the merchant would open, which is the only
-            // place anything would have told them cards can be missing.
-            $order->add_order_note(
-                Formatter::interpolate(
-                    $this->message('retry_exhausted'),
-                    ['attempts' => (string) self::MAX_RETRIES],
-                )
-            );
-
+            // ever is worse than stopping, so this run is the last one. Whether
+            // the merchant is told about it is not decided here: this method
+            // runs before the work, and only the end of the work knows whether
+            // the last attempt was the one that succeeded. See the give-up note
+            // in handleOrderCompleted().
             return;
         }
 

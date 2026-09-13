@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Plogins Gift Cards is fully translatable and ships the `plogins-giftcards.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.1.9 =
+* Fixed: a retry never re-read the order's status, so an order that left Completed while the retry was pending was still worked on. The retry comes round up to five times over more than an hour, and WooCommerce only announces the completion on the way in, so a refunded or cancelled order still had the rest of its gift cards funded and emailed, and the balance the shopper had redeemed still taken off their card. A scheduled attempt now checks that the order is still Completed and stops if it is not. Putting the order back into Completed runs the work it still owes, as before.
+* Fixed: the note that says gift-card issuing never finished was written before the last attempt ran, so an order whose final attempt SUCCEEDED got the alarm anyway and the merchant went looking for a missing code through an order that was complete. The note is now written by the attempt that fails, and only by it, including when that attempt is killed outright rather than interrupted.
 
 = 1.1.8 =
 * Fixed: a completion run that was killed rather than interrupted (a fatal error, or the host stopping it on execution time) left the transient that guards the run standing for five minutes, because the release only ran when the run unwound normally. Anything that tried to finish the order inside that window was turned away by a lock whose run was already dead. The release now also happens when the process shuts down, which covers a fatal error, an execution-time stop and an outright exit.

@@ -259,6 +259,15 @@ namespace {
         /** Meta key whose save is killed, or '' for none. */
         public string $explodeOnSaveOf = '';
 
+        /**
+         * The order's current status.
+         *
+         * `completed` by default because every run here starts from a
+         * completion; a retry fires later, and by then the merchant may have
+         * moved the order somewhere else.
+         */
+        private string $status = 'completed';
+
         /** @var array<int, string> */
         public array $notes = [];
 
@@ -269,6 +278,24 @@ namespace {
         public function get_id(): int
         {
             return $this->id;
+        }
+
+        public function set_status(string $status): void
+        {
+            $this->status = $status;
+        }
+
+        public function get_status(): string
+        {
+            return $this->status;
+        }
+
+        /** @param string|array<int, string> $status */
+        public function has_status($status): bool
+        {
+            return is_array($status)
+                ? in_array($this->status, $status, true)
+                : $this->status === $status;
         }
 
         /** @param array<int, WC_Order_Item_Product> $items */
@@ -645,6 +672,111 @@ namespace GiftCards\Tests {
         'Gift card issuing did not finish on 5 attempts for this order.',
         $order->notes[0] ?? '',
     );
+
+    stop();
+
+    // --- A retry may not act on an order that has left Completed. ----------
+    //
+    // `order_status_completed` fires on the transition, so it is Completed by
+    // definition. The scheduled retry is not: it comes round up to five times
+    // over more than an hour, and the merchant can refund or cancel in that
+    // window. Both halves of the run are destructive - the issuing loop funds
+    // cards and mails codes, and the redemption takes the balance off the
+    // shopper's card - so both have to stop.
+
+    $table  = new FakeCardTable();
+    $engine = engineFor($table);
+    $cardId = $table->issue('GC-REFUNDME', 100.0, 'holder@example.test', 1);
+
+    $order = new \WC_Order(400);
+    $order->setItems([new \WC_Order_Item_Product(new \WC_Product(11), 2)]);
+    $order->setFees([new \WC_Order_Item_Fee(-30.0)]);
+    $order->update_meta_data('giftcards_redeem_code', 'GC-REFUNDME');
+    $GLOBALS['gc_orders'][400] = $order;
+    $GLOBALS['gc_transients']  = [];
+    $GLOBALS['gc_events']      = [];
+    $GLOBALS['gc_emailed']     = [];
+    $GLOBALS['gc_explode_on']  = 'recipient@example.test';
+
+    try {
+        $engine->handleOrderCompleted(400);
+    } catch (\RuntimeException) {
+        // Dies in the first send, one unit funded, the second still owed.
+    }
+
+    check(
+        'the killed run booked a retry on the order about to be refunded',
+        true,
+        wp_next_scheduled('giftcards_issue_retry', [400, 1]) !== false,
+    );
+
+    $fundedBeforeRefund  = count($table->rows);
+    $emailedBeforeRefund = count($GLOBALS['gc_emailed']);
+
+    check('one unit was funded before the refund', 2, $fundedBeforeRefund);
+    check('the balance was untouched before the refund', 100.0, $table->rows[$cardId]->balance);
+
+    // The merchant refunds before the retry comes round.
+    $order->set_status('refunded');
+    $GLOBALS['gc_explode_on'] = '';
+    $GLOBALS['gc_transients'] = [];
+
+    gc_fire([$engine, 'handleOrderCompleted'], 'giftcards_issue_retry', [400, 1]);
+
+    check('a refunded order funds no further card', $fundedBeforeRefund, count($table->rows));
+    check('a refunded order sends no further code', $emailedBeforeRefund, count($GLOBALS['gc_emailed']));
+    check('a refunded order burns no balance', 100.0, $table->rows[$cardId]->balance);
+    check('a refunded order books no further retry', [], $GLOBALS['gc_events']);
+
+    // Back to Completed, and the work it still owes runs: the guard stops a
+    // retry on an order that moved, it does not strand the order for good.
+    $order->set_status('completed');
+    $GLOBALS['gc_transients'] = [];
+
+    $engine->handleOrderCompleted(400);
+
+    check('back in Completed, the second card is funded', 3, count($table->rows));
+    check('back in Completed, the balance is taken once', 70.0, $table->rows[$cardId]->balance);
+
+    stop();
+
+    // --- The give-up note belongs to a run that did NOT finish. ------------
+    //
+    // The note was booked before the work, by the same call that decided not to
+    // schedule a sixth retry. So the fifth retry SUCCEEDING still told the
+    // merchant that issuing never finished, and sent them through a complete
+    // order looking for a missing code.
+
+    $table  = new FakeCardTable();
+    $engine = engineFor($table);
+
+    $order = new \WC_Order(500);
+    $order->setItems([new \WC_Order_Item_Product(new \WC_Product(13), 1)]);
+    $GLOBALS['gc_orders'][500] = $order;
+    $GLOBALS['gc_events']      = [];
+    $GLOBALS['gc_scheduled']   = 0;
+    $GLOBALS['gc_emailed']     = [];
+
+    for ($attempt = 0; $attempt <= 5; $attempt++) {
+        $GLOBALS['gc_transients'] = [];
+
+        // Every run dies except the last one, which is the whole point.
+        $GLOBALS['gc_explode_on'] = $attempt === 5 ? '' : 'recipient@example.test';
+
+        try {
+            if ($attempt === 0) {
+                $engine->handleOrderCompleted(500, 0);
+            } else {
+                gc_fire([$engine, 'handleOrderCompleted'], 'giftcards_issue_retry', [500, $attempt]);
+            }
+        } catch (\RuntimeException) {
+            // Every run but the last dies in the same send.
+        }
+    }
+
+    check('the last attempt issued the card', 1, count($table->rows));
+    check('the order that finished left no retry behind', [], $GLOBALS['gc_events']);
+    check('a final attempt that succeeds raises no alarm', 0, count($order->notes));
 
     stop();
     echo "\nall checks passed\n";
