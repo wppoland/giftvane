@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.7
+Stable tag: 1.1.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,10 +101,16 @@ Plogins Gift Cards is fully translatable and ships the `plogins-giftcards.pot` t
 
 == Changelog ==
 
+= 1.1.8 =
+* Fixed: a completion run that was killed rather than interrupted (a fatal error, or the host stopping it on execution time) left the transient that guards the run standing for five minutes, because the release only ran when the run unwound normally. Anything that tried to finish the order inside that window was turned away by a lock whose run was already dead. The release now also happens when the process shuts down, which covers a fatal error, an execution-time stop and an outright exit.
+* Fixed: nothing ever came back to an order whose gift-card run was interrupted. The order-completed event only fires when the order changes status, so an order that was already Completed never fired it again: the records that let the run resume were there, and nothing asked them to. A merchant had to notice the missing card themselves and move the order out of Completed and back. Each run now books a retry before it starts and clears it when it finishes, so an interrupted order is picked up on its own about fifteen minutes later, up to five times.
+* Added: an order whose cards could not be issued on any of those attempts gets an order note saying so, with what to check and how to run it again. Until now a card that was never issued left no trace anywhere the merchant looks.
+* Changed: deactivating or deleting the plugin now clears any retry still waiting for an order, so no scheduled event is left behind for a hook nothing answers.
+
 = 1.1.7 =
 * Fixed: when the order-completion run was interrupted part-way through (a fatal error, or the host stopping it on max execution time), the order had already been marked as done before the first card was created. Nothing ever retried it, so every remaining card on that order was paid for and never issued. Each card is now recorded as it is created, and the order is marked done only once every card exists and has been emailed, so a later completion of the same order finishes the job.
 * Changed: after an interruption, the one recipient whose email was in flight can receive that email again. It carries the same code and the same balance as the first, it is not a second card.
-* Fixed: a balance redeemed at checkout could be taken off the gift card twice if the completion run was interrupted after the deduction. The deduction is now claimed on the order before it is made, so a repeat completion leaves the shopper's remaining balance alone.
+* Fixed: a balance spent at checkout could stay on the card in full. The deduction ran after the cards were issued and the order was marked as done before either started, so a run interrupted in the issuing loop never reached the deduction and nothing came back for it: the shopper got the discount on that order and kept the balance to spend again. The deduction is now claimed on the order before it is made, so the run that finishes the order makes it exactly once.
 
 = 1.1.6 =
 * Fixed: the PRO upgrade promo kept selling to people who had already bought the paid edition. Only the banner could be dismissed, so the sidebar promo and the locked feature cards followed a paying customer around for good. The promo now checks whether the paid edition is active and steps aside when it is.

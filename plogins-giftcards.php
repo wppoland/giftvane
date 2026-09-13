@@ -3,7 +3,7 @@
  * Plugin Name:       Plogins Gift Cards - Store Credit for WooCommerce
  * Plugin URI:        https://plogins.com/plogins-giftcards/
  * Description:        Sell gift cards that email a redeemable code to the recipient and apply as a discount at checkout.
- * Version:           1.1.7
+ * Version:           1.1.8
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -25,7 +25,7 @@ namespace GiftCards;
 
 defined('ABSPATH') || exit;
 
-const VERSION     = '1.1.7';
+const VERSION     = '1.1.8';
 const PLUGIN_FILE = __FILE__;
 
 define('GIFTCARDS_DIR', plugin_dir_path(__FILE__));
@@ -61,4 +61,11 @@ add_action('plugins_loaded', static function (): void {
 register_activation_hook(PLUGIN_FILE, static function (): void {
     require_once __DIR__ . '/autoload.php';
     Plugin::instance()->container()->get(Migrator::class)->maybeMigrate();
+});
+
+// An order whose issue run was interrupted leaves a retry waiting for it. Left
+// behind, it wakes WP-Cron to fire a hook nothing listens to any more, so
+// deactivation takes every pending one with it whatever order it carries.
+register_deactivation_hook(PLUGIN_FILE, static function (): void {
+    wp_unschedule_hook(Service\GiftCardService::RETRY_HOOK);
 });

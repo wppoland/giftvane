@@ -34,6 +34,16 @@ final class GiftCardService implements HasHooks
 
     private const SESSION_KEY = 'giftcards_redeem_code';
 
+    /**
+     * The scheduled event that resumes an interrupted issue run.
+     *
+     * Public because the cleanup outlives this service: deactivation and
+     * uninstall both clear it. Each event carries its order id in the
+     * arguments, so both clear it with wp_unschedule_hook(), which takes every
+     * pending one whatever its arguments.
+     */
+    public const RETRY_HOOK = 'giftcards_issue_retry';
+
     private ?GiftCardEngine $engine = null;
 
     public function __construct(
@@ -58,12 +68,14 @@ final class GiftCardService implements HasHooks
             fieldName: 'giftcards_redeem_code',
             nonceAction: 'giftcards_redeem',
             fieldTemplate: 'checkout-redeem-field',
+            retryHook: self::RETRY_HOOK,
             labels: [
                 'fee_label'     => $this->label($settings, 'fee_label', __('Gift card ({code})', 'plogins-giftcards')),
                 'email_subject' => $this->label($settings, 'email_subject', __('You have received a {amount} gift card', 'plogins-giftcards')),
                 'email_body'    => $this->label($settings, 'email_body', __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'plogins-giftcards')),
                 'invalid_code'  => __('That gift card code is not valid.', 'plogins-giftcards'),
                 'applied'       => __('Gift card applied.', 'plogins-giftcards'),
+                'retry_exhausted' => __('Gift card issuing did not finish on {attempts} attempts for this order, and this was the last automatic one. Check that every gift card line here shows a code; if any is missing, move the order out of Completed and back to run it again.', 'plogins-giftcards'),
             ],
             isEnabled: fn (): bool => $this->isEnabled(),
             settings: fn (): array => $this->settings(),

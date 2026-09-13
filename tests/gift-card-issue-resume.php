@@ -23,9 +23,34 @@ namespace {
 
     /** Recipient whose mail send is killed, or '' for none. */
     $GLOBALS['gc_explode_on'] = '';
+    /** Recipient whose mail send kills the process outright, or '' for none. */
+    $GLOBALS['gc_exit_on'] = '';
     /** Every wp_mail() call: [recipient, body]. */
     $GLOBALS['gc_emailed']    = [];
     $GLOBALS['gc_transients'] = [];
+    /** Scheduled single events: "hook|json(args)" => timestamp. */
+    $GLOBALS['gc_events'] = [];
+    /** How many events were booked in total, including ones since fired. */
+    $GLOBALS['gc_scheduled'] = 0;
+    /**
+     * Where the transient store is mirrored, for the child process below.
+     *
+     * A fatal error, a max_execution_time stop and exit() all skip `finally`
+     * and all run shutdown functions, and none of them can be staged inside the
+     * process doing the asserting: it would take the asserting with it. So the
+     * killed run happens in a child, and the child writes every transient
+     * through to this file for the parent to read afterwards.
+     */
+    $GLOBALS['gc_store'] = (string) (getenv('GC_STORE') ?: '');
+
+    function gc_persist(): void
+    {
+        if ($GLOBALS['gc_store'] === '') {
+            return;
+        }
+
+        file_put_contents($GLOBALS['gc_store'], (string) json_encode($GLOBALS['gc_transients']));
+    }
 
     function get_transient(string $key)
     {
@@ -35,6 +60,7 @@ namespace {
     function set_transient(string $key, $value, int $ttl = 0): bool
     {
         $GLOBALS['gc_transients'][$key] = $value;
+        gc_persist();
 
         return true;
     }
@@ -42,8 +68,55 @@ namespace {
     function delete_transient(string $key): bool
     {
         unset($GLOBALS['gc_transients'][$key]);
+        gc_persist();
 
         return true;
+    }
+
+    /** @param array<int, mixed> $args */
+    function gc_event_key(string $hook, array $args): string
+    {
+        return $hook . '|' . (string) json_encode($args);
+    }
+
+    /** @param array<int, mixed> $args */
+    function wp_schedule_single_event(int $timestamp, string $hook, array $args = [])
+    {
+        $GLOBALS['gc_events'][gc_event_key($hook, $args)] = $timestamp;
+        $GLOBALS['gc_scheduled']++;
+
+        return true;
+    }
+
+    /**
+     * Fire a booked single event the way WP-Cron fires one.
+     *
+     * wp-cron.php unschedules a single event before it calls the hook, so the
+     * event is already gone while the handler runs. A fake that left it booked
+     * would report a leak the schedule never has.
+     *
+     * @param array<int, mixed> $args
+     */
+    function gc_fire(callable $handler, string $hook, array $args): void
+    {
+        wp_clear_scheduled_hook($hook, $args);
+        $handler(...$args);
+    }
+
+    /** @param array<int, mixed> $args */
+    function wp_next_scheduled(string $hook, array $args = [])
+    {
+        return $GLOBALS['gc_events'][gc_event_key($hook, $args)] ?? false;
+    }
+
+    /** @param array<int, mixed> $args */
+    function wp_clear_scheduled_hook(string $hook, array $args = [])
+    {
+        $key     = gc_event_key($hook, $args);
+        $cleared = isset($GLOBALS['gc_events'][$key]) ? 1 : 0;
+        unset($GLOBALS['gc_events'][$key]);
+
+        return $cleared;
     }
 
     function is_email(string $email)
@@ -84,6 +157,16 @@ namespace {
         // building before the process died, which is why a resend of the same
         // code is the accepted cost and a second card is not.
         $GLOBALS['gc_emailed'][] = [$to, $body];
+
+        if ($GLOBALS['gc_exit_on'] === $to) {
+            // What a fatal error or an execution-time stop looks like from in
+            // here: `finally` never runs, shutdown functions do. Recorded
+            // through the transient store first, so the parent can tell a run
+            // that died here from one that never got this far.
+            set_transient('gc_reached_the_kill', 1, 60);
+
+            exit(7);
+        }
 
         if ($GLOBALS['gc_explode_on'] === $to) {
             throw new \RuntimeException('mail send killed');
@@ -163,6 +246,10 @@ namespace {
         /** @var array<string, mixed> */
         private array $meta = [];
 
+        /** The meta as the last successful save left it. */
+        /** @var array<string, mixed> */
+        private array $saved = [];
+
         /** @var array<int, WC_Order_Item_Product> */
         private array $items = [];
 
@@ -171,6 +258,9 @@ namespace {
 
         /** Meta key whose save is killed, or '' for none. */
         public string $explodeOnSaveOf = '';
+
+        /** @var array<int, string> */
+        public array $notes = [];
 
         public function __construct(private int $id = 100)
         {
@@ -217,11 +307,26 @@ namespace {
             $this->meta[$key] = $value;
         }
 
+        public function add_order_note(string $note, int $isCustomerNote = 0, bool $addedByUser = false): int
+        {
+            $this->notes[] = $note;
+
+            return count($this->notes);
+        }
+
         public function save(): int
         {
             if ($this->explodeOnSaveOf !== '' && isset($this->meta[$this->explodeOnSaveOf])) {
+                // A save that never completed did not write the meta either,
+                // and the next request reads the order back from the database.
+                // Keeping it in memory would let a later run see a flag that
+                // was never stored, and pass on the strength of it.
+                $this->meta = $this->saved;
+
                 throw new \RuntimeException('order save killed');
             }
+
+            $this->saved = $this->meta;
 
             return $this->id;
         }
@@ -331,12 +436,14 @@ namespace GiftCards\Tests {
             fieldName: 'giftcards_redeem_code',
             nonceAction: 'giftcards_redeem',
             fieldTemplate: 'checkout-redeem-field',
+            retryHook: 'giftcards_issue_retry',
             labels: [
                 'fee_label'     => 'Gift card ({code})',
                 'email_subject' => 'You have received a {amount} gift card',
                 'email_body'    => "Your code: {code}",
                 'invalid_code'  => 'no',
                 'applied'       => 'yes',
+                'retry_exhausted' => 'Gift card issuing did not finish on {attempts} attempts for this order.',
             ],
             isEnabled: static fn (): bool => true,
             settings: static fn (): array => ['code_prefix' => 'GC-'],
@@ -346,6 +453,53 @@ namespace GiftCards\Tests {
             },
         );
     }
+
+    // --- The child: a run that is killed rather than unwound. ---------------
+    //
+    // Reached only when this file re-runs itself as a child process, which the
+    // parent does a few lines down.
+
+    if (getenv('GC_CHILD') === '1') {
+        $table  = new FakeCardTable();
+        $engine = engineFor($table);
+
+        $order = new \WC_Order(100);
+        $order->setItems([new \WC_Order_Item_Product(new \WC_Product(7), 3)]);
+        $GLOBALS['gc_orders'][100] = $order;
+
+        $GLOBALS['gc_exit_on'] = 'recipient@example.test';
+
+        // Ends inside the first send, the way a fatal error or an
+        // execution-time stop would.
+        $engine->handleOrderCompleted(100);
+
+        exit(0);
+    }
+
+    // --- The lock may not outlive the run it guards. ------------------------
+
+    $store = (string) tempnam(sys_get_temp_dir(), 'gc-lock-');
+
+    exec(
+        sprintf(
+            'GC_CHILD=1 GC_STORE=%s %s %s',
+            escapeshellarg($store),
+            escapeshellarg(PHP_BINARY),
+            escapeshellarg(__FILE__),
+        ),
+        $childOutput,
+        $childStatus,
+    );
+
+    $persisted = json_decode((string) file_get_contents($store), true);
+    $persisted = is_array($persisted) ? $persisted : [];
+    unlink($store);
+
+    check('the child died where it was told to', 7, $childStatus);
+    check('the child got as far as the kill', true, isset($persisted['gc_reached_the_kill']));
+    check('a killed run leaves no lock standing', false, isset($persisted['giftcards_redeem_code_lock_100']));
+
+    stop();
 
     // --- Three cards on one line, the second send is killed. ----------------
 
@@ -369,14 +523,26 @@ namespace GiftCards\Tests {
     $killedRunCards  = count($table->rows);
     $killedRunEmails = count($GLOBALS['gc_emailed']);
 
-    // The next completion of the same order: the lock has expired, the mail
-    // works again.
-    $GLOBALS['gc_explode_on'] = '';
-    $GLOBALS['gc_transients'] = [];
+    // An exception unwinds through `finally`, so this run released its own
+    // lock; the child above is what covers the kill that does not unwind.
+    check('the unwound run released its lock', [], $GLOBALS['gc_transients']);
 
-    $engine->handleOrderCompleted(100);
+    // Nothing else would come back to this order: `completed` fires on the
+    // transition and the order is already Completed. The retry the dead run
+    // booked is the only thing that can finish the job.
+    check(
+        'the killed run booked its own retry',
+        true,
+        wp_next_scheduled('giftcards_issue_retry', [100, 1]) !== false,
+    );
+
+    // Fired the way WP-Cron fires it, with the arguments it was booked with.
+    $GLOBALS['gc_explode_on'] = '';
+
+    gc_fire([$engine, 'handleOrderCompleted'], 'giftcards_issue_retry', [100, 1]);
 
     check('three paid units, three cards', 3, count($table->rows));
+    check('the finished run left no retry behind', [], $GLOBALS['gc_events']);
 
     $codes = array_values(array_map(static fn (object $row): string => $row->code, $table->rows));
     check('every card has its own code', 3, count(array_unique($codes)));
@@ -440,6 +606,45 @@ namespace GiftCards\Tests {
     $engine->handleOrderCompleted(200);
 
     check('the repeat completion did not take it again', 70.0, $table->rows[$cardId]->balance);
+    check('the order that finished cleared its retry', [], $GLOBALS['gc_events']);
+
+    stop();
+
+    // --- A run that keeps dying stops retrying, and says so. ---------------
+
+    $table  = new FakeCardTable();
+    $engine = engineFor($table);
+
+    $order = new \WC_Order(300);
+    $order->setItems([new \WC_Order_Item_Product(new \WC_Product(9), 1)]);
+    $GLOBALS['gc_orders'][300] = $order;
+    $GLOBALS['gc_explode_on']  = 'recipient@example.test';
+    $GLOBALS['gc_events']      = [];
+    $GLOBALS['gc_scheduled']   = 0;
+
+    // Six runs: the completion itself and the five retries it is worth.
+    for ($attempt = 0; $attempt <= 5; $attempt++) {
+        $GLOBALS['gc_transients'] = [];
+
+        try {
+            if ($attempt === 0) {
+                $engine->handleOrderCompleted(300, 0);
+            } else {
+                gc_fire([$engine, 'handleOrderCompleted'], 'giftcards_issue_retry', [300, $attempt]);
+            }
+        } catch (\RuntimeException) {
+            // Every run on this order dies in the same send.
+        }
+    }
+
+    check('five retries were booked and no sixth', 5, $GLOBALS['gc_scheduled']);
+    check('the run that gave up booked nothing', [], $GLOBALS['gc_events']);
+    check('the merchant is told, once', 1, count($order->notes));
+    check(
+        'the note says what happened',
+        'Gift card issuing did not finish on 5 attempts for this order.',
+        $order->notes[0] ?? '',
+    );
 
     stop();
     echo "\nall checks passed\n";

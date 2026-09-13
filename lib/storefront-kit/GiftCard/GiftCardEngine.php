@@ -25,6 +25,17 @@ use WPPoland\StorefrontKit\Support\Formatter;
 final class GiftCardEngine
 {
     /**
+     * How often an interrupted issue run is retried, and how many times.
+     *
+     * Far enough apart that a host which killed the run on execution time is
+     * not handed the same job while it is still busy, and bounded because a run
+     * that dies five times is not going to stop dying on the sixth.
+     */
+    private const RETRY_DELAY = 15 * MINUTE_IN_SECONDS;
+
+    private const MAX_RETRIES = 5;
+
+    /**
      * @param \Closure(): bool $isEnabled
      * @param \Closure(): array<string, mixed> $settings Resolved settings.
      * @param \Closure(\WC_Product): bool $isGiftCard Whether a product is a
@@ -35,7 +46,7 @@ final class GiftCardEngine
      *        Echoes the checkout redeem-code field.
      * @param array<string, string> $labels Fallback strings keyed by
      *        `fee_label`, `email_subject`, `email_body`, `invalid_code`,
-     *        `applied`.
+     *        `applied`, `retry_exhausted`.
      */
     public function __construct(
         private readonly GiftCardRepository $repository,
@@ -43,6 +54,7 @@ final class GiftCardEngine
         private readonly string $fieldName,
         private readonly string $nonceAction,
         private readonly string $fieldTemplate,
+        private readonly string $retryHook,
         private readonly array $labels,
         private readonly \Closure $isEnabled,
         private readonly \Closure $settings,
@@ -59,6 +71,13 @@ final class GiftCardEngine
         add_action('woocommerce_cart_calculate_fees', [$this, 'applyRedeemDiscount'], 30);
         add_action('woocommerce_checkout_create_order', [$this, 'persistRedeemCode'], 10, 1);
         add_action('woocommerce_order_status_completed', [$this, 'handleOrderCompleted'], 10, 1);
+
+        // The only other way back into an interrupted run. `completed` fires on
+        // the transition, so an order that is already Completed never fires it
+        // again: without this hook the records below can resume the work and
+        // nothing ever asks them to, and nothing tells the merchant that cards
+        // are missing either.
+        add_action($this->retryHook, [$this, 'handleOrderCompleted'], 10, 2);
     }
 
     public function renderRedeemField(): void
@@ -138,7 +157,11 @@ final class GiftCardEngine
         }
     }
 
-    public function handleOrderCompleted(int $orderId): void
+    /**
+     * @param int $attempt Which retry this is, 0 when WooCommerce completed the
+     *                     order. Supplied by the scheduled event below.
+     */
+    public function handleOrderCompleted(int $orderId, int $attempt = 0): void
     {
         if (! $this->isEnabled()) {
             return;
@@ -173,6 +196,30 @@ final class GiftCardEngine
 
         set_transient($lock, 1, 5 * MINUTE_IN_SECONDS);
 
+        // The lock has to die with the run it guards. `finally` does not run
+        // when the process is killed rather than unwound (a fatal error, the
+        // host stopping it on max execution time, a plain exit), and a shutdown
+        // function does run in all three: without one, the lock left behind by
+        // the killed run would turn away its own retry for the rest of its five
+        // minutes. The expiry stays as the backstop for a kill so hard that PHP
+        // never reaches shutdown at all.
+        $released = false;
+        $release  = static function () use ($lock, &$released): void {
+            if ($released) {
+                return;
+            }
+
+            $released = true;
+            delete_transient($lock);
+        };
+
+        register_shutdown_function($release);
+
+        // Booked before the work and cleared after it, so a run that dies
+        // leaves its own retry behind. What that retry still has to do is
+        // decided by the per-unit records, not by this event.
+        $this->scheduleRetry($order, $attempt);
+
         try {
             $this->issueGiftCards($order);
             $this->redeemAppliedCard($order);
@@ -185,8 +232,48 @@ final class GiftCardEngine
             $order->update_meta_data($processedFlag, 'yes');
             $order->save();
         } finally {
-            delete_transient($lock);
+            $release();
         }
+
+        // Reached only when every card exists and the order is marked done, so
+        // the retry this run booked has nothing left to pick up.
+        $this->clearRetry($orderId, $attempt);
+    }
+
+    /**
+     * Book the next attempt at an interrupted issue run.
+     */
+    private function scheduleRetry(\WC_Order $order, int $attempt): void
+    {
+        if ($attempt >= self::MAX_RETRIES) {
+            // A retry only fires because the run that booked it never came back
+            // to clear it, so reaching here proves this order has now failed to
+            // finish that many times. Retrying it every quarter of an hour for
+            // ever is worse than stopping, so this run is the last one and it
+            // says so on the order the merchant would open, which is the only
+            // place anything would have told them cards can be missing.
+            $order->add_order_note(
+                Formatter::interpolate(
+                    $this->message('retry_exhausted'),
+                    ['attempts' => (string) self::MAX_RETRIES],
+                )
+            );
+
+            return;
+        }
+
+        $args = [$order->get_id(), $attempt + 1];
+
+        if (wp_next_scheduled($this->retryHook, $args) !== false) {
+            return;
+        }
+
+        wp_schedule_single_event(time() + self::RETRY_DELAY, $this->retryHook, $args);
+    }
+
+    private function clearRetry(int $orderId, int $attempt): void
+    {
+        wp_clear_scheduled_hook($this->retryHook, [$orderId, $attempt + 1]);
     }
 
     /**
