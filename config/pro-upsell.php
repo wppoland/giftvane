@@ -10,7 +10,7 @@
 defined('ABSPATH') || exit;
 
 return [
-    'name'       => 'Gift Cards Pro',
+    'name'       => 'Donkarto Pro',
     'url'        => 'https://plogins.com/plogins-giftcards-pro/pricing/',
     'sellable'   => true,
     'price_from' => 29,

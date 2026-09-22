@@ -34,7 +34,7 @@ final class GiftCardPrivacyService implements HasHooks
     public function registerExporters(array $exporters): array
     {
         $exporters['giftcards-recipient'] = [
-            'exporter_friendly_name' => __('Gift Cards', 'plogins-giftcards'),
+            'exporter_friendly_name' => __('Gift Cards', 'donkarto'),
             'callback'               => [$this, 'exportGiftCards'],
         ];
 
@@ -48,7 +48,7 @@ final class GiftCardPrivacyService implements HasHooks
     public function registerErasers(array $erasers): array
     {
         $erasers['giftcards-recipient'] = [
-            'eraser_friendly_name' => __('Gift Cards', 'plogins-giftcards'),
+            'eraser_friendly_name' => __('Gift Cards', 'donkarto'),
             'callback'             => [$this, 'eraseGiftCards'],
         ];
 
@@ -69,13 +69,13 @@ final class GiftCardPrivacyService implements HasHooks
         foreach ($rows as $r) {
             $items[] = [
                 'group_id'    => 'giftcards-recipient',
-                'group_label' => __('Gift Cards', 'plogins-giftcards'),
+                'group_label' => __('Gift Cards', 'donkarto'),
                 'item_id'     => 'giftcard-' . $r['id'],
                 'data'        => [
-                    ['name' => __('Gift Card Code', 'plogins-giftcards'), 'value' => $r['code']],
-                    ['name' => __('Remaining Balance', 'plogins-giftcards'), 'value' => (string) $r['balance']],
-                    ['name' => __('Order ID', 'plogins-giftcards'), 'value' => (string) $r['order_id']],
-                    ['name' => __('Created At', 'plogins-giftcards'), 'value' => $r['created_at']],
+                    ['name' => __('Gift Card Code', 'donkarto'), 'value' => $r['code']],
+                    ['name' => __('Remaining Balance', 'donkarto'), 'value' => (string) $r['balance']],
+                    ['name' => __('Order ID', 'donkarto'), 'value' => (string) $r['order_id']],
+                    ['name' => __('Created At', 'donkarto'), 'value' => $r['created_at']],
                 ],
             ];
         }

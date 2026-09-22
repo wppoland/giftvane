@@ -60,13 +60,13 @@ final class AbilitiesService implements HasHooks
         }
 
         wp_register_ability_category('giftcards-cards', [
-            'label'       => __('Gift cards, issued codes', 'plogins-giftcards'),
-            'description' => __('Issued gift card codes, their remaining balance and the order that issued them.', 'plogins-giftcards'),
+            'label'       => __('Gift cards, issued codes', 'donkarto'),
+            'description' => __('Issued gift card codes, their remaining balance and the order that issued them.', 'donkarto'),
         ]);
 
         wp_register_ability_category('giftcards-setup', [
-            'label'       => __('Gift cards, setup', 'plogins-giftcards'),
-            'description' => __('How gift cards are configured on this shop: the master switch, the code prefix and the checkout label.', 'plogins-giftcards'),
+            'label'       => __('Gift cards, setup', 'donkarto'),
+            'description' => __('How gift cards are configured on this shop: the master switch, the code prefix and the checkout label.', 'donkarto'),
         ]);
     }
 
@@ -90,8 +90,8 @@ final class AbilitiesService implements HasHooks
     private function registerGetCard(): void
     {
         wp_register_ability('giftcards/get-card', [
-            'label'        => __('Get a gift card by code', 'plogins-giftcards'),
-            'description'  => __('Returns the remaining balance and issuing order for one gift card code, or found = false when the code is unknown. The recipient address is deliberately not returned.', 'plogins-giftcards'),
+            'label'        => __('Get a gift card by code', 'donkarto'),
+            'description'  => __('Returns the remaining balance and issuing order for one gift card code, or found = false when the code is unknown. The recipient address is deliberately not returned.', 'donkarto'),
             'category'     => 'giftcards-cards',
             'input_schema' => [
                 'type'       => 'object',
@@ -145,8 +145,8 @@ final class AbilitiesService implements HasHooks
     private function registerListOrderCards(): void
     {
         wp_register_ability('giftcards/list-order-cards', [
-            'label'        => __('List the gift cards an order issued', 'plogins-giftcards'),
-            'description'  => __('Lists the gift card codes issued by one order, each with its remaining balance. Returns an empty list when the order issued none.', 'plogins-giftcards'),
+            'label'        => __('List the gift cards an order issued', 'donkarto'),
+            'description'  => __('Lists the gift card codes issued by one order, each with its remaining balance. Returns an empty list when the order issued none.', 'donkarto'),
             'category'     => 'giftcards-cards',
             'input_schema' => [
                 'type'       => 'object',
@@ -194,8 +194,8 @@ final class AbilitiesService implements HasHooks
     private function registerGetSettings(): void
     {
         wp_register_ability('giftcards/get-settings', [
-            'label'        => __('Get the gift card settings', 'plogins-giftcards'),
-            'description'  => __('Returns the gift card configuration in force: whether the feature is on, the code prefix, the checkout discount label, whether codes are shown on the order, and the wording of the email a recipient is sent. This is the shop\'s own configuration, never a recipient address.', 'plogins-giftcards'),
+            'label'        => __('Get the gift card settings', 'donkarto'),
+            'description'  => __('Returns the gift card configuration in force: whether the feature is on, the code prefix, the checkout discount label, whether codes are shown on the order, and the wording of the email a recipient is sent. This is the shop\'s own configuration, never a recipient address.', 'donkarto'),
             'category'     => 'giftcards-setup',
             'input_schema' => ['type' => 'object', 'properties' => []],
             'output_schema' => [
@@ -233,8 +233,8 @@ final class AbilitiesService implements HasHooks
     private function registerGetProductStatus(): void
     {
         wp_register_ability('giftcards/get-product-status', [
-            'label'        => __('Check whether a product sells gift cards', 'plogins-giftcards'),
-            'description'  => __('Returns whether a product is flagged as a gift card, and its current price, which becomes the value of every code that product issues.', 'plogins-giftcards'),
+            'label'        => __('Check whether a product sells gift cards', 'donkarto'),
+            'description'  => __('Returns whether a product is flagged as a gift card, and its current price, which becomes the value of every code that product issues.', 'donkarto'),
             'category'     => 'giftcards-setup',
             'input_schema' => [
                 'type'       => 'object',

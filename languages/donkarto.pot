@@ -2,8 +2,8 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plogins Gift Cards - Store Credit for WooCommerce 1.1.8\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plogins-giftcards\n"
+"Project-Id-Version: Donkarto - Gift Cards and Store Credit for WooCommerce 1.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/donkarto\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,30 +12,30 @@ msgstr ""
 "POT-Creation-Date: 2026-09-13T12:50:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: plogins-giftcards\n"
+"X-Domain: donkarto\n"
 
 #. Plugin Name of the plugin
-#: plogins-giftcards.php
-msgid "Plogins Gift Cards - Store Credit for WooCommerce"
+#: donkarto.php
+msgid "Donkarto - Gift Cards and Store Credit for WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: plogins-giftcards.php
-msgid "https://plogins.com/plogins-giftcards/"
+#: donkarto.php
+msgid "https://plogins.com/donkarto/"
 msgstr ""
 
 #. Description of the plugin
-#: plogins-giftcards.php
+#: donkarto.php
 msgid "Sell gift cards that email a redeemable code to the recipient and apply as a discount at checkout."
 msgstr ""
 
 #. Author of the plugin
-#: plogins-giftcards.php
+#: donkarto.php
 msgid "WPPoland.com"
 msgstr ""
 
 #. Author URI of the plugin
-#: plogins-giftcards.php
+#: donkarto.php
 msgid "https://wppoland.com"
 msgstr ""
 
@@ -57,8 +57,8 @@ msgid ""
 "Use this code at checkout: {code}"
 msgstr ""
 
-#: plogins-giftcards.php:48
-msgid "Gift Cards, Store Credit for WooCommerce requires WooCommerce to be active."
+#: donkarto.php:48
+msgid "Donkarto requires WooCommerce to be installed and activated."
 msgstr ""
 
 #: src/Admin/ProductFields.php:35
@@ -128,6 +128,9 @@ msgid "More information"
 msgstr ""
 
 #: src/Admin/Settings.php:89
+msgid "Donkarto: gift cards and store credit"
+msgstr ""
+
 #: src/Admin/Settings.php:90
 #: src/Service/GiftCardPrivacyService.php:37
 #: src/Service/GiftCardPrivacyService.php:51

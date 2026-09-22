@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       Plogins Gift Cards - Store Credit for WooCommerce
+ * Plugin Name:       Donkarto - Gift Cards and Store Credit for WooCommerce
  * Plugin URI:        https://plogins.com/plogins-giftcards/
  * Description:        Sell gift cards that email a redeemable code to the recipient and apply as a discount at checkout.
- * Version:           1.1.9
+ * Version:           1.2.0
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -11,7 +11,7 @@
  * Author URI:        https://wppoland.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       plogins-giftcards
+ * Text Domain:       donkarto
  * Domain Path:       /languages
  * WC requires at least: 8.0
  * WC tested up to: 11.0
@@ -25,7 +25,7 @@ namespace GiftCards;
 
 defined('ABSPATH') || exit;
 
-const VERSION     = '1.1.9';
+const VERSION     = '1.2.0';
 const PLUGIN_FILE = __FILE__;
 
 define('GIFTCARDS_DIR', plugin_dir_path(__FILE__));
@@ -45,7 +45,7 @@ add_action('plugins_loaded', static function (): void {
     if (! class_exists('WooCommerce')) {
         add_action('admin_notices', static function (): void {
             echo '<div class="notice notice-error"><p>';
-            echo esc_html__('Gift Cards, Store Credit for WooCommerce requires WooCommerce to be active.', 'plogins-giftcards');
+            echo esc_html__('Donkarto requires WooCommerce to be installed and activated.', 'donkarto');
             echo '</p></div>';
         });
         return;
