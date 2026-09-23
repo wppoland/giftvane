@@ -88,12 +88,21 @@ final class GiftCardEngine
 
         ($this->renderField)($this->fieldTemplate, [
             'field_name' => $this->fieldName,
-            'nonce_field' => wp_create_nonce($this->nonceAction),
             'applied_code' => $this->getAppliedCode(),
             'settings' => $this->getSettings(),
         ]);
     }
 
+    /**
+     * Reads the gift-card code out of the serialised checkout form.
+     *
+     * No nonce is checked here and none is needed: this runs on
+     * woocommerce_checkout_update_order_review, which WooCommerce reaches only
+     * through its own update_order_review endpoint after check_ajax_referer, and
+     * the only thing written is the visitor's own session. A nonce used to be
+     * created for this and handed to the script, which never sent it: a check
+     * that does not run is worse than no check, because it reads like one does.
+     */
     public function captureRedeemCode(string $postedData): void
     {
         if (! $this->isEnabled() || ! WC()->session instanceof \WC_Session) {

@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Donkarto is fully translatable and ships the `donkarto.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.2.1 =
+* Removed a nonce that was created, handed to the script and never sent or verified. The path it guarded is reached only through WooCommerce's own update_order_review endpoint, which checks a nonce first, and it writes nothing but the visitor's own session. A check that does not run is worse than none, because it reads like one does.
+* The sidebar upgrade promo now follows the same dismissal as the banner. Dismissing the banner used to leave a full-height advert on the settings screen for good, which is not what the WordPress.org guideline on upgrade prompts means by used with moderation.
 
 = 1.2.0 =
 * Renamed to Donkarto. The WordPress.org review team asks a plugin name to lead with a distinctive, coined identifier rather than a generic descriptive word. Donkarto is Esperanto for a gift card. The text domain follows the name; the stored data, the settings and every hook are unchanged.
