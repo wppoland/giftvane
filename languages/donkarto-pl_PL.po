@@ -20,12 +20,12 @@ msgstr ""
 #. Plugin Name of the plugin
 #: donkarto.php
 msgid "Donkarto - Gift Cards and Store Credit for WooCommerce"
-msgstr ""
+msgstr "Donkarto - karty podarunkowe i kredyt sklepowy dla WooCommerce"
 
 #. Plugin URI of the plugin
 #: donkarto.php
 msgid "https://plogins.com/donkarto/"
-msgstr ""
+msgstr "https://plogins.com/donkarto/"
 
 #. Description of the plugin
 #: donkarto.php
@@ -39,12 +39,12 @@ msgstr ""
 #. Author of the plugin
 #: donkarto.php
 msgid "WPPoland.com"
-msgstr ""
+msgstr "WPPoland.com"
 
 #. Author URI of the plugin
 #: donkarto.php
 msgid "https://wppoland.com"
-msgstr ""
+msgstr "https://wppoland.com"
 
 #: config/defaults.php:30 src/Service/GiftCardService.php:73
 msgid "Gift card ({code})"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: donkarto.php:48
 msgid "Donkarto requires WooCommerce to be installed and activated."
-msgstr ""
+msgstr "Donkarto wymaga zainstalowanego i aktywowanego WooCommerce."
 
 #: src/Admin/ProductFields.php:35
 msgid "Gift card"
@@ -145,7 +145,7 @@ msgstr "Więcej informacji"
 
 #: src/Admin/Settings.php:89
 msgid "Donkarto: gift cards and store credit"
-msgstr ""
+msgstr "Donkarto: karty podarunkowe i kredyt sklepowy"
 
 #: src/Admin/Settings.php:90 src/Service/GiftCardPrivacyService.php:37
 #: src/Service/GiftCardPrivacyService.php:51
@@ -319,48 +319,48 @@ msgstr "Podgląd na żywo"
 
 #: src/Service/AbilitiesService.php:63
 msgid "Gift cards, issued codes"
-msgstr ""
+msgstr "Karty podarunkowe, wygenerowane kody"
 
 #: src/Service/AbilitiesService.php:64
 msgid ""
 "Issued gift card codes, their remaining balance and the order that issued "
 "them."
-msgstr ""
+msgstr "Wygenerowane kody kart podarunkowych, ich pozostałe saldo i zamówienie, które je wygenerowało."
 
 #: src/Service/AbilitiesService.php:68
 msgid "Gift cards, setup"
-msgstr ""
+msgstr "Karty podarunkowe, konfiguracja"
 
 #: src/Service/AbilitiesService.php:69
 msgid ""
 "How gift cards are configured on this shop: the master switch, the code "
 "prefix and the checkout label."
-msgstr ""
+msgstr "Jak karty podarunkowe są skonfigurowane w tym sklepie: główny przełącznik, prefiks kodu i etykieta przy składaniu zamówienia."
 
 #: src/Service/AbilitiesService.php:93
 msgid "Get a gift card by code"
-msgstr ""
+msgstr "Pobierz kartę podarunkową po kodzie"
 
 #: src/Service/AbilitiesService.php:94
 msgid ""
 "Returns the remaining balance and issuing order for one gift card code, or "
 "found = false when the code is unknown. The recipient address is "
 "deliberately not returned."
-msgstr ""
+msgstr "Zwraca pozostałe saldo i zamówienie, w którym wygenerowano dany kod karty podarunkowej albo found = false, gdy kod jest nieznany. Adres odbiorcy celowo nie jest zwracany."
 
 #: src/Service/AbilitiesService.php:148
 msgid "List the gift cards an order issued"
-msgstr ""
+msgstr "Wypisz karty podarunkowe wygenerowane przez zamówienie"
 
 #: src/Service/AbilitiesService.php:149
 msgid ""
 "Lists the gift card codes issued by one order, each with its remaining "
 "balance. Returns an empty list when the order issued none."
-msgstr ""
+msgstr "Wypisuje kody kart podarunkowych wygenerowane przez jedno zamówienie, każdy z pozostałym saldem. Zwraca pustą listę, gdy zamówienie nie wygenerowało żadnego."
 
 #: src/Service/AbilitiesService.php:197
 msgid "Get the gift card settings"
-msgstr ""
+msgstr "Pobierz ustawienia kart podarunkowych"
 
 #: src/Service/AbilitiesService.php:198
 msgid ""
@@ -368,33 +368,33 @@ msgid ""
 "code prefix, the checkout discount label, whether codes are shown on the "
 "order, and the wording of the email a recipient is sent. This is the shop's "
 "own configuration, never a recipient address."
-msgstr ""
+msgstr "Zwraca obowiązującą konfigurację kart podarunkowych: czy funkcja jest włączona, prefiks kodu, etykietę rabatu przy składaniu zamówienia, czy kody są pokazywane w zamówieniu oraz treść e-maila wysyłanego do odbiorcy. To własna konfiguracja sklepu, nigdy adres odbiorcy."
 
 #: src/Service/AbilitiesService.php:236
 msgid "Check whether a product sells gift cards"
-msgstr ""
+msgstr "Sprawdź, czy produkt sprzedaje karty podarunkowe"
 
 #: src/Service/AbilitiesService.php:237
 msgid ""
 "Returns whether a product is flagged as a gift card, and its current price, "
 "which becomes the value of every code that product issues."
-msgstr ""
+msgstr "Zwraca informację, czy produkt jest oznaczony jako karta podarunkowa, oraz jego aktualną cenę, która staje się wartością każdego generowanego przez niego kodu."
 
 #: src/Service/GiftCardPrivacyService.php:75
 msgid "Gift Card Code"
-msgstr ""
+msgstr "Kod karty podarunkowej"
 
 #: src/Service/GiftCardPrivacyService.php:76
 msgid "Remaining Balance"
-msgstr ""
+msgstr "Pozostałe saldo"
 
 #: src/Service/GiftCardPrivacyService.php:77
 msgid "Order ID"
-msgstr ""
+msgstr "Identyfikator zamówienia"
 
 #: src/Service/GiftCardPrivacyService.php:78
 msgid "Created At"
-msgstr ""
+msgstr "Data utworzenia"
 
 #: src/Service/GiftCardService.php:76
 msgid "That gift card code is not valid."
@@ -410,7 +410,7 @@ msgid ""
 "this was the last automatic one. Check that every gift card line here shows "
 "a code; if any is missing, move the order out of Completed and back to run "
 "it again."
-msgstr ""
+msgstr "Generowanie kart podarunkowych dla tego zamówienia nie zakończyło się po {attempts} próbach, a to była ostatnia próba automatyczna. Sprawdź, czy każda pozycja karty podarunkowej ma tutaj kod; jeśli któregoś brakuje, przestaw zamówienie ze statusu Zrealizowane na inny i z powrotem, aby uruchomić generowanie ponownie."
 
 #: src/Service/GiftCardService.php:205
 msgid "Your gift cards"
