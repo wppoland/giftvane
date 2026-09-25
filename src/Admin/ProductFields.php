@@ -22,6 +22,8 @@ final class ProductFields implements HasHooks
 {
     private const META = '_giftcards_is_gift_card';
 
+    private const NONCE = 'giftcards_product_data';
+
     public function registerHooks(): void
     {
         add_action('woocommerce_product_options_general_product_data', [$this, 'renderField']);
@@ -38,13 +40,24 @@ final class ProductFields implements HasHooks
             // Show the help text visibly below the field (not hidden in a tip).
             'desc_tip'    => false,
         ]);
+
+        wp_nonce_field(self::NONCE, 'giftcards_product_data_nonce');
     }
 
     public function saveField(\WC_Product $product): void
     {
-        // Nonce is verified by WooCommerce's product save handler before this
-        // hook fires; we only read the already-validated checkbox state.
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing
+        $nonce = isset($_POST['giftcards_product_data_nonce'])
+            ? sanitize_text_field(wp_unslash($_POST['giftcards_product_data_nonce']))
+            : '';
+
+        if (! wp_verify_nonce($nonce, self::NONCE)) {
+            return;
+        }
+
+        if (! current_user_can('edit_product', $product->get_id())) {
+            return;
+        }
+
         $isGiftCard = isset($_POST[self::META]) ? 'yes' : 'no';
 
         $product->update_meta_data(self::META, $isGiftCard);
