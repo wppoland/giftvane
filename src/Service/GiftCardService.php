@@ -70,12 +70,12 @@ final class GiftCardService implements HasHooks
             fieldTemplate: 'checkout-redeem-field',
             retryHook: self::RETRY_HOOK,
             labels: [
-                'fee_label'     => $this->label($settings, 'fee_label', __('Gift card ({code})', 'donkarto')),
-                'email_subject' => $this->label($settings, 'email_subject', __('You have received a {amount} gift card', 'donkarto')),
-                'email_body'    => $this->label($settings, 'email_body', __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'donkarto')),
-                'invalid_code'  => __('That gift card code is not valid.', 'donkarto'),
-                'applied'       => __('Gift card applied.', 'donkarto'),
-                'retry_exhausted' => __('Gift card issuing did not finish on {attempts} attempts for this order, and this was the last automatic one. Check that every gift card line here shows a code; if any is missing, move the order out of Completed and back to run it again.', 'donkarto'),
+                'fee_label'     => $this->label($settings, 'fee_label', __('Gift card ({code})', 'giftvane')),
+                'email_subject' => $this->label($settings, 'email_subject', __('You have received a {amount} gift card', 'giftvane')),
+                'email_body'    => $this->label($settings, 'email_body', __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'giftvane')),
+                'invalid_code'  => __('That gift card code is not valid.', 'giftvane'),
+                'applied'       => __('Gift card applied.', 'giftvane'),
+                'retry_exhausted' => __('Gift card issuing did not finish on {attempts} attempts for this order, and this was the last automatic one. Check that every gift card line here shows a code; if any is missing, move the order out of Completed and back to run it again.', 'giftvane'),
             ],
             isEnabled: fn (): bool => $this->isEnabled(),
             settings: fn (): array => $this->settings(),
@@ -202,17 +202,17 @@ final class GiftCardService implements HasHooks
         echo '<section class="giftcards-order-codes">';
         echo '<h2 class="giftcards-order-codes__title">';
         echo '<span aria-hidden="true">&#127873;</span> ';
-        echo esc_html__('Your gift cards', 'donkarto');
+        echo esc_html__('Your gift cards', 'giftvane');
         echo '</h2>';
         echo '<p class="giftcards-order-codes__intro">'
-            . esc_html__('Keep these codes safe. Enter a code at checkout to spend its balance; any unused amount stays on the card.', 'donkarto')
+            . esc_html__('Keep these codes safe. Enter a code at checkout to spend its balance; any unused amount stays on the card.', 'giftvane')
             . '</p>';
         echo '<table class="woocommerce-table giftcards-order-codes__table"><thead><tr>';
-        echo '<th scope="col">' . esc_html__('Code', 'donkarto') . '</th>';
-        echo '<th scope="col">' . esc_html__('Balance', 'donkarto') . '</th>';
+        echo '<th scope="col">' . esc_html__('Code', 'giftvane') . '</th>';
+        echo '<th scope="col">' . esc_html__('Balance', 'giftvane') . '</th>';
         echo '</tr></thead><tbody>';
 
-        $copyLabel = __('Copy code', 'donkarto');
+        $copyLabel = __('Copy code', 'giftvane');
 
         foreach ($cards as $card) {
             $code    = (string) $card['code'];
@@ -225,8 +225,8 @@ final class GiftCardService implements HasHooks
                 printf(
                     '<button type="button" class="giftcards-copy" data-code="%1$s" data-copied-label="%2$s" data-error-label="%3$s" aria-label="%4$s" title="%4$s"><span aria-hidden="true">&#128203;</span></button>',
                     esc_attr($code),
-                    esc_attr__('Copied', 'donkarto'),
-                    esc_attr__('Copy failed: select and copy manually', 'donkarto'),
+                    esc_attr__('Copied', 'giftvane'),
+                    esc_attr__('Copy failed: select and copy manually', 'giftvane'),
                     esc_attr(sprintf('%s: %s', $copyLabel, $code)),
                 );
             }

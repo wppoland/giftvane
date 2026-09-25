@@ -1,10 +1,10 @@
-=== Donkarto - Gift Cards and Store Credit for WooCommerce ===
+=== Giftvane - Gift Cards and Store Credit for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Sell WooCommerce gift cards, gift vouchers and store credit codes that customers
 
 == Description ==
 
-Donkarto sells a gift card or gift voucher as an ordinary WooCommerce product. Tick the "Gift card" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique store credit code worth that price, records its balance in its own table, and emails the code to the buyer's order email address.
+Giftvane sells a gift card or gift voucher as an ordinary WooCommerce product. Tick the "Gift card" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique store credit code worth that price, records its balance in its own table, and emails the code to the buyer's order email address.
 
 To spend a card, the customer enters the code in a field on the checkout. The balance is applied as a discount on that order. If the order costs less than the card is worth, the leftover stays on the code for a later purchase, so one card can cover several orders until it runs out.
 
@@ -41,7 +41,7 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 
 == Installation ==
 
-1. Upload the plugin to `/wp-content/plugins/donkarto`, or install it from Plugins > Add New.
+1. Upload the plugin to `/wp-content/plugins/giftvane`, or install it from Plugins > Add New.
 2. Activate it. WooCommerce must be active.
 3. Edit a product, tick **Gift card** on the General tab, and set its price to the value of the card.
 4. Set the code prefix and the recipient email under **WooCommerce > Gift Cards**.
@@ -97,9 +97,13 @@ This plugin does not connect to, send data to, or rely on any external service, 
 
 == Translations ==
 
-Donkarto is fully translatable and ships the `donkarto.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
+Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.2.2 =
+* Renamed to Giftvane, a plain English name in place of the Esperanto one. The text domain and the plugin folder follow the name; the stored settings, options and every hook are unchanged.
+* The gift card table migration now documents every direct query it runs, so Plugin Check reports no warnings.
 
 = 1.2.1 =
 * Removed a nonce that was created, handed to the script and never sent or verified. The path it guarded is reached only through WooCommerce's own update_order_review endpoint, which checks a nonce first, and it writes nothing but the visitor's own session. A check that does not run is worse than none, because it reads like one does.

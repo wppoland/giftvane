@@ -111,7 +111,7 @@ final class Migrator
 
         $this->dedupeCodes($table);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name derived from $wpdb->prefix; no user input in this DDL.
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.SchemaChange -- one-off migration on our own table; the name comes from $wpdb->prefix, no user input.
         $wpdb->query("ALTER TABLE {$table} ADD UNIQUE KEY code (code)");
     }
 
@@ -136,7 +136,7 @@ final class Migrator
     {
         global $wpdb;
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; no user input.
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; no user input.
         $duplicateIds = $wpdb->get_col(
             "SELECT g.id
              FROM {$table} g
@@ -147,6 +147,7 @@ final class Migrator
                  HAVING COUNT(*) > 1
              ) d ON g.code = d.code AND g.id <> d.keep_id"
         );
+        // phpcs:enable
 
         if (! is_array($duplicateIds) || $duplicateIds === []) {
             return;
@@ -157,9 +158,10 @@ final class Migrator
 
             // Suffix with the row id (unique by definition), truncating to keep
             // the column's 64-char limit. Data value -> fully prepared.
-            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; values are prepared.
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- one-off migration on our own table, nothing to cache.
             $wpdb->query(
                 $wpdb->prepare(
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; values are prepared.
                     "UPDATE {$table} SET code = CONCAT(LEFT(code, 50), %s) WHERE id = %d",
                     '-' . $id,
                     $id

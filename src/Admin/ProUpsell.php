@@ -83,13 +83,13 @@ final class ProUpsell
     private function priceLabel(): string
     {
         if (! $this->sellable()) {
-            return $this->isPolish() ? __('Wkrótce', 'donkarto') : __('Coming soon', 'donkarto');
+            return $this->isPolish() ? __('Wkrótce', 'giftvane') : __('Coming soon', 'giftvane');
         }
         $d = $this->data();
         if (! empty($d['price_from'])) {
             $cur = ($d['currency'] ?? 'EUR') === 'EUR' ? '€' : (string) $d['currency'] . ' ';
             /* translators: 1: currency symbol, 2: yearly price */
-            return sprintf(__('from %1$s%2$d/yr', 'donkarto'), $cur, (int) $d['price_from']);
+            return sprintf(__('from %1$s%2$d/yr', 'giftvane'), $cur, (int) $d['price_from']);
         }
         return '';
     }
@@ -98,8 +98,8 @@ final class ProUpsell
     private function ctaLabel(): string
     {
         return $this->sellable()
-            ? __('Upgrade to PRO', 'donkarto')
-            : ($this->isPolish() ? __('Powiadom mnie', 'donkarto') : __('Get notified', 'donkarto'));
+            ? __('Upgrade to PRO', 'giftvane')
+            : ($this->isPolish() ? __('Powiadom mnie', 'giftvane') : __('Get notified', 'giftvane'));
     }
 
     /** @return array<int, array{title: string, desc: string}> */
@@ -129,7 +129,7 @@ final class ProUpsell
     public function handleDismiss(): void
     {
         if (! current_user_can('manage_woocommerce')) {
-            wp_die(esc_html__('Permission denied.', 'donkarto'));
+            wp_die(esc_html__('Permission denied.', 'giftvane'));
         }
         check_admin_referer(self::ACTION);
         update_user_meta(get_current_user_id(), self::META, 1);
@@ -147,7 +147,7 @@ final class ProUpsell
         if (! $this->enabled() || $this->bannerDismissed()) {
             return;
         }
-        $name     = (string) ($this->data()['name'] ?? 'Donkarto Pro');
+        $name     = (string) ($this->data()['name'] ?? 'Giftvane Pro');
         $price    = $this->priceLabel();
         $subtitle = implode(', ', array_slice(array_map(
             static fn (array $f): string => $f['title'],
@@ -159,14 +159,14 @@ final class ProUpsell
             <p class="giftcards-pro-banner__text">
                 <strong><?php
                 /* translators: %s: PRO edition name */
-                printf(esc_html__('Do more with %s', 'donkarto'), esc_html($name)); ?></strong>
+                printf(esc_html__('Do more with %s', 'giftvane'), esc_html($name)); ?></strong>
                 <?php if ($subtitle !== '') : ?><span class="giftcards-pro-banner__sub"><?php echo esc_html($subtitle); ?></span><?php endif; ?>
                 <?php if ($price !== '') : ?><span class="giftcards-pro-banner__price"><?php echo esc_html($price); ?></span><?php endif; ?>
             </p>
             <a class="button button-primary giftcards-pro-banner__cta" href="<?php echo esc_url($this->url()); ?>" target="_blank" rel="noopener noreferrer">
                 <?php echo esc_html($this->ctaLabel()); ?>
             </a>
-            <a class="giftcards-pro-banner__dismiss" href="<?php echo esc_url($this->dismissUrl()); ?>" aria-label="<?php esc_attr_e('Dismiss this notice', 'donkarto'); ?>">&times;</a>
+            <a class="giftcards-pro-banner__dismiss" href="<?php echo esc_url($this->dismissUrl()); ?>" aria-label="<?php esc_attr_e('Dismiss this notice', 'giftvane'); ?>">&times;</a>
         </div>
         <?php
     }
@@ -182,13 +182,13 @@ final class ProUpsell
         if (! $this->enabled() || $this->bannerDismissed()) {
             return;
         }
-        $name     = (string) ($this->data()['name'] ?? 'Donkarto Pro');
+        $name     = (string) ($this->data()['name'] ?? 'Giftvane Pro');
         $price    = $this->priceLabel();
         $features = $this->features();
         ?>
         <aside class="giftcards-pro-aside" aria-labelledby="giftcards-pro-aside-h">
             <p class="giftcards-pro-aside__eyebrow"><?php echo esc_html($name); ?></p>
-            <h2 id="giftcards-pro-aside-h" class="giftcards-pro-aside__heading"><?php esc_html_e('Unlock every PRO feature', 'donkarto'); ?></h2>
+            <h2 id="giftcards-pro-aside-h" class="giftcards-pro-aside__heading"><?php esc_html_e('Unlock every PRO feature', 'giftvane'); ?></h2>
             <ul class="giftcards-pro-aside__list">
                 <?php foreach ($features as $f) : ?>
                     <li>
@@ -201,7 +201,7 @@ final class ProUpsell
                 <?php echo esc_html($this->ctaLabel()); ?>
             </a>
             <?php if ($price !== '') : ?>
-                <p class="giftcards-pro-aside__price"><?php echo esc_html($price); ?><?php if ($this->sellable()) : ?> · <?php esc_html_e('one licence, every PRO feature', 'donkarto'); ?><?php endif; ?></p>
+                <p class="giftcards-pro-aside__price"><?php echo esc_html($price); ?><?php if ($this->sellable()) : ?> · <?php esc_html_e('one licence, every PRO feature', 'giftvane'); ?><?php endif; ?></p>
             <?php endif; ?>
         </aside>
         <?php
@@ -214,13 +214,13 @@ final class ProUpsell
             return;
         }
         $features = $this->features();
-        $name     = (string) ($this->data()['name'] ?? 'Donkarto Pro');
+        $name     = (string) ($this->data()['name'] ?? 'Giftvane Pro');
         ?>
         <section class="giftcards-pro-cards" aria-labelledby="giftcards-pro-cards-h">
             <h2 id="giftcards-pro-cards-h" class="giftcards-pro-cards__title">
                 <?php
                 /* translators: %s: PRO edition name */
-                printf(esc_html__('What %s adds', 'donkarto'), esc_html($name)); ?>
+                printf(esc_html__('What %s adds', 'giftvane'), esc_html($name)); ?>
             </h2>
             <div class="giftcards-pro-cards__grid">
                 <?php foreach ($features as $f) : ?>
