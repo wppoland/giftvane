@@ -25,6 +25,17 @@ use WPPoland\StorefrontKit\Support\Formatter;
 final class GiftCardEngine
 {
     /**
+     * How often an interrupted issue run is retried, and how many times.
+     *
+     * Far enough apart that a host which killed the run on execution time is
+     * not handed the same job while it is still busy, and bounded because a run
+     * that dies five times is not going to stop dying on the sixth.
+     */
+    private const RETRY_DELAY = 15 * MINUTE_IN_SECONDS;
+
+    private const MAX_RETRIES = 5;
+
+    /**
      * @param \Closure(): bool $isEnabled
      * @param \Closure(): array<string, mixed> $settings Resolved settings.
      * @param \Closure(\WC_Product): bool $isGiftCard Whether a product is a
@@ -35,7 +46,7 @@ final class GiftCardEngine
      *        Echoes the checkout redeem-code field.
      * @param array<string, string> $labels Fallback strings keyed by
      *        `fee_label`, `email_subject`, `email_body`, `invalid_code`,
-     *        `applied`.
+     *        `applied`, `retry_exhausted`.
      */
     public function __construct(
         private readonly GiftCardRepository $repository,
@@ -43,6 +54,7 @@ final class GiftCardEngine
         private readonly string $fieldName,
         private readonly string $nonceAction,
         private readonly string $fieldTemplate,
+        private readonly string $retryHook,
         private readonly array $labels,
         private readonly \Closure $isEnabled,
         private readonly \Closure $settings,
@@ -59,6 +71,13 @@ final class GiftCardEngine
         add_action('woocommerce_cart_calculate_fees', [$this, 'applyRedeemDiscount'], 30);
         add_action('woocommerce_checkout_create_order', [$this, 'persistRedeemCode'], 10, 1);
         add_action('woocommerce_order_status_completed', [$this, 'handleOrderCompleted'], 10, 1);
+
+        // The only other way back into an interrupted run. `completed` fires on
+        // the transition, so an order that is already Completed never fires it
+        // again: without this hook the records below can resume the work and
+        // nothing ever asks them to, and nothing tells the merchant that cards
+        // are missing either.
+        add_action($this->retryHook, [$this, 'handleOrderCompleted'], 10, 2);
     }
 
     public function renderRedeemField(): void
@@ -69,12 +88,21 @@ final class GiftCardEngine
 
         ($this->renderField)($this->fieldTemplate, [
             'field_name' => $this->fieldName,
-            'nonce_field' => wp_create_nonce($this->nonceAction),
             'applied_code' => $this->getAppliedCode(),
             'settings' => $this->getSettings(),
         ]);
     }
 
+    /**
+     * Reads the gift-card code out of the serialised checkout form.
+     *
+     * No nonce is checked here and none is needed: this runs on
+     * woocommerce_checkout_update_order_review, which WooCommerce reaches only
+     * through its own update_order_review endpoint after check_ajax_referer, and
+     * the only thing written is the visitor's own session. A nonce used to be
+     * created for this and handed to the script, which never sent it: a check
+     * that does not run is worse than no check, because it reads like one does.
+     */
     public function captureRedeemCode(string $postedData): void
     {
         if (! $this->isEnabled() || ! WC()->session instanceof \WC_Session) {
@@ -138,7 +166,11 @@ final class GiftCardEngine
         }
     }
 
-    public function handleOrderCompleted(int $orderId): void
+    /**
+     * @param int $attempt Which retry this is, 0 when WooCommerce completed the
+     *                     order. Supplied by the scheduled event below.
+     */
+    public function handleOrderCompleted(int $orderId, int $attempt = 0): void
     {
         if (! $this->isEnabled()) {
             return;
@@ -150,22 +182,159 @@ final class GiftCardEngine
             return;
         }
 
-        // Guard against an order being completed more than once (e.g.
-        // completed -> refunded -> completed, or a manual re-trigger), which
-        // would otherwise re-issue cards and decrement balances twice.
+        // A retry fires up to five times across more than an hour, and an order
+        // can leave Completed inside that window: refunded, cancelled, or put
+        // back on hold while a chargeback is looked at. WooCommerce fires
+        // `order_status_completed` on the way in only, so nothing else ever
+        // re-reads the status, and the run below does not ask. Without this, a
+        // refunded order still had the rest of its cards funded and emailed,
+        // and the balance the shopper redeemed still taken off their card.
+        // Attempt 0 is the transition itself, where the order is Completed by
+        // definition, so only the scheduled attempts are judged here. Returning
+        // also books no further retry, which ends the chain; a later return to
+        // Completed fires the transition again and starts a fresh one.
+        if ($attempt > 0 && ! $order->has_status('completed')) {
+            return;
+        }
+
+        // Orders completed before this flag stopped being written up front are
+        // still judged by it: nothing recorded what those orders received, so
+        // the only safe reading of the flag is "hands off".
         $processedFlag = $this->sessionKey . '_processed';
 
         if ($order->get_meta($processedFlag) === 'yes') {
             return;
         }
 
-        $order->update_meta_data($processedFlag, 'yes');
-        $order->save();
+        // Two completions of the same order arriving at the same moment (a
+        // gateway callback racing the shop admin) would both find no per-unit
+        // record and both issue. This narrows that window to a transient read
+        // and write. It is not what makes a repeat safe, the per-unit records
+        // below are; it expires on its own, so an interrupted run is retried
+        // rather than blocked for good.
+        $lock = $this->sessionKey . '_lock_' . $orderId;
 
-        $this->issueGiftCards($order);
-        $this->redeemAppliedCard($order);
+        if (get_transient($lock) !== false) {
+            return;
+        }
+
+        set_transient($lock, 1, 5 * MINUTE_IN_SECONDS);
+
+        // The lock has to die with the run it guards. `finally` does not run
+        // when the process is killed rather than unwound (a fatal error, the
+        // host stopping it on max execution time, a plain exit), and a shutdown
+        // function does run in all three: without one, the lock left behind by
+        // the killed run would turn away its own retry for the rest of its five
+        // minutes. The expiry stays as the backstop for a kill so hard that PHP
+        // never reaches shutdown at all.
+        $released = false;
+        $release  = static function () use ($lock, &$released): void {
+            if ($released) {
+                return;
+            }
+
+            $released = true;
+            delete_transient($lock);
+        };
+
+        register_shutdown_function($release);
+
+        // Booked before the work and cleared after it, so a run that dies
+        // leaves its own retry behind. What that retry still has to do is
+        // decided by the per-unit records, not by this event.
+        $this->scheduleRetry($order, $attempt);
+
+        // The last attempt has no retry left to book, so a note on the order is
+        // the only thing that can tell the merchant cards may be missing. It
+        // therefore has to be written by the attempt that fails, and only by
+        // it: booked up front, as it used to be, an order whose final attempt
+        // SUCCEEDED still got the alarm, and the merchant went looking through
+        // an order that was complete. `finally` covers the run that unwinds,
+        // shutdown covers the run that is killed instead, the same split the
+        // lock release above makes, and $noted keeps the two from doubling up.
+        $finished = false;
+        $noted    = false;
+        $giveUp   = function () use ($order, $attempt, &$finished, &$noted): void {
+            if ($finished || $noted || $attempt < self::MAX_RETRIES) {
+                return;
+            }
+
+            $noted = true;
+
+            $order->add_order_note(
+                Formatter::interpolate(
+                    $this->message('retry_exhausted'),
+                    ['attempts' => (string) self::MAX_RETRIES],
+                )
+            );
+        };
+
+        if ($attempt >= self::MAX_RETRIES) {
+            register_shutdown_function($giveUp);
+        }
+
+        try {
+            $this->issueGiftCards($order);
+            $this->redeemAppliedCard($order);
+
+            // Written last, and only once every card on the order exists and
+            // has been emailed. Written first (as it used to be), a timeout in
+            // the middle of the loop below left the rest of the cards the
+            // customer had paid for permanently unissued: nothing retried them,
+            // because the flag said the order was done.
+            $order->update_meta_data($processedFlag, 'yes');
+            $order->save();
+
+            $finished = true;
+        } finally {
+            $release();
+            $giveUp();
+        }
+
+        // Reached only when every card exists and the order is marked done, so
+        // the retry this run booked has nothing left to pick up.
+        $this->clearRetry($orderId, $attempt);
     }
 
+    /**
+     * Book the next attempt at an interrupted issue run.
+     */
+    private function scheduleRetry(\WC_Order $order, int $attempt): void
+    {
+        if ($attempt >= self::MAX_RETRIES) {
+            // A retry only fires because the run that booked it never came back
+            // to clear it, so reaching here proves this order has now failed to
+            // finish that many times. Retrying it every quarter of an hour for
+            // ever is worse than stopping, so this run is the last one. Whether
+            // the merchant is told about it is not decided here: this method
+            // runs before the work, and only the end of the work knows whether
+            // the last attempt was the one that succeeded. See the give-up note
+            // in handleOrderCompleted().
+            return;
+        }
+
+        $args = [$order->get_id(), $attempt + 1];
+
+        if (wp_next_scheduled($this->retryHook, $args) !== false) {
+            return;
+        }
+
+        wp_schedule_single_event(time() + self::RETRY_DELAY, $this->retryHook, $args);
+    }
+
+    private function clearRetry(int $orderId, int $attempt): void
+    {
+        wp_clear_scheduled_hook($this->retryHook, [$orderId, $attempt + 1]);
+    }
+
+    /**
+     * Issue one card per purchased unit, recording each one as it is issued.
+     *
+     * The record is per unit and it is written before the email, so an
+     * interrupted run costs at worst a repeated email carrying the code that
+     * was already issued, never a second funded card and never a card the
+     * customer paid for and never received.
+     */
     private function issueGiftCards(\WC_Order $order): void
     {
         foreach ($order->get_items() as $item) {
@@ -186,15 +355,87 @@ final class GiftCardEngine
             }
 
             $quantity = max(1, (int) $item->get_quantity());
+            $issued   = $this->issuedUnits($item);
 
             for ($i = 0; $i < $quantity; $i++) {
-                $code = $this->issueUniqueCard($amount, $recipientEmail, $order->get_id());
+                $code = (string) ($issued[$i]['code'] ?? '');
 
-                if ($code !== '') {
-                    $this->sendRecipientEmail($recipientEmail, $code, $amount);
+                if ($code === '') {
+                    $code = $this->issueUniqueCard($amount, $recipientEmail, $order->get_id());
+
+                    // Could not persist a card this run (a code collision that
+                    // outlasted the retries, or a transient DB error): leave the
+                    // unit unrecorded so the next completion tries again.
+                    if ($code === '') {
+                        continue;
+                    }
+
+                    // The card is funded from here on, so the code is stored
+                    // before the email goes out.
+                    $issued[$i] = ['code' => $code, 'emailed' => false];
+                    $this->saveIssuedUnits($item, $issued);
                 }
+
+                if (! empty($issued[$i]['emailed'])) {
+                    continue;
+                }
+
+                $this->sendRecipientEmail($recipientEmail, $code, $amount);
+
+                $issued[$i]['emailed'] = true;
+                $this->saveIssuedUnits($item, $issued);
             }
         }
+    }
+
+    /**
+     * The cards already issued for one order line, keyed by unit index.
+     *
+     * @return array<int, array{code: string, emailed: bool}>
+     */
+    private function issuedUnits(\WC_Order_Item_Product $item): array
+    {
+        $stored = $item->get_meta($this->issuedMetaKey(), true);
+
+        if (! is_array($stored)) {
+            return [];
+        }
+
+        $units = [];
+
+        foreach ($stored as $index => $unit) {
+            if (! is_array($unit)) {
+                continue;
+            }
+
+            $code = (string) ($unit['code'] ?? '');
+
+            if ($code === '') {
+                continue;
+            }
+
+            $units[(int) $index] = ['code' => $code, 'emailed' => ! empty($unit['emailed'])];
+        }
+
+        return $units;
+    }
+
+    /**
+     * @param array<int, array{code: string, emailed: bool}> $units
+     */
+    private function saveIssuedUnits(\WC_Order_Item_Product $item, array $units): void
+    {
+        $item->update_meta_data($this->issuedMetaKey(), $units);
+        $item->save_meta_data();
+    }
+
+    /**
+     * Underscore-prefixed, so WooCommerce keeps it out of the order line the
+     * customer and the shop manager read.
+     */
+    private function issuedMetaKey(): string
+    {
+        return '_' . $this->sessionKey . '_issued';
     }
 
     private function redeemAppliedCard(\WC_Order $order): void
@@ -202,6 +443,17 @@ final class GiftCardEngine
         $code = (string) $order->get_meta($this->sessionKey);
 
         if ($code === '') {
+            return;
+        }
+
+        // Unlike issuing, this one is claimed before the work, not after. The
+        // work is a single balance write with nothing slow in front of it, and
+        // the two failures are not equal: a second decrement takes the shopper's
+        // remaining balance away twice, while a lost decrement costs the shop
+        // one discount it already gave.
+        $redeemedFlag = $this->sessionKey . '_redeemed';
+
+        if ($order->get_meta($redeemedFlag) === 'yes') {
             return;
         }
 
@@ -222,6 +474,10 @@ final class GiftCardEngine
         }
 
         $newBalance = max(0.0, $card->balance - $used);
+
+        $order->update_meta_data($redeemedFlag, 'yes');
+        $order->save();
+
         $this->repository->updateBalance($card->id, $newBalance);
     }
 

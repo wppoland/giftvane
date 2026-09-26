@@ -38,3 +38,9 @@
 
 # Translation import tooling (GlotPress PO/MO staging) - never ship in the zip
 glotpress-import/
+
+# wp.org builds translations from translate.wordpress.org, so shipping our own
+# .po/.mo in the package is a review issue. The .pot stays: it is what the
+# translators import from.
+/languages/*.po
+/languages/*.mo

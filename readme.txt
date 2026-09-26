@@ -1,10 +1,10 @@
-=== Gift Cards - Store Credit for WooCommerce ===
+=== Giftvane - Gift Cards and Store Credit for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.5
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,20 +12,20 @@ Sell WooCommerce gift cards, gift vouchers and store credit codes that customers
 
 == Description ==
 
-Sell a gift card or gift voucher as an ordinary WooCommerce product. Tick the "Gift card" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique store credit code worth that price, records its balance in its own table, and emails the code to the buyer's order email address.
+Giftvane sells a gift card or gift voucher as an ordinary WooCommerce product. Tick the "Gift card" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique store credit code worth that price, records its balance in its own table, and emails the code to the buyer's order email address.
 
 To spend a card, the customer enters the code in a field on the checkout. The balance is applied as a discount on that order. If the order costs less than the card is worth, the leftover stays on the code for a later purchase, so one card can cover several orders until it runs out.
 
 The buyer also sees the code(s) their order issued on the order-confirmation page and in their WooCommerce order emails, so they have the code in hand without hunting through their inbox.
 
-The code is built and tracked on GitHub. Source and bug reports: https://github.com/wppoland/plogins-giftcards
+The code is built and tracked on GitHub. Source and bug reports: [github.com/wppoland/plogins-giftcards](https://github.com/wppoland/plogins-giftcards)
 
 = Documentation and links =
 
-* **Documentation** - https://plogins.com/plogins-giftcards/docs/
-* **Plugin page** - https://plogins.com/plogins-giftcards/
-* **Source code** - https://github.com/wppoland/plogins-giftcards
-* **Bug reports and feature requests** - https://github.com/wppoland/plogins-giftcards/issues
+* **Documentation**: [plogins.com/plogins-giftcards/docs/](https://plogins.com/plogins-giftcards/docs/)
+* **Plugin page**: [plogins.com/plogins-giftcards/](https://plogins.com/plogins-giftcards/)
+* **Source code**: [github.com/wppoland/plogins-giftcards](https://github.com/wppoland/plogins-giftcards)
+* **Bug reports and feature requests**: [github.com/wppoland/plogins-giftcards/issues](https://github.com/wppoland/plogins-giftcards/issues)
 
 
 = What it does =
@@ -36,14 +36,15 @@ The code is built and tracked on GitHub. Source and bug reports: https://github.
 * Keeps the unused balance on the code after a partial spend, so it works across multiple orders.
 * Lets you set the code prefix, the checkout discount label and the recipient email subject and body.
 * Optionally lists the issued codes on the buyer's order page and in their order emails.
-* Works with WooCommerce HPOS (custom order tables) and the Cart and Checkout blocks.
+* Works with WooCommerce HPOS (custom order tables).
+* Lets an AI assistant in your admin look up a code's balance and list the codes an order issued, through the WordPress Abilities API on WordPress 6.9 and later. Reading only; it cannot change a balance or issue a code.
 
 == Installation ==
 
-1. Upload the plugin to `/wp-content/plugins/plogins-giftcards`, or install it from Plugins → Add New.
+1. Upload the plugin to `/wp-content/plugins/giftvane`, or install it from Plugins > Add New.
 2. Activate it. WooCommerce must be active.
 3. Edit a product, tick **Gift card** on the General tab, and set its price to the value of the card.
-4. Set the code prefix and the recipient email under **WooCommerce → Gift Cards**.
+4. Set the code prefix and the recipient email under **WooCommerce > Gift Cards**.
 
 == Frequently Asked Questions ==
 
@@ -73,11 +74,12 @@ Yes. Buying two units of a gift card product issues two separate store credit co
 
 = Can I customise the email? =
 
-Yes. Set the email subject and body under WooCommerce → Gift Cards, with tokens for the code and amount.
+Yes. Set the email subject and body under WooCommerce > Gift Cards, with tokens for the code and amount.
 
 = Does it work with WooCommerce checkout blocks? =
 
-Yes. Gift Cards declares compatibility with WooCommerce HPOS and Cart/Checkout Blocks.
+HPOS, yes. Redeeming a gift card is currently a classic-checkout feature; on the
+block checkout the redemption field does not appear.
 
 
 = Does this plugin work on WordPress Multisite? =
@@ -95,12 +97,61 @@ This plugin does not connect to, send data to, or rely on any external service, 
 
 == Translations ==
 
-Plogins Gift Cards includes Polish, German and Spanish translations for the plugin interface. The text domain is `plogins-giftcards`, so WordPress.org language packs can also override or extend these bundled translations.
+Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
 
-= Unreleased =
-* prepared-SQL hardening in the migrator (%i placeholders for table names)
+= 1.2.3 =
+* The gift card checkbox in the product editor now carries its own security token and is only saved when the token checks out and the user can edit the product.
+
+= 1.2.2 =
+* Renamed to Giftvane, a plain English name in place of the Esperanto one. The text domain and the plugin folder follow the name; the stored settings, options and every hook are unchanged.
+* The gift card table migration now documents every direct query it runs, so Plugin Check reports no warnings.
+
+= 1.2.1 =
+* Removed a nonce that was created, handed to the script and never sent or verified. The path it guarded is reached only through WooCommerce's own update_order_review endpoint, which checks a nonce first, and it writes nothing but the visitor's own session. A check that does not run is worse than none, because it reads like one does.
+* The sidebar upgrade promo now follows the same dismissal as the banner. Dismissing the banner used to leave a full-height advert on the settings screen for good, which is not what the WordPress.org guideline on upgrade prompts means by used with moderation.
+
+= 1.2.0 =
+* Renamed to Donkarto. The WordPress.org review team asks a plugin name to lead with a distinctive, coined identifier rather than a generic descriptive word. Donkarto is Esperanto for a gift card. The text domain follows the name; the stored data, the settings and every hook are unchanged.
+
+= 1.1.9 =
+* Fixed: a retry never re-read the order's status, so an order that left Completed while the retry was pending was still worked on. The retry comes round up to five times over more than an hour, and WooCommerce only announces the completion on the way in, so a refunded or cancelled order still had the rest of its gift cards funded and emailed, and the balance the shopper had redeemed still taken off their card. A scheduled attempt now checks that the order is still Completed and stops if it is not. Putting the order back into Completed runs the work it still owes, as before.
+* Fixed: the note that says gift-card issuing never finished was written before the last attempt ran, so an order whose final attempt SUCCEEDED got the alarm anyway and the merchant went looking for a missing code through an order that was complete. The note is now written by the attempt that fails, and only by it, including when that attempt is killed outright rather than interrupted.
+
+= 1.1.8 =
+* Fixed: a completion run that was killed rather than interrupted (a fatal error, or the host stopping it on execution time) left the transient that guards the run standing for five minutes, because the release only ran when the run unwound normally. Anything that tried to finish the order inside that window was turned away by a lock whose run was already dead. The release now also happens when the process shuts down, which covers a fatal error, an execution-time stop and an outright exit.
+* Fixed: nothing ever came back to an order whose gift-card run was interrupted. The order-completed event only fires when the order changes status, so an order that was already Completed never fired it again: the records that let the run resume were there, and nothing asked them to. A merchant had to notice the missing card themselves and move the order out of Completed and back. Each run now books a retry before it starts and clears it when it finishes, so an interrupted order is picked up on its own about fifteen minutes later, up to five times.
+* Added: an order whose cards could not be issued on any of those attempts gets an order note saying so, with what to check and how to run it again. Until now a card that was never issued left no trace anywhere the merchant looks.
+* Changed: deactivating or deleting the plugin now clears any retry still waiting for an order, so no scheduled event is left behind for a hook nothing answers.
+
+= 1.1.7 =
+* Fixed: when the order-completion run was interrupted part-way through (a fatal error, or the host stopping it on max execution time), the order had already been marked as done before the first card was created. Nothing ever retried it, so every remaining card on that order was paid for and never issued. Each card is now recorded as it is created, and the order is marked done only once every card exists and has been emailed, so a later completion of the same order finishes the job.
+* Changed: after an interruption, the one recipient whose email was in flight can receive that email again. It carries the same code and the same balance as the first, it is not a second card.
+* Fixed: a balance spent at checkout could stay on the card in full. The deduction ran after the cards were issued and the order was marked as done before either started, so a run interrupted in the issuing loop never reached the deduction and nothing came back for it: the shopper got the discount on that order and kept the balance to spend again. The deduction is now claimed on the order before it is made, so the run that finishes the order makes it exactly once.
+
+= 1.1.6 =
+* Fixed: the PRO upgrade promo kept selling to people who had already bought the paid edition. Only the banner could be dismissed, so the sidebar promo and the locked feature cards followed a paying customer around for good. The promo now checks whether the paid edition is active and steps aside when it is.
+* Fixed: arrow glyphs in the admin menu paths, and in the strings handed to translators. An arrow inside a translatable string makes the glyph every translator's problem and changes the layout in any locale that drops it.
+
+= 1.1.5 =
+* Fixed: deleting the plugin left the per-user "dismiss" flag from the PRO notice in the database. Uninstall now removes it for every user, not just the one who dismissed it.
+
+= 1.1.4 =
+* The translation template was regenerated. It still named an older version of the plugin and pointed at source lines that had since moved, which is what translation tools read to show a string in context.
+
+= 1.1.3 =
+* Renamed to Plogins Gift Cards - Store Credit for WooCommerce so the name leads with the brand rather than a generic word, which is what the WordPress.org plugin review team asks for. The plugin slug is unchanged.
+
+= 1.1.2 =
+* Tested against WordPress 7.1. Verified by activating this build on a clean 7.1 install with WooCommerce 11.1, not by editing the header.
+
+= 1.1.1 =
+* Fixed the PRO promo on the settings screen quoting a price in PLN. PRO is priced and charged in EUR, so an admin on a Polish site was shown a zloty amount and then billed in euro, and the zloty figure was a fixed conversion that drifted from the real charge as the rate moved. The promo now shows the euro price that is actually taken.
+
+= 1.1.0 =
+* An AI assistant working in your wp-admin can now read your gift cards for you, through the WordPress Abilities API (WordPress 6.9 and later). Ask it what is left on a code, which codes an order issued, whether a product is set up as a gift card, or how gift cards are configured on the shop.
+* Reading only. Nothing an assistant can call changes a balance, issues a code or voids one, and no recipient address is ever returned. Only shop managers can use these, and on WordPress 6.8 and earlier nothing changes.
 
 = 1.0.4 =
 * Translations: completed Polish, German and Spanish for the PRO upgrade panel.
@@ -118,7 +169,7 @@ Plogins Gift Cards includes Polish, German and Spanish translations for the plug
 * Renamed to Plogins Gift Cards for WooCommerce for a more distinctive plugin name.
 
 = 0.2.0 =
-* The recipient email subject and body set under **WooCommerce → Gift Cards** are now used for the email that's sent. Earlier these stored values were ignored and a built-in default was always used.
+* The recipient email subject and body set under **WooCommerce > Gift Cards** are now used for the email that's sent. Earlier these stored values were ignored and a built-in default was always used.
 * Added a setting for the checkout discount label shown when a code is applied; it accepts a {code} token.
 * Added a setting to list the issued codes on the buyer's order-confirmation page and order emails. It is on by default.
 * The default email and label text is now translatable.

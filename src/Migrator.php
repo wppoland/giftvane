@@ -20,7 +20,7 @@ defined('ABSPATH') || exit;
  * disabled here with justification, mirroring the repository and restock's
  * WaitlistRepository. All user/data values are still prepared.
  *
- * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom plugin table; name derived from $wpdb->prefix and cannot be parameterised; data values are prepared.
+ * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom plugin table; name derived from $wpdb->prefix and cannot be parameterised; data values are prepared.
  */
 final class Migrator
 {
@@ -111,7 +111,8 @@ final class Migrator
 
         $this->dedupeCodes($table);
 
-        $wpdb->query($wpdb->prepare('ALTER TABLE %i ADD UNIQUE KEY code (code)', $table));
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.SchemaChange -- one-off migration on our own table; the name comes from $wpdb->prefix, no user input.
+        $wpdb->query("ALTER TABLE {$table} ADD UNIQUE KEY code (code)");
     }
 
     private function hasUniqueCodeIndex(string $table): bool
@@ -135,20 +136,18 @@ final class Migrator
     {
         global $wpdb;
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; no user input.
         $duplicateIds = $wpdb->get_col(
-            $wpdb->prepare(
-                'SELECT g.id
-             FROM %i g
+            "SELECT g.id
+             FROM {$table} g
              JOIN (
                  SELECT code, MIN(id) AS keep_id
-                 FROM %i
+                 FROM {$table}
                  GROUP BY code
                  HAVING COUNT(*) > 1
-             ) d ON g.code = d.code AND g.id <> d.keep_id',
-                $table,
-                $table
-            )
+             ) d ON g.code = d.code AND g.id <> d.keep_id"
         );
+        // phpcs:enable
 
         if (! is_array($duplicateIds) || $duplicateIds === []) {
             return;
@@ -159,10 +158,11 @@ final class Migrator
 
             // Suffix with the row id (unique by definition), truncating to keep
             // the column's 64-char limit. Data value -> fully prepared.
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- one-off migration on our own table, nothing to cache.
             $wpdb->query(
                 $wpdb->prepare(
-                    'UPDATE %i SET code = CONCAT(LEFT(code, 50), %s) WHERE id = %d',
-                    $table,
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; values are prepared.
+                    "UPDATE {$table} SET code = CONCAT(LEFT(code, 50), %s) WHERE id = %d",
                     '-' . $id,
                     $id
                 )

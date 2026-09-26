@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       Gift Cards - Store Credit for WooCommerce
+ * Plugin Name:       Giftvane - Gift Cards and Store Credit for WooCommerce
  * Plugin URI:        https://plogins.com/plogins-giftcards/
  * Description:        Sell gift cards that email a redeemable code to the recipient and apply as a discount at checkout.
- * Version:           1.0.5
+ * Version:           1.2.3
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -11,10 +11,10 @@
  * Author URI:        https://wppoland.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       plogins-giftcards
+ * Text Domain:       giftvane
  * Domain Path:       /languages
  * WC requires at least: 8.0
- * WC tested up to: 10.9
+ * WC tested up to: 11.0
  *
  * @package GiftCards
  */
@@ -25,7 +25,7 @@ namespace GiftCards;
 
 defined('ABSPATH') || exit;
 
-const VERSION     = '1.0.5';
+const VERSION     = '1.2.3';
 const PLUGIN_FILE = __FILE__;
 
 define('GIFTCARDS_DIR', plugin_dir_path(__FILE__));
@@ -45,7 +45,7 @@ add_action('plugins_loaded', static function (): void {
     if (! class_exists('WooCommerce')) {
         add_action('admin_notices', static function (): void {
             echo '<div class="notice notice-error"><p>';
-            echo esc_html__('Gift Cards, Store Credit for WooCommerce requires WooCommerce to be active.', 'plogins-giftcards');
+            echo esc_html__('Giftvane requires WooCommerce to be installed and activated.', 'giftvane');
             echo '</p></div>';
         });
         return;
@@ -61,4 +61,11 @@ add_action('plugins_loaded', static function (): void {
 register_activation_hook(PLUGIN_FILE, static function (): void {
     require_once __DIR__ . '/autoload.php';
     Plugin::instance()->container()->get(Migrator::class)->maybeMigrate();
+});
+
+// An order whose issue run was interrupted leaves a retry waiting for it. Left
+// behind, it wakes WP-Cron to fire a hook nothing listens to any more, so
+// deactivation takes every pending one with it whatever order it carries.
+register_deactivation_hook(PLUGIN_FILE, static function (): void {
+    wp_unschedule_hook(Service\GiftCardService::RETRY_HOOK);
 });

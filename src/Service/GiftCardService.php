@@ -34,14 +34,21 @@ final class GiftCardService implements HasHooks
 
     private const SESSION_KEY = 'giftcards_redeem_code';
 
+    /**
+     * The scheduled event that resumes an interrupted issue run.
+     *
+     * Public because the cleanup outlives this service: deactivation and
+     * uninstall both clear it. Each event carries its order id in the
+     * arguments, so both clear it with wp_unschedule_hook(), which takes every
+     * pending one whatever its arguments.
+     */
+    public const RETRY_HOOK = 'giftcards_issue_retry';
+
     private ?GiftCardEngine $engine = null;
 
-    private readonly GiftCardTableRepository $repository;
-
-    public function __construct()
-    {
-        $this->repository = new GiftCardTableRepository();
-
+    public function __construct(
+        private readonly GiftCardTableRepository $repository,
+    ) {
         // The engine ships with storefront-kit >= 1.5.0. When present, wire it
         // with this plugin's text-domain / option storage / asset paths.
         // Otherwise leave the service inert (see registerHooks()).
@@ -61,21 +68,55 @@ final class GiftCardService implements HasHooks
             fieldName: 'giftcards_redeem_code',
             nonceAction: 'giftcards_redeem',
             fieldTemplate: 'checkout-redeem-field',
+            retryHook: self::RETRY_HOOK,
             labels: [
-                'fee_label'     => $this->label($settings, 'fee_label', __('Gift card ({code})', 'plogins-giftcards')),
-                'email_subject' => $this->label($settings, 'email_subject', __('You have received a {amount} gift card', 'plogins-giftcards')),
-                'email_body'    => $this->label($settings, 'email_body', __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'plogins-giftcards')),
-                'invalid_code'  => __('That gift card code is not valid.', 'plogins-giftcards'),
-                'applied'       => __('Gift card applied.', 'plogins-giftcards'),
+                'fee_label'     => $this->label($settings, 'fee_label', __('Gift card ({code})', 'giftvane')),
+                'email_subject' => $this->label($settings, 'email_subject', __('You have received a {amount} gift card', 'giftvane')),
+                'email_body'    => $this->label($settings, 'email_body', __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'giftvane')),
+                'invalid_code'  => __('That gift card code is not valid.', 'giftvane'),
+                'applied'       => __('Gift card applied.', 'giftvane'),
+                'retry_exhausted' => __('Gift card issuing did not finish on {attempts} attempts for this order, and this was the last automatic one. Check that every gift card line here shows a code; if any is missing, move the order out of Completed and back to run it again.', 'giftvane'),
             ],
             isEnabled: fn (): bool => $this->isEnabled(),
             settings: fn (): array => $this->settings(),
-            isGiftCard: static fn (\WC_Product $product): bool => 'yes' === $product->get_meta('_giftcards_is_gift_card'),
+            isGiftCard: fn (\WC_Product $product): bool => $this->isGiftCardProduct($product),
             resolveCard: fn (\WC_Order_Item_Product $item): array => $this->resolveCard($item),
             renderField: function (string $template, array $context): void {
                 $this->renderField($template, $context);
             },
         );
+    }
+
+    /**
+     * Whether buying this product issues a gift card. This is the resolver the
+     * engine is wired with, so anything else that needs the answer (the
+     * Abilities API surface, for one) gets exactly what the engine would see.
+     */
+    public function isGiftCardProduct(\WC_Product $product): bool
+    {
+        return 'yes' === self::giftCardMeta($product);
+    }
+
+    /**
+     * The gift-card flag, read from the parent when given a variation.
+     *
+     * The admin checkbox sits on the general product tab, so it is offered for
+     * variable products and stores the flag on the parent. An order line for a
+     * variable product resolves to the variation, and a variation does not
+     * inherit arbitrary parent meta, so the flag read back as empty and no card
+     * was ever issued: the buyer paid for a gift card and received nothing.
+     */
+    private static function giftCardMeta(\WC_Product $product): string
+    {
+        $flag = (string) $product->get_meta('_giftcards_is_gift_card');
+
+        if ($flag !== '' || ! $product instanceof \WC_Product_Variation) {
+            return $flag;
+        }
+
+        $parent = wc_get_product($product->get_parent_id());
+
+        return $parent instanceof \WC_Product ? (string) $parent->get_meta('_giftcards_is_gift_card') : '';
     }
 
     public function registerHooks(): void
@@ -161,17 +202,17 @@ final class GiftCardService implements HasHooks
         echo '<section class="giftcards-order-codes">';
         echo '<h2 class="giftcards-order-codes__title">';
         echo '<span aria-hidden="true">&#127873;</span> ';
-        echo esc_html__('Your gift cards', 'plogins-giftcards');
+        echo esc_html__('Your gift cards', 'giftvane');
         echo '</h2>';
         echo '<p class="giftcards-order-codes__intro">'
-            . esc_html__('Keep these codes safe. Enter a code at checkout to spend its balance; any unused amount stays on the card.', 'plogins-giftcards')
+            . esc_html__('Keep these codes safe. Enter a code at checkout to spend its balance; any unused amount stays on the card.', 'giftvane')
             . '</p>';
         echo '<table class="woocommerce-table giftcards-order-codes__table"><thead><tr>';
-        echo '<th scope="col">' . esc_html__('Code', 'plogins-giftcards') . '</th>';
-        echo '<th scope="col">' . esc_html__('Balance', 'plogins-giftcards') . '</th>';
+        echo '<th scope="col">' . esc_html__('Code', 'giftvane') . '</th>';
+        echo '<th scope="col">' . esc_html__('Balance', 'giftvane') . '</th>';
         echo '</tr></thead><tbody>';
 
-        $copyLabel = __('Copy code', 'plogins-giftcards');
+        $copyLabel = __('Copy code', 'giftvane');
 
         foreach ($cards as $card) {
             $code    = (string) $card['code'];
@@ -184,8 +225,8 @@ final class GiftCardService implements HasHooks
                 printf(
                     '<button type="button" class="giftcards-copy" data-code="%1$s" data-copied-label="%2$s" data-error-label="%3$s" aria-label="%4$s" title="%4$s"><span aria-hidden="true">&#128203;</span></button>',
                     esc_attr($code),
-                    esc_attr__('Copied', 'plogins-giftcards'),
-                    esc_attr__('Copy failed: select and copy manually', 'plogins-giftcards'),
+                    esc_attr__('Copied', 'giftvane'),
+                    esc_attr__('Copy failed: select and copy manually', 'giftvane'),
                     esc_attr(sprintf('%s: %s', $copyLabel, $code)),
                 );
             }
@@ -287,11 +328,13 @@ final class GiftCardService implements HasHooks
     }
 
     /**
-     * Stored settings merged over packaged defaults.
+     * Stored settings merged over packaged defaults. Public because it is the
+     * one honest answer to "how are gift cards configured here", which the
+     * Abilities API surface reports rather than re-reading the option itself.
      *
      * @return array<string, mixed>
      */
-    private function settings(): array
+    public function settings(): array
     {
         $stored = get_option(self::OPTION, []);
 
