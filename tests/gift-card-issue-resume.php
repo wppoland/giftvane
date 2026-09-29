@@ -231,13 +231,18 @@ namespace {
 
     class WC_Order_Item_Fee
     {
-        public function __construct(private float $total)
+        public function __construct(private float $total, private string $name = '')
         {
         }
 
         public function get_total(): float
         {
             return $this->total;
+        }
+
+        public function get_name(): string
+        {
+            return $this->name;
         }
     }
 
@@ -424,6 +429,24 @@ namespace GiftCards\Tests {
                 $this->rows[$id]->balance = $balance;
             }
         }
+
+        public function debit(int $id, float $amount): bool
+        {
+            if (! isset($this->rows[$id]) || $this->rows[$id]->balance < $amount) {
+                return false;
+            }
+
+            $this->rows[$id]->balance -= $amount;
+
+            return true;
+        }
+
+        public function credit(int $id, float $amount): void
+        {
+            if (isset($this->rows[$id])) {
+                $this->rows[$id]->balance += $amount;
+            }
+        }
     }
 
     $failures = 0;
@@ -471,6 +494,8 @@ namespace GiftCards\Tests {
                 'invalid_code'  => 'no',
                 'applied'       => 'yes',
                 'retry_exhausted' => 'Gift card issuing did not finish on {attempts} attempts for this order.',
+                'insufficient_balance' => 'no longer covers',
+                'insufficient_balance_note' => 'Gift card {code} did not cover the discount.',
             ],
             isEnabled: static fn (): bool => true,
             settings: static fn (): array => ['code_prefix' => 'GC-'],
@@ -610,7 +635,7 @@ namespace GiftCards\Tests {
 
     $order = new \WC_Order(200);
     $order->update_meta_data('giftcards_redeem_code', 'GC-REDEEMME');
-    $order->setFees([new \WC_Order_Item_Fee(-30.0)]);
+    $order->setFees([new \WC_Order_Item_Fee(-30.0, 'Gift card (GC-REDEEMME)')]);
     $GLOBALS['gc_orders'][200] = $order;
     $GLOBALS['gc_transients']  = [];
 
@@ -690,7 +715,7 @@ namespace GiftCards\Tests {
 
     $order = new \WC_Order(400);
     $order->setItems([new \WC_Order_Item_Product(new \WC_Product(11), 2)]);
-    $order->setFees([new \WC_Order_Item_Fee(-30.0)]);
+    $order->setFees([new \WC_Order_Item_Fee(-30.0, 'Gift card (GC-REFUNDME)')]);
     $order->update_meta_data('giftcards_redeem_code', 'GC-REFUNDME');
     $GLOBALS['gc_orders'][400] = $order;
     $GLOBALS['gc_transients']  = [];
@@ -777,6 +802,46 @@ namespace GiftCards\Tests {
     check('the last attempt issued the card', 1, count($table->rows));
     check('the order that finished left no retry behind', [], $GLOBALS['gc_events']);
     check('a final attempt that succeeds raises no alarm', 0, count($order->notes));
+
+    // --- Redeeming: the balance comes off at checkout, once, for our fee only.
+    $table  = new FakeCardTable();
+    $engine = engineFor($table);
+    $cardId = $table->issue('GC-SPEND', 50.0, 'r@example.test', 1);
+    $fee    = static fn (float $total): \WC_Order_Item_Fee => new \WC_Order_Item_Fee($total, 'Gift card (GC-SPEND)');
+
+    $first = new \WC_Order(601);
+    $first->setFees([$fee(-30.0), new \WC_Order_Item_Fee(-5.0, 'Loyalty discount')]);
+    $GLOBALS['gc_orders'][601] = $first;
+    check('first order debits the card', true, $engine->debitOrder($first, 'GC-SPEND'));
+    check('only the gift-card fee is taken, not another discount', 20.0, $table->rows[$cardId]->balance);
+    check('a second debit of the same order is a no-op', true, $engine->debitOrder($first, 'GC-SPEND'));
+    check('the balance is not taken twice', 20.0, $table->rows[$cardId]->balance);
+
+    $second = new \WC_Order(602);
+    $second->setFees([$fee(-30.0)]);
+    $GLOBALS['gc_orders'][602] = $second;
+    check('a racing order the card no longer covers is refused', false, $engine->debitOrder($second, 'GC-SPEND'));
+    check('the refused order leaves the balance alone', 20.0, $table->rows[$cardId]->balance);
+
+    $engine->restoreRedeemedBalance(601);
+    check('cancelling the first order gives the balance back', 50.0, $table->rows[$cardId]->balance);
+    $engine->restoreRedeemedBalance(601);
+    check('a second cancel does not give it back twice', 50.0, $table->rows[$cardId]->balance);
+
+    $engine->restoreRedeemedBalance(602);
+    check('an order that was never debited restores nothing', 50.0, $table->rows[$cardId]->balance);
+
+    // An order created outside the checkout is debited when it completes.
+    $admin = new \WC_Order(603);
+    $admin->setFees([$fee(-10.0)]);
+    $admin->update_meta_data('giftcards_redeem_code', 'GC-SPEND');
+    $GLOBALS['gc_orders'][603] = $admin;
+    $GLOBALS['gc_transients'] = [];
+    $engine->handleOrderCompleted(603, 0);
+    check('completion debits an order that skipped the checkout', 40.0, $table->rows[$cardId]->balance);
+    $GLOBALS['gc_transients'] = [];
+    $engine->handleOrderCompleted(603, 0);
+    check('completing it again does not debit twice', 40.0, $table->rows[$cardId]->balance);
 
     stop();
     echo "\nall checks passed\n";

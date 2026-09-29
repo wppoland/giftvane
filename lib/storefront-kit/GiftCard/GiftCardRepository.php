@@ -45,4 +45,16 @@ interface GiftCardRepository
      * Overwrite the remaining balance for a gift card row.
      */
     public function updateBalance(int $id, float $balance): void;
+
+    /**
+     * Take an amount off a card in one conditional write. Returns false, and
+     * changes nothing, when the balance no longer covers the amount, which is
+     * how two checkouts racing for the same card are told apart.
+     */
+    public function debit(int $id, float $amount): bool;
+
+    /**
+     * Give an amount back to a card, for an order that was cancelled or refunded.
+     */
+    public function credit(int $id, float $amount): void;
 }

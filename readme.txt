@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,12 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.2.5 =
+* Fixed: a gift card's balance came off only when the order reached Completed, often days after payment, so until then the same card could pay for any number of other orders. The balance is now taken at checkout in a single conditional write, and a second order the card no longer covers is refused before it is created.
+* Fixed: completing an order took every negative fee on it off the card, including another plugin's discount. Only the gift card's own discount line is counted.
+* Fixed: a shopper who was shown a gift-card discount the card no longer covered was charged the full price without warning. The order now stops with a message and the totals refresh first.
+* Cancelling or refunding an order gives the redeemed amount back to the card, once.
 
 = 1.2.4 =
 * The upgrade notice's "Coming soon" and "Get notified" labels are English source strings for every language; Polish sites used to get their own Polish source text, which translators in other languages then saw untranslated.

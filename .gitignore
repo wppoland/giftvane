@@ -6,3 +6,4 @@
 # composer.lock IS committed, pins the shipped storefront-kit version.
 *~
 *.bak
+/.wp-env.override.json

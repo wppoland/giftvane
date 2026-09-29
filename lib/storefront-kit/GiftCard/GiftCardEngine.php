@@ -69,8 +69,11 @@ final class GiftCardEngine
         add_action('woocommerce_review_order_before_payment', [$this, 'renderRedeemField'], 10);
         add_action('woocommerce_checkout_update_order_review', [$this, 'captureRedeemCode'], 10);
         add_action('woocommerce_cart_calculate_fees', [$this, 'applyRedeemDiscount'], 30);
+        add_action('woocommerce_after_checkout_validation', [$this, 'checkRedeemStillCovers'], 10, 2);
         add_action('woocommerce_checkout_create_order', [$this, 'persistRedeemCode'], 10, 1);
         add_action('woocommerce_order_status_completed', [$this, 'handleOrderCompleted'], 10, 1);
+        add_action('woocommerce_order_status_cancelled', [$this, 'restoreRedeemedBalance'], 10, 1);
+        add_action('woocommerce_order_status_refunded', [$this, 'restoreRedeemedBalance'], 10, 1);
 
         // The only other way back into an interrupted run. `completed` fires on
         // the transition, so an order that is already Completed never fires it
@@ -129,16 +132,16 @@ final class GiftCardEngine
             return;
         }
 
-        $card = $this->getAppliedCard();
+        $card    = $this->getAppliedCard();
+        $applied = $card === null ? 0.0 : $this->coverFor($card->balance, $cart);
 
-        if ($card === null) {
-            return;
+        // Remember what the shopper was shown, so the checkout can tell when
+        // the card covers less by the time the order is placed.
+        if (! did_action('woocommerce_checkout_process') && WC()->session instanceof \WC_Session) {
+            WC()->session->set($this->sessionKey . '_shown', $applied);
         }
 
-        $cartTotal = (float) $cart->get_subtotal() + (float) $cart->get_subtotal_tax();
-        $applied = min($card->balance, $cartTotal);
-
-        if ($applied <= 0) {
+        if ($card === null || $applied <= 0) {
             return;
         }
 
@@ -149,9 +152,53 @@ final class GiftCardEngine
     }
 
     /**
-     * Persist the session-held redeem code onto the order at creation time so
-     * {@see redeemAppliedCard()} can decrement the balance reliably later, the
-     * WC session is not guaranteed to survive until `order_status_completed`.
+     * Stop the order when the card now covers less than the discount the
+     * shopper saw, typically because it was just spent on another order.
+     * Without this the checkout recalculates silently and charges more than
+     * the total on screen; with it WooCommerce refreshes the totals and the
+     * shopper confirms the new amount.
+     *
+     * @param array<string, mixed> $data
+     */
+    public function checkRedeemStillCovers(array $data, \WP_Error $errors): void
+    {
+        if (! $this->isEnabled() || $this->getAppliedCode() === '' || ! WC()->cart instanceof \WC_Cart) {
+            return;
+        }
+
+        $shown = (float) WC()->session->get($this->sessionKey . '_shown', 0);
+
+        if ($shown <= 0) {
+            return;
+        }
+
+        $card = $this->repository->findByCode($this->getAppliedCode());
+        $now  = $card === null ? 0.0 : $this->coverFor($card->balance, WC()->cart);
+
+        if ($now + 0.0001 < $shown) {
+            WC()->session->set($this->sessionKey . '_shown', $now);
+            // Makes WooCommerce's failure response ask the page to refresh the
+            // order review, so the retry shows the total it will charge.
+            WC()->session->set('refresh_totals', true);
+            $errors->add('giftcards_balance', $this->message('insufficient_balance'));
+        }
+    }
+
+    private function coverFor(float $balance, \WC_Cart $cart): float
+    {
+        return max(0.0, min($balance, (float) $cart->get_subtotal() + (float) $cart->get_subtotal_tax()));
+    }
+
+    /**
+     * Take the redeemed amount off the card while the order is being created.
+     *
+     * The balance used to come off only when the order reached "completed",
+     * which can be days after payment, so until then the same card could pay
+     * for any number of other orders. Debiting here, in one conditional write,
+     * means a second checkout racing for the same balance is refused before
+     * its order exists; the exception is what WooCommerce shows the shopper.
+     *
+     * @throws \Exception When the card no longer covers the discount.
      */
     public function persistRedeemCode(\WC_Order $order): void
     {
@@ -161,9 +208,109 @@ final class GiftCardEngine
 
         $code = $this->getAppliedCode();
 
-        if ($code !== '') {
-            $order->update_meta_data($this->sessionKey, $code);
+        if ($code === '') {
+            return;
         }
+
+        $order->update_meta_data($this->sessionKey, $code);
+
+        if (! $this->debitOrder($order, $code)) {
+            throw new \Exception(esc_html($this->message('insufficient_balance')));
+        }
+
+        // The cart is gone after checkout; a code left in the session would
+        // discount the shopper's next cart with whatever balance remains.
+        WC()->session->__unset($this->sessionKey);
+    }
+
+    /**
+     * Debit the card for this order's own gift-card fee, once. Returns false
+     * only when the card no longer covers the amount.
+     */
+    public function debitOrder(\WC_Order $order, string $code): bool
+    {
+        if ($order->get_meta($this->redeemedFlag()) === 'yes') {
+            return true;
+        }
+
+        $card = $this->repository->findByCode($code);
+
+        if ($card === null) {
+            return true;
+        }
+
+        $used = $this->giftCardFeeTotal($order, $card->code);
+
+        if ($used <= 0) {
+            return true;
+        }
+
+        if (! $this->repository->debit($card->id, $used)) {
+            return false;
+        }
+
+        $order->update_meta_data($this->redeemedFlag(), 'yes');
+        $order->update_meta_data($this->sessionKey . '_amount', (string) $used);
+        $order->update_meta_data($this->sessionKey . '_card', (string) $card->id);
+
+        return true;
+    }
+
+    /**
+     * Give the redeemed amount back when the order is cancelled or refunded.
+     */
+    public function restoreRedeemedBalance(int $orderId): void
+    {
+        $order = wc_get_order($orderId);
+
+        if (! $order instanceof \WC_Order || $order->get_meta($this->redeemedFlag()) !== 'yes') {
+            return;
+        }
+
+        $restored = $this->sessionKey . '_restored';
+
+        if ($order->get_meta($restored) === 'yes') {
+            return;
+        }
+
+        $cardId = (int) $order->get_meta($this->sessionKey . '_card');
+        $amount = (float) $order->get_meta($this->sessionKey . '_amount');
+
+        if ($cardId <= 0 || $amount <= 0) {
+            return;
+        }
+
+        // Claimed before the write, as in redeemAppliedCard(): a second credit
+        // would hand the shopper money the shop never took.
+        $order->update_meta_data($restored, 'yes');
+        $order->save();
+
+        $this->repository->credit($cardId, $amount);
+    }
+
+    /**
+     * The amount this order discounted through our own fee line, and nothing
+     * else: another plugin's negative fee is not a gift-card redemption.
+     */
+    private function giftCardFeeTotal(\WC_Order $order, string $code): float
+    {
+        $name = Formatter::interpolate($this->message('fee_label'), ['code' => $code]);
+        $used = 0.0;
+
+        foreach ($order->get_fees() as $fee) {
+            $total = (float) $fee->get_total();
+
+            if ($total < 0 && $fee->get_name() === $name) {
+                $used += abs($total);
+            }
+        }
+
+        return round($used, 4);
+    }
+
+    private function redeemedFlag(): string
+    {
+        return $this->sessionKey . '_redeemed';
     }
 
     /**
@@ -438,47 +585,26 @@ final class GiftCardEngine
         return '_' . $this->sessionKey . '_issued';
     }
 
+    /**
+     * Fallback for orders created outside the classic checkout (admin, REST):
+     * they never passed persistRedeemCode(), so debit at completion instead.
+     * An order debited at checkout carries the flag and is skipped.
+     */
     private function redeemAppliedCard(\WC_Order $order): void
     {
         $code = (string) $order->get_meta($this->sessionKey);
 
-        if ($code === '') {
+        if ($code === '' || $order->get_meta($this->redeemedFlag()) === 'yes') {
             return;
         }
 
-        // Unlike issuing, this one is claimed before the work, not after. The
-        // work is a single balance write with nothing slow in front of it, and
-        // the two failures are not equal: a second decrement takes the shopper's
-        // remaining balance away twice, while a lost decrement costs the shop
-        // one discount it already gave.
-        $redeemedFlag = $this->sessionKey . '_redeemed';
+        if ($this->debitOrder($order, $code)) {
+            $order->save();
 
-        if ($order->get_meta($redeemedFlag) === 'yes') {
             return;
         }
 
-        $card = $this->repository->findByCode($code);
-
-        if ($card === null) {
-            return;
-        }
-
-        $used = 0.0;
-
-        foreach ($order->get_fees() as $fee) {
-            $total = (float) $fee->get_total();
-
-            if ($total < 0) {
-                $used += abs($total);
-            }
-        }
-
-        $newBalance = max(0.0, $card->balance - $used);
-
-        $order->update_meta_data($redeemedFlag, 'yes');
-        $order->save();
-
-        $this->repository->updateBalance($card->id, $newBalance);
+        $order->add_order_note(Formatter::interpolate($this->message('insufficient_balance_note'), ['code' => $code]));
     }
 
     /**
