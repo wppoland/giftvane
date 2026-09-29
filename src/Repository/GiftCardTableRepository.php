@@ -133,6 +133,37 @@ final class GiftCardTableRepository implements GiftCardRepository
         );
     }
 
+    public function debit(int $id, float $amount): bool
+    {
+        global $wpdb;
+
+        $updated = $wpdb->query(
+            $wpdb->prepare(
+                'UPDATE %i SET balance = balance - %f WHERE id = %d AND balance >= %f',
+                $this->table(),
+                $amount,
+                $id,
+                $amount,
+            ),
+        );
+
+        return is_int($updated) && $updated === 1;
+    }
+
+    public function credit(int $id, float $amount): void
+    {
+        global $wpdb;
+
+        $wpdb->query(
+            $wpdb->prepare(
+                'UPDATE %i SET balance = balance + %f WHERE id = %d',
+                $this->table(),
+                $amount,
+                $id,
+            ),
+        );
+    }
+
     /**
      * Hard ceiling on rows returned for a single order's gift-card display, so a
      * malformed or abusive order (e.g. an enormous line quantity) can never make

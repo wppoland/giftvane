@@ -75,6 +75,9 @@ final class GiftCardService implements HasHooks
                 'email_body'    => $this->label($settings, 'email_body', __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'giftvane')),
                 'invalid_code'  => __('That gift card code is not valid.', 'giftvane'),
                 'applied'       => __('Gift card applied.', 'giftvane'),
+                'insufficient_balance' => __('Your gift card no longer covers this discount, most likely because it was just used on another order. Update your order to see the balance that is left.', 'giftvane'),
+                /* translators: {code}: the gift card code. */
+                'insufficient_balance_note' => __('Gift card {code} did not cover the discount on this order when it completed, so its balance was not reduced. Check the card before shipping.', 'giftvane'),
                 'retry_exhausted' => __('Gift card issuing did not finish on {attempts} attempts for this order, and this was the last automatic one. Check that every gift card line here shows a code; if any is missing, move the order out of Completed and back to run it again.', 'giftvane'),
             ],
             isEnabled: fn (): bool => $this->isEnabled(),
