@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,14 @@ Giftvane is fully translatable and ships the `giftvane.pot` template. Translatio
 
 == Changelog ==
 
+= 1.2.7 =
+* The checkout gift card field carries its own nonce, and the code is read only when that nonce verifies.
+* The recipient email showed the amount with its currency symbol as a raw HTML entity ("&#36;50.00" in the subject and body). It now reads "$50.00".
+* Plain-text customer emails list the issued codes as text; they used to receive the HTML table as literal tags.
+* Deleting the plugin on a multisite network removes the gift card table, options and pending retries on every site, not only the main one.
+* Every database query names the plugin table through a prepared placeholder, including the schema migration and uninstall.
+* The bundled library files refuse direct access like the rest of the plugin.
+
 = 1.2.6 =
 * Security (low): the product gift-card status ability now checks that the caller may edit that specific product, not products in general, so it cannot reveal a draft or private product's price.
 
@@ -193,6 +201,9 @@ Giftvane is fully translatable and ships the `giftvane.pot` template. Translatio
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.7 =
+The gift card email shows the amount with a real currency symbol, the checkout gift card field is nonce-checked, plain-text emails list codes as text, and uninstall cleans every site of a network.
 
 = 1.2.6 =
 Security release. The product gift-card status ability checks access to that specific product. Update recommended.

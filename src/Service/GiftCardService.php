@@ -252,9 +252,29 @@ final class GiftCardService implements HasHooks
         bool $plainText = false,
         ?\WC_Email $email = null
     ): void {
-        unset($plainText, $email);
+        unset($email);
 
         if ($sentToAdmin) {
+            return;
+        }
+
+        // A plain-text email prints whatever is echoed verbatim, so markup
+        // would reach the customer as literal tags.
+        if ($plainText) {
+            $cards = $this->repository->findByOrderId($order->get_id());
+
+            if ($cards === []) {
+                return;
+            }
+
+            echo "\n" . esc_html__('Your gift cards', 'giftvane') . "\n\n";
+
+            foreach ($cards as $card) {
+                echo esc_html($card['code'] . ': ' . wp_strip_all_tags(wc_price($card['balance']))) . "\n";
+            }
+
+            echo "\n";
+
             return;
         }
 

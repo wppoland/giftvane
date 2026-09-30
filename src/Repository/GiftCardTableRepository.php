@@ -16,11 +16,11 @@ defined('ABSPATH') || exit;
  * in `{$wpdb->prefix}giftcards`. The table is created by the
  * {@see \GiftCards\Migrator}. Storage lives here (not in the kit) so the library
  * hard-codes no table name and no `$wpdb` access, the same delegation the kit
- * uses for the waitlist. The `$wpdb->prefix`-derived table name cannot be passed
- * as a placeholder, so the direct-query / unescaped-DB-parameter sniffs are
- * disabled with justification, mirroring restock's WaitlistRepository.
+ * uses for the waitlist. Every query is prepared, with the table name passed
+ * through %i. The direct-query and caching sniffs are off because the plugin
+ * owns this table and balances must be read fresh, never from a cache.
  *
- * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom plugin table; name derived from $wpdb->prefix and cannot be parameterised; queries are prepared.
+ * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table; balances are read fresh; every query is prepared.
  */
 final class GiftCardTableRepository implements GiftCardRepository
 {

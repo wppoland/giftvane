@@ -15,12 +15,11 @@ defined('ABSPATH') || exit;
  * fix can ship without forcing a plugin version bump. Each forward step is
  * written to be safe to run more than once.
  *
- * The custom-table name is derived from `$wpdb->prefix` and cannot be passed as
- * a placeholder, so the direct-query / unescaped-DB-parameter sniffs are
- * disabled here with justification, mirroring the repository and restock's
- * WaitlistRepository. All user/data values are still prepared.
+ * Every query is prepared, with the table name passed through %i. The
+ * direct-query and caching sniffs are off because this is a schema migration on
+ * the plugin's own table: there is no WordPress API for it and nothing to cache.
  *
- * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom plugin table; name derived from $wpdb->prefix and cannot be parameterised; data values are prepared.
+ * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema migration on the plugin's own table; every query is prepared.
  */
 final class Migrator
 {
@@ -111,17 +110,15 @@ final class Migrator
 
         $this->dedupeCodes($table);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.SchemaChange -- one-off migration on our own table; the name comes from $wpdb->prefix, no user input.
-        $wpdb->query("ALTER TABLE {$table} ADD UNIQUE KEY code (code)");
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- one-off migration adding an index to our own table.
+        $wpdb->query($wpdb->prepare('ALTER TABLE %i ADD UNIQUE KEY code (code)', $table));
     }
 
     private function hasUniqueCodeIndex(string $table): bool
     {
         global $wpdb;
 
-        // SHOW INDEX cannot use %i; the table name is $wpdb->prefix-derived.
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; cannot be a placeholder.
-        $indexes = $wpdb->get_results($wpdb->prepare("SHOW INDEX FROM {$table} WHERE Key_name = %s", 'code'));
+        $indexes = $wpdb->get_results($wpdb->prepare('SHOW INDEX FROM %i WHERE Key_name = %s', $table, 'code'));
 
         return is_array($indexes) && $indexes !== [];
     }
@@ -136,18 +133,20 @@ final class Migrator
     {
         global $wpdb;
 
-        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; no user input.
         $duplicateIds = $wpdb->get_col(
-            "SELECT g.id
-             FROM {$table} g
-             JOIN (
-                 SELECT code, MIN(id) AS keep_id
-                 FROM {$table}
-                 GROUP BY code
-                 HAVING COUNT(*) > 1
-             ) d ON g.code = d.code AND g.id <> d.keep_id"
+            $wpdb->prepare(
+                'SELECT g.id
+                 FROM %i g
+                 JOIN (
+                     SELECT code, MIN(id) AS keep_id
+                     FROM %i
+                     GROUP BY code
+                     HAVING COUNT(*) > 1
+                 ) d ON g.code = d.code AND g.id <> d.keep_id',
+                $table,
+                $table,
+            ),
         );
-        // phpcs:enable
 
         if (! is_array($duplicateIds) || $duplicateIds === []) {
             return;
@@ -158,11 +157,10 @@ final class Migrator
 
             // Suffix with the row id (unique by definition), truncating to keep
             // the column's 64-char limit. Data value -> fully prepared.
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- one-off migration on our own table, nothing to cache.
             $wpdb->query(
                 $wpdb->prepare(
-                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name derived from $wpdb->prefix; values are prepared.
-                    "UPDATE {$table} SET code = CONCAT(LEFT(code, 50), %s) WHERE id = %d",
+                    'UPDATE %i SET code = CONCAT(LEFT(code, 50), %s) WHERE id = %d',
+                    $table,
                     '-' . $id,
                     $id
                 )
