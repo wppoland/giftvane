@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,9 @@ Giftvane is fully translatable and ships the `giftvane.pot` template. Translatio
 
 == Changelog ==
 
+= 1.2.6 =
+* Security (low): the product gift-card status ability now checks that the caller may edit that specific product, not products in general, so it cannot reveal a draft or private product's price.
+
 = 1.2.5 =
 * Fixed: a gift card's balance came off only when the order reached Completed, often days after payment, so until then the same card could pay for any number of other orders. The balance is now taken at checkout in a single conditional write, and a second order the card no longer covers is refused before it is created.
 * Fixed: completing an order took every negative fee on it off the card, including another plugin's discount. Only the gift card's own discount line is counted.
@@ -188,3 +191,8 @@ Giftvane is fully translatable and ships the `giftvane.pot` template. Translatio
 
 = 0.1.0 =
 * Initial release.
+
+== Upgrade Notice ==
+
+= 1.2.6 =
+Security release. The product gift-card status ability checks access to that specific product. Update recommended.

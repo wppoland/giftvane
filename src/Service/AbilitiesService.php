@@ -277,7 +277,7 @@ final class AbilitiesService implements HasHooks
                     'currency'     => get_woocommerce_currency(),
                 ];
             },
-            'permission_callback' => [$this, 'canEditProducts'],
+            'permission_callback' => [$this, 'canEditProduct'],
             'meta'                => ['show_in_rest' => true, 'readonly' => true],
         ]);
     }
@@ -292,12 +292,17 @@ final class AbilitiesService implements HasHooks
     }
 
     /**
-     * The gift-card flag lives on the product, so anyone who may edit products
-     * (and any shop manager) may read it.
+     * The gift-card flag and price are read from one product, so the caller
+     * must be allowed to edit that product, not products in general: a
+     * contributor-level role could otherwise read a draft or private product.
+     *
+     * @param mixed $input The ability input.
      */
-    public function canEditProducts(): bool
+    public function canEditProduct($input = null): bool
     {
-        return current_user_can('edit_products') || current_user_can('manage_woocommerce');
+        $productId = is_array($input) ? (int) ($input['product_id'] ?? 0) : 0;
+
+        return $productId > 0 && current_user_can('edit_post', $productId);
     }
 
     /**
