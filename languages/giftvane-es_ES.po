@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gift Cards, Store Credit for WooCommerce 0.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/giftvane\n"
-"POT-Creation-Date: 2026-09-13T12:50:12+00:00\n"
+"POT-Creation-Date: 2026-09-29T09:27:57+00:00\n"
 "PO-Revision-Date: 2026-06-16T20:25:36+00:00\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: giftvane.php
-msgid "https://plogins.com/giftvane/"
+msgid "https://plogins.com/plogins-giftcards/"
 msgstr ""
 
 #. Description of the plugin
@@ -68,11 +68,11 @@ msgstr ""
 msgid "Giftvane requires WooCommerce to be installed and activated."
 msgstr ""
 
-#: src/Admin/ProductFields.php:35
+#: src/Admin/ProductFields.php:37
 msgid "Gift card"
 msgstr "Tarjeta de regalo"
 
-#: src/Admin/ProductFields.php:37
+#: src/Admin/ProductFields.php:39
 msgid ""
 "When checked, buying this product issues a unique code worth the product "
 "price and emails it to the recipient on order completion. Set the price to "
@@ -87,10 +87,6 @@ msgstr ""
 "del pedido."
 
 #: src/Admin/ProUpsell.php:86
-msgid "Wkrótce"
-msgstr "Próximamente"
-
-#: src/Admin/ProUpsell.php:86
 msgid "Coming soon"
 msgstr "Próximamente"
 
@@ -103,10 +99,6 @@ msgstr "desde %1$s%2$d/año"
 #: src/Admin/ProUpsell.php:101
 msgid "Upgrade to PRO"
 msgstr "Mejora a PRO"
-
-#: src/Admin/ProUpsell.php:102
-msgid "Powiadom mnie"
-msgstr "Avísame"
 
 #: src/Admin/ProUpsell.php:102
 msgid "Get notified"
@@ -126,16 +118,16 @@ msgstr "Haz más con %s"
 msgid "Dismiss this notice"
 msgstr "Descartar este aviso"
 
-#: src/Admin/ProUpsell.php:186
+#: src/Admin/ProUpsell.php:191
 msgid "Unlock every PRO feature"
 msgstr "Desbloquea todas las funciones PRO"
 
-#: src/Admin/ProUpsell.php:199
+#: src/Admin/ProUpsell.php:204
 msgid "one licence, every PRO feature"
 msgstr "una licencia, todas las funciones PRO"
 
 #. translators: %s: PRO edition name
-#: src/Admin/ProUpsell.php:218
+#: src/Admin/ProUpsell.php:223
 #, php-format
 msgid "What %s adds"
 msgstr "Lo que añade %s"
@@ -409,17 +401,31 @@ msgstr "Tarjeta regalo aplicada."
 
 #: src/Service/GiftCardService.php:78
 msgid ""
+"Your gift card no longer covers this discount, most likely because it was "
+"just used on another order. Update your order to see the balance that is "
+"left."
+msgstr ""
+
+#. translators: {code}: the gift card code.
+#: src/Service/GiftCardService.php:80
+msgid ""
+"Gift card {code} did not cover the discount on this order when it completed, "
+"so its balance was not reduced. Check the card before shipping."
+msgstr ""
+
+#: src/Service/GiftCardService.php:81
+msgid ""
 "Gift card issuing did not finish on {attempts} attempts for this order, and "
 "this was the last automatic one. Check that every gift card line here shows "
 "a code; if any is missing, move the order out of Completed and back to run "
 "it again."
 msgstr ""
 
-#: src/Service/GiftCardService.php:205
+#: src/Service/GiftCardService.php:208
 msgid "Your gift cards"
 msgstr "Tus tarjetas regalo"
 
-#: src/Service/GiftCardService.php:208
+#: src/Service/GiftCardService.php:211
 msgid ""
 "Keep these codes safe. Enter a code at checkout to spend its balance; any "
 "unused amount stays on the card."
@@ -428,23 +434,23 @@ msgstr ""
 "para gastar su saldo; cualquier cantidad no utilizada permanece en la "
 "tarjeta."
 
-#: src/Service/GiftCardService.php:211
+#: src/Service/GiftCardService.php:214
 msgid "Code"
 msgstr "Código"
 
-#: src/Service/GiftCardService.php:212
+#: src/Service/GiftCardService.php:215
 msgid "Balance"
 msgstr "Balance"
 
-#: src/Service/GiftCardService.php:215
+#: src/Service/GiftCardService.php:218
 msgid "Copy code"
 msgstr "Copiar código"
 
-#: src/Service/GiftCardService.php:228
+#: src/Service/GiftCardService.php:231
 msgid "Copied"
 msgstr "Copiado"
 
-#: src/Service/GiftCardService.php:229
+#: src/Service/GiftCardService.php:232
 msgid "Copy failed: select and copy manually"
 msgstr "Error al copiar: seleccione y copie manualmente"
 
@@ -476,6 +482,12 @@ msgstr "Aplicar"
 msgid "Gift card applied, the balance is shown in your order total."
 msgstr ""
 "Tarjeta de regalo aplicada, el saldo se muestra en el total de su pedido."
+
+#~ msgid "Wkrótce"
+#~ msgstr "Próximamente"
+
+#~ msgid "Powiadom mnie"
+#~ msgstr "Avísame"
 
 #~ msgid "Gift Cards, Store Credit for WooCommerce"
 #~ msgstr "Tarjetas de regalo: crédito de tienda para WooCommerce"
