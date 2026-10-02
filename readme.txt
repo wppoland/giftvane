@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.7
+Stable tag: 1.2.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.2.8 =
+* The read-only abilities are now flagged read-only where the Abilities API looks for it (meta.annotations), so they are called with GET as the API expects; GET used to return 405 and only POST worked. get-settings also accepts a call with no input.
 
 = 1.2.7 =
 * The checkout gift card field carries its own nonce, and the code is read only when that nonce verifies.
