@@ -14,9 +14,7 @@
  * @var string $giftcards_field_name   Input name the engine reads on update.
  * @var string $giftcards_nonce_field  Nonce value for the redeem action.
  * @var string $giftcards_applied_code Currently applied code, if any.
- * @var array<string, mixed> $giftcards_settings Resolved settings.
- *
- * phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template-scope variables supplied by the host renderField closure.
+
  */
 
 defined('ABSPATH') || exit;

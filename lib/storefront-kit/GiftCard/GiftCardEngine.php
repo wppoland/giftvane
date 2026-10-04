@@ -6,6 +6,8 @@ namespace WPPoland\StorefrontKit\GiftCard;
 
 use WPPoland\StorefrontKit\Support\Formatter;
 
+defined('ABSPATH') || exit;
+
 /**
  * Namespace-neutral gift-card / store-credit engine (powers the Gift Cards, 
  * Store Credit for WooCommerce plugin).
@@ -91,6 +93,7 @@ final class GiftCardEngine
 
         ($this->renderField)($this->fieldTemplate, [
             'field_name' => $this->fieldName,
+            'nonce_field' => wp_create_nonce($this->nonceAction),
             'applied_code' => $this->getAppliedCode(),
             'settings' => $this->getSettings(),
         ]);
@@ -99,12 +102,9 @@ final class GiftCardEngine
     /**
      * Reads the gift-card code out of the serialised checkout form.
      *
-     * No nonce is checked here and none is needed: this runs on
-     * woocommerce_checkout_update_order_review, which WooCommerce reaches only
-     * through its own update_order_review endpoint after check_ajax_referer, and
-     * the only thing written is the visitor's own session. A nonce used to be
-     * created for this and handed to the script, which never sent it: a check
-     * that does not run is worse than no check, because it reads like one does.
+     * The redeem field carries its own nonce (printed next to it by the
+     * template, so it travels in the serialised form). Nothing is read unless
+     * that nonce verifies; a stale or missing one leaves the session as it was.
      */
     public function captureRedeemCode(string $postedData): void
     {
@@ -115,7 +115,19 @@ final class GiftCardEngine
         $parsed = [];
         parse_str($postedData, $parsed);
 
-        $code = isset($parsed[$this->fieldName]) ? $this->normalizeCode((string) $parsed[$this->fieldName]) : '';
+        $nonceKey = $this->fieldName . '_nonce';
+        $nonce    = isset($parsed[$nonceKey]) && is_string($parsed[$nonceKey])
+            ? sanitize_text_field($parsed[$nonceKey])
+            : '';
+
+        if (! wp_verify_nonce($nonce, $this->nonceAction)) {
+            return;
+        }
+
+        $raw  = isset($parsed[$this->fieldName]) && is_string($parsed[$this->fieldName])
+            ? sanitize_text_field($parsed[$this->fieldName])
+            : '';
+        $code = $this->normalizeCode($raw);
 
         if ($code === '') {
             WC()->session->__unset($this->sessionKey);
@@ -691,15 +703,15 @@ final class GiftCardEngine
 
     private function sendRecipientEmail(string $recipientEmail, string $code, float $amount): void
     {
-        $subject = Formatter::interpolate($this->message('email_subject'), [
+        // The email is plain text, so the currency symbol wc_price() writes as
+        // an HTML entity (&#36;, &euro;) is decoded rather than sent literally.
+        $values = [
             'code' => $code,
-            'amount' => wp_strip_all_tags(wc_price($amount)),
-        ]);
+            'amount' => html_entity_decode(wp_strip_all_tags(wc_price($amount)), ENT_QUOTES, 'UTF-8'),
+        ];
 
-        $body = Formatter::interpolate($this->message('email_body'), [
-            'code' => $code,
-            'amount' => wp_strip_all_tags(wc_price($amount)),
-        ]);
+        $subject = Formatter::interpolate($this->message('email_subject'), $values);
+        $body    = Formatter::interpolate($this->message('email_body'), $values);
 
         wp_mail($recipientEmail, $subject, $body);
     }

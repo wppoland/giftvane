@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace WPPoland\StorefrontKit\Support;
 
+defined('ABSPATH') || exit;
+
 final class Formatter
 {
     /**

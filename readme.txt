@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.5
+Stable tag: 1.2.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,20 @@ Giftvane is fully translatable and ships the `giftvane.pot` template. Translatio
 
 == Changelog ==
 
+= 1.2.8 =
+* The read-only abilities are now flagged read-only where the Abilities API looks for it (meta.annotations), so they are called with GET as the API expects; GET used to return 405 and only POST worked. get-settings also accepts a call with no input.
+
+= 1.2.7 =
+* The checkout gift card field carries its own nonce, and the code is read only when that nonce verifies.
+* The recipient email showed the amount with its currency symbol as a raw HTML entity ("&#36;50.00" in the subject and body). It now reads "$50.00".
+* Plain-text customer emails list the issued codes as text; they used to receive the HTML table as literal tags.
+* Deleting the plugin on a multisite network removes the gift card table, options and pending retries on every site, not only the main one.
+* Every database query names the plugin table through a prepared placeholder, including the schema migration and uninstall.
+* The bundled library files refuse direct access like the rest of the plugin.
+
+= 1.2.6 =
+* Security (low): the product gift-card status ability now checks that the caller may edit that specific product, not products in general, so it cannot reveal a draft or private product's price.
+
 = 1.2.5 =
 * Fixed: a gift card's balance came off only when the order reached Completed, often days after payment, so until then the same card could pay for any number of other orders. The balance is now taken at checkout in a single conditional write, and a second order the card no longer covers is refused before it is created.
 * Fixed: completing an order took every negative fee on it off the card, including another plugin's discount. Only the gift card's own discount line is counted.
@@ -188,3 +202,11 @@ Giftvane is fully translatable and ships the `giftvane.pot` template. Translatio
 
 = 0.1.0 =
 * Initial release.
+
+== Upgrade Notice ==
+
+= 1.2.7 =
+The gift card email shows the amount with a real currency symbol, the checkout gift card field is nonce-checked, plain-text emails list codes as text, and uninstall cleans every site of a network.
+
+= 1.2.6 =
+Security release. The product gift-card status ability checks access to that specific product. Update recommended.

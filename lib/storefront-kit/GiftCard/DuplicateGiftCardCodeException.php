@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace WPPoland\StorefrontKit\GiftCard;
 
+defined('ABSPATH') || exit;
+
 /**
  * Thrown by a {@see GiftCardRepository::issue()} implementation when the insert
  * is rejected by the database UNIQUE index on the code column (a concurrent

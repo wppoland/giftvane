@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace WPPoland\StorefrontKit\GiftCard;
 
+defined('ABSPATH') || exit;
+
 /**
  * Storage contract for the gift-card engine. The host plugin implements this
  * against its own custom table (e.g. `{$wpdb->prefix}..._gift_cards`).
