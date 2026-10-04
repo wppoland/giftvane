@@ -133,7 +133,7 @@ final class AbilitiesService implements HasHooks
                 ];
             },
             'permission_callback' => [$this, 'canManageShop'],
-            'meta'                => ['show_in_rest' => true, 'readonly' => true],
+            'meta'                => ['show_in_rest' => true, 'annotations' => ['readonly' => true, 'destructive' => false, 'idempotent' => true]],
         ]);
     }
 
@@ -182,7 +182,7 @@ final class AbilitiesService implements HasHooks
                 ];
             },
             'permission_callback' => [$this, 'canManageShop'],
-            'meta'                => ['show_in_rest' => true, 'readonly' => true],
+            'meta'                => ['show_in_rest' => true, 'annotations' => ['readonly' => true, 'destructive' => false, 'idempotent' => true]],
         ]);
     }
 
@@ -197,7 +197,7 @@ final class AbilitiesService implements HasHooks
             'label'        => __('Get the gift card settings', 'giftvane'),
             'description'  => __('Returns the gift card configuration in force: whether the feature is on, the code prefix, the checkout discount label, whether codes are shown on the order, and the wording of the email a recipient is sent. This is the shop\'s own configuration, never a recipient address.', 'giftvane'),
             'category'     => 'giftcards-setup',
-            'input_schema' => ['type' => 'object', 'properties' => []],
+            'input_schema' => ['type' => 'object', 'default' => [], 'properties' => []],
             'output_schema' => [
                 'type'       => 'object',
                 'properties' => [
@@ -222,7 +222,7 @@ final class AbilitiesService implements HasHooks
                 ];
             },
             'permission_callback' => [$this, 'canManageShop'],
-            'meta'                => ['show_in_rest' => true, 'readonly' => true],
+            'meta'                => ['show_in_rest' => true, 'annotations' => ['readonly' => true, 'destructive' => false, 'idempotent' => true]],
         ]);
     }
 
@@ -278,7 +278,7 @@ final class AbilitiesService implements HasHooks
                 ];
             },
             'permission_callback' => [$this, 'canEditProduct'],
-            'meta'                => ['show_in_rest' => true, 'readonly' => true],
+            'meta'                => ['show_in_rest' => true, 'annotations' => ['readonly' => true, 'destructive' => false, 'idempotent' => true]],
         ]);
     }
 
