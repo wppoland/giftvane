@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: giftcards 0.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/giftvane\n"
-"POT-Creation-Date: 2026-09-29T09:27:57+00:00\n"
+"POT-Creation-Date: 2026-10-04T14:55:08+00:00\n"
 "PO-Revision-Date: 2026-06-15 10:00+0000\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -12,8 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
-"|| n%100>14) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Domain: giftvane\n"
 "X-Generator: WP-CLI 2.12.0\n"
 
@@ -25,13 +24,13 @@ msgstr "Giftvane - karty podarunkowe i kredyt sklepowy dla WooCommerce"
 #. Plugin URI of the plugin
 #: giftvane.php
 msgid "https://plogins.com/plogins-giftcards/"
-msgstr ""
+msgstr "https://plogins.com/plogins-giftcards/"
 
 #. Description of the plugin
 #: giftvane.php
 msgid ""
-"Sell gift cards that email a redeemable code to the recipient and apply as a "
-"discount at checkout."
+"Sell gift cards that email a redeemable code to the recipient and apply as a"
+" discount at checkout."
 msgstr ""
 "Sprzedawaj karty podarunkowe, które wysyłają e-mailem kod do realizacji do "
 "odbiorcy i są stosowane jako rabat podczas składania zamówienia."
@@ -76,12 +75,12 @@ msgstr "Karta podarunkowa"
 msgid ""
 "When checked, buying this product issues a unique code worth the product "
 "price and emails it to the recipient on order completion. Set the price to "
-"the card value (e.g. a $50 card > price $50). The recipient gets the code by "
-"email; the buyer also sees it on the order confirmation."
+"the card value (e.g. a $50 card > price $50). The recipient gets the code by"
+" email; the buyer also sees it on the order confirmation."
 msgstr ""
 "Po zaznaczeniu zakup tego produktu generuje unikalny kod o wartości ceny "
-"produktu i wysyła go e-mailem do odbiorcy po zrealizowaniu zamówienia. Ustaw "
-"cenę równą wartości karty (np. karta o wartości 200 zł > cena 200 zł). "
+"produktu i wysyła go e-mailem do odbiorcy po zrealizowaniu zamówienia. Ustaw"
+" cenę równą wartości karty (np. karta o wartości 200 zł > cena 200 zł). "
 "Odbiorca otrzymuje kod e-mailem; kupujący widzi go również w potwierdzeniu "
 "zamówienia."
 
@@ -159,14 +158,14 @@ msgstr "Sprzedawaj karty podarunkowe w trzech krokach"
 
 #: src/Admin/Settings.php:151
 msgid ""
-"1. Flag a product as a gift card (product editor > General tab > Gift card). "
-"2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
+"1. Flag a product as a gift card (product editor > General tab > Gift card)."
+" 2. A buyer purchases it. 3. A unique code is emailed to the recipient and "
 "can be redeemed at checkout for a discount. Tune the wording below."
 msgstr ""
 "1. Oznacz produkt jako kartę podarunkową (edytor produktu > zakładka Ogólne "
-"> Karta podarunkowa). 2. Kupujący ją kupuje. 3. Unikalny kod jest wysyłany e-"
-"mailem do odbiorcy i można go zrealizować podczas składania zamówienia jako "
-"rabat. Dostosuj treść poniżej."
+"> Karta podarunkowa). 2. Kupujący ją kupuje. 3. Unikalny kod jest wysyłany "
+"e-mailem do odbiorcy i można go zrealizować podczas składania zamówienia "
+"jako rabat. Dostosuj treść poniżej."
 
 #: src/Admin/Settings.php:160
 msgid "General"
@@ -228,9 +227,9 @@ msgstr "Etykieta rabatu w zamówieniu"
 
 #: src/Admin/Settings.php:210
 msgid ""
-"The text shown on the discount line at checkout when a code is applied (e.g. "
-"\"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied "
-"code."
+"The text shown on the discount line at checkout when a code is applied (e.g."
+" \"Gift card (GIFT-AB12CD34)\"). Use the {code} token to include the applied"
+" code."
 msgstr ""
 "Tekst wyświetlany w pozycji rabatu podczas składania zamówienia po "
 "zastosowaniu kodu (np. „Karta podarunkowa (GIFT-AB12CD34)”). Użyj znacznika "
@@ -251,11 +250,12 @@ msgstr "Pokaż kody w zamówieniu"
 msgid ""
 "When a customer buys a gift card for themselves, this lists the issued "
 "code(s) right on the order-confirmation page and in their order emails, so "
-"they get the code instantly without waiting for the separate recipient email."
+"they get the code instantly without waiting for the separate recipient "
+"email."
 msgstr ""
 "Gdy klient kupuje kartę podarunkową dla siebie, ta opcja wyświetla "
-"wygenerowany kod (lub kody) bezpośrednio na stronie potwierdzenia zamówienia "
-"oraz w wiadomościach e-mail z zamówieniem, dzięki czemu otrzymuje kod "
+"wygenerowany kod (lub kody) bezpośrednio na stronie potwierdzenia zamówienia"
+" oraz w wiadomościach e-mail z zamówieniem, dzięki czemu otrzymuje kod "
 "natychmiast, bez czekania na osobny e-mail dla odbiorcy."
 
 #: src/Admin/Settings.php:240
@@ -272,8 +272,8 @@ msgstr "E-mail do odbiorcy"
 
 #: src/Admin/Settings.php:251
 msgid ""
-"The email sent to whoever receives the gift card. Click a token to insert it "
-"where your cursor is."
+"The email sent to whoever receives the gift card. Click a token to insert it"
+" where your cursor is."
 msgstr ""
 "Wiadomość e-mail wysyłana do osoby otrzymującej kartę podarunkową. Kliknij "
 "znacznik, aby wstawić go w miejscu kursora."
@@ -366,8 +366,8 @@ msgstr "Pobierz ustawienia kart podarunkowych"
 
 #: src/Service/AbilitiesService.php:198
 msgid ""
-"Returns the gift card configuration in force: whether the feature is on, the "
-"code prefix, the checkout discount label, whether codes are shown on the "
+"Returns the gift card configuration in force: whether the feature is on, the"
+" code prefix, the checkout discount label, whether codes are shown on the "
 "order, and the wording of the email a recipient is sent. This is the shop's "
 "own configuration, never a recipient address."
 msgstr ""
@@ -419,13 +419,19 @@ msgid ""
 "just used on another order. Update your order to see the balance that is "
 "left."
 msgstr ""
+"Twoja karta podarunkowa nie pokrywa już tego rabatu, najpewniej dlatego, że "
+"została właśnie użyta w innym zamówieniu. Zaktualizuj zamówienie, aby "
+"zobaczyć pozostałe saldo."
 
 #. translators: {code}: the gift card code.
 #: src/Service/GiftCardService.php:80
 msgid ""
-"Gift card {code} did not cover the discount on this order when it completed, "
-"so its balance was not reduced. Check the card before shipping."
+"Gift card {code} did not cover the discount on this order when it completed,"
+" so its balance was not reduced. Check the card before shipping."
 msgstr ""
+"Karta podarunkowa {code} nie pokrywała rabatu w tym zamówieniu w chwili jego"
+" realizacji, więc jej saldo nie zostało pomniejszone. Sprawdź kartę przed "
+"wysyłką."
 
 #: src/Service/GiftCardService.php:81
 msgid ""
@@ -440,7 +446,7 @@ msgstr ""
 "przestaw zamówienie ze statusu Zrealizowane na inny i z powrotem, aby "
 "uruchomić generowanie ponownie."
 
-#: src/Service/GiftCardService.php:208
+#: src/Service/GiftCardService.php:208 src/Service/GiftCardService.php:270
 msgid "Your gift cards"
 msgstr "Twoje karty podarunkowe"
 
@@ -473,33 +479,34 @@ msgstr "Skopiowano"
 msgid "Copy failed: select and copy manually"
 msgstr "Kopiowanie nie powiodło się, zaznacz i skopiuj ręcznie"
 
-#: templates/checkout-redeem-field.php:29
+#: templates/checkout-redeem-field.php:27
 msgid "Have a gift card?"
 msgstr "Masz kartę podarunkową?"
 
-#: templates/checkout-redeem-field.php:32
+#: templates/checkout-redeem-field.php:30
 msgid ""
-"Enter your code to apply its balance to this order. Any unused balance stays "
-"on the card for next time."
+"Enter your code to apply its balance to this order. Any unused balance stays"
+" on the card for next time."
 msgstr ""
 "Wpisz swój kod, aby wykorzystać jego saldo na tym zamówieniu. "
 "Niewykorzystane saldo pozostaje na karcie na następny raz."
 
-#: templates/checkout-redeem-field.php:36
+#: templates/checkout-redeem-field.php:34
 msgid "Gift card code"
 msgstr "Kod karty podarunkowej"
 
-#: templates/checkout-redeem-field.php:44
+#: templates/checkout-redeem-field.php:42
 msgid "e.g. GIFT-AB12CD34"
 msgstr "np. GIFT-AB12CD34"
 
-#: templates/checkout-redeem-field.php:52
+#: templates/checkout-redeem-field.php:50
 msgid "Apply"
 msgstr "Zastosuj"
 
-#: templates/checkout-redeem-field.php:62
+#: templates/checkout-redeem-field.php:60
 msgid "Gift card applied, the balance is shown in your order total."
-msgstr "Zastosowano kartę podarunkową, saldo jest widoczne w sumie zamówienia."
+msgstr ""
+"Zastosowano kartę podarunkową, saldo jest widoczne w sumie zamówienia."
 
 #~ msgid "https://plogins.com/giftvane/"
 #~ msgstr "https://plogins.com/giftvane/"
@@ -523,11 +530,9 @@ msgstr "Zastosowano kartę podarunkową, saldo jest widoczne w sumie zamówienia
 #~ msgstr "https://plogins.com/"
 
 #~ msgid ""
-#~ "Gift Cards, Store Credit for WooCommerce requires WooCommerce to be "
-#~ "active."
+#~ "Gift Cards, Store Credit for WooCommerce requires WooCommerce to be active."
 #~ msgstr ""
-#~ "Gift Cards, karty podarunkowe dla WooCommerce wymaga aktywnego "
-#~ "WooCommerce."
+#~ "Gift Cards, karty podarunkowe dla WooCommerce wymaga aktywnego WooCommerce."
 
 #, php-format
 #~ msgid "od %d zł/rok"
