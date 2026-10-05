@@ -1,243 +1,973 @@
-# wp.org Stable Readme translation (es_ES)
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: giftcards Stable Readme\n"
+"Project-Id-Version: giftvane Stable Readme\n"
 "Last-Translator: motylanogha <szatkowski.mariusz@gmail.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: plogins-i18n\n"
 
+#. Short description.
+#, gp-priority: high
 msgid ""
 "Sell WooCommerce gift cards, gift vouchers and store credit codes that "
 "customers redeem at checkout."
 msgstr ""
-"Vende tarjetas de regalo, vales de regalo y códigos de crédito de tienda de "
-"WooCommerce que los clientes canjean al finalizar la compra."
+"Vende tarjetas de regalo, vales regalo y códigos de crédito de tienda de "
+"WooCommerce que tus clientes canjean al finalizar la compra."
 
+#. Plugin name.
+#, gp-priority: high
+msgid "Giftvane - Gift Cards and Store Credit for WooCommerce"
+msgstr "Giftvane - Tarjetas de regalo y crédito de tienda para WooCommerce"
+
+#. Found in faq paragraph.
 msgid ""
-"Sell a gift card or gift voucher as an ordinary WooCommerce product. Tick "
-"the \"Gift card\" box on any product and set its price to the card value. "
-"When the order is marked complete, the plugin generates a unique store "
-"credit code worth that price, records its balance in its own table, and "
-"emails the code to the buyer's order email address."
+"Yes. This plugin is compatible with WordPress Multisite. Network activate it "
+"or activate it on individual sites; each site keeps its own settings and "
+"data."
 msgstr ""
-"Vende una tarjeta de regalo o un vale de regalo como un producto normal de "
-"WooCommerce. Marca la casilla «Tarjeta regalo» en cualquier producto y "
-"establece su precio según el valor de la tarjeta. Cuando el pedido se marca "
-"como completo, el complemento genera un código de crédito de tienda único "
-"por ese precio, registra su saldo en su propia tabla y envía el código por "
-"correo electrónico a la dirección de correo electrónico del pedido del "
-"comprador."
+"Sí. Este plugin es compatible con WordPress Multisitio. Actívalo en toda la "
+"red o en sitios concretos; cada sitio conserva sus propios ajustes y datos."
 
+#. Found in faq paragraph.
 msgid ""
-"To spend a card, the customer enters the code in a field on the checkout. "
-"The balance is applied as a discount on that order. If the order costs less "
-"than the card is worth, the leftover stays on the code for a later purchase,"
-" so one card can cover several orders until it runs out."
+"HPOS, yes. Redeeming a gift card is currently a classic-checkout feature; on the\n"
+"block checkout the redemption field does not appear."
 msgstr ""
-"Para gastar una tarjeta, el cliente ingresa el código en un campo al "
-"finalizar la compra. El saldo se aplica como descuento en ese pedido. Si el "
-"pedido cuesta menos de lo que vale la tarjeta, el sobrante se queda en el "
-"código para una compra posterior, por lo que una tarjeta puede cubrir varios"
-" pedidos hasta que se agote."
+"HPOS, sí. Por ahora, canjear una tarjeta de regalo solo funciona en la página"
+" de pago clásica; en la página de pago con bloques el campo de canje no "
+"aparece."
 
+#. Found in faq paragraph.
 msgid ""
-"The buyer also sees the code(s) their order issued on the order-confirmation"
-" page and in their WooCommerce order emails, so they have the code in hand "
-"without hunting through their inbox."
+"Yes. Set the email subject and body under WooCommerce &gt; Gift Cards, with "
+"tokens for the code and amount."
 msgstr ""
-"El comprador también ve los códigos emitidos por su pedido en la página de "
-"confirmación del pedido y en los correos electrónicos de su pedido de "
-"WooCommerce, por lo que tiene el código a mano sin tener que buscar en su "
-"bandeja de entrada."
+"Sí. Define el asunto y el cuerpo del correo en WooCommerce &gt; Tarjetas de "
+"regalo, con marcadores para el código y el importe."
 
+#. Found in faq paragraph.
 msgid ""
-"The code is built and tracked on GitHub. Source and bug reports: "
-"https://github.com/wppoland/plogins-giftcards"
+"Yes. Buying two units of a gift card product issues two separate store credit"
+" codes with the product price as each value."
 msgstr ""
-"El código se crea y se rastrea en GitHub. Código fuente e informes de "
-"errores: https://github.com/wppoland/plogins-giftcards"
+"Sí. Comprar dos unidades de un producto de tarjeta de regalo emite dos "
+"códigos de crédito de tienda distintos, cada uno por el valor del precio del "
+"producto."
 
+#. Found in faq paragraph.
 msgid ""
-"* <strong>Documentation</strong> - https://plogins.com/plogins-giftcards/docs/\n"
-"* <strong>Plugin page</strong> - https://plogins.com/plogins-giftcards/\n"
-"* <strong>Source code</strong> - https://github.com/wppoland/plogins-giftcards\n"
-"* <strong>Bug reports and feature requests</strong> - https://github.com/wppoland/plogins-giftcards/issues"
+"Yes. If checkout uses only part of the balance, the remaining store credit "
+"stays on the same code for a later order."
 msgstr ""
-"* <strong>Documentación</strong> - https://plogins.com/es/plogins-giftcards/docs/\n"
-"* <strong>Página de complementos</strong> - https://plogins.com/es/plogins-giftcards/\n"
-"* <strong>Código fuente</strong> - https://github.com/wppoland/plogins-giftcards\n"
-"* <strong>Informes de errores y solicitudes de funciones</strong> - https://github.com/wppoland/plogins-giftcards/issues"
+"Sí. Si en el pago solo se usa una parte del saldo, el crédito de tienda "
+"restante se queda en el mismo código para un pedido posterior."
 
+#. Found in faq paragraph.
 msgid ""
-"* Turns any product into a gift card with one checkbox on the product editor's General tab; the price is the card value.\n"
-"* Generates a unique code on order completion and emails it to the buyer's order email address.\n"
-"* Adds a redeem-code field to the checkout that applies the card balance as a discount.\n"
-"* Keeps the unused balance on the code after a partial spend, so it works across multiple orders.\n"
-"* Lets you set the code prefix, the checkout discount label and the recipient email subject and body.\n"
-"* Optionally lists the issued codes on the buyer's order page and in their order emails.\n"
-"* Works with WooCommerce HPOS (custom order tables) and the Cart and Checkout blocks."
+"The customer types the code into the field at checkout. The balance comes off"
+" that order as a discount, and anything left over stays on the code for next "
+"time."
 msgstr ""
-"* Convierte cualquier producto en una tarjeta de regalo con una casilla de verificación en la pestaña General del editor de productos; el precio es el valor de la tarjeta.\n"
-"* Genera un código único al finalizar el pedido y lo envía por correo electrónico a la dirección de correo electrónico del pedido del comprador.\n"
-"* Añade un campo de código de canje al proceso de pago que aplica el saldo de la tarjeta como descuento.\n"
-"* Mantiene el saldo no utilizado en el código después de un gasto parcial, por lo que funciona en varios pedidos.\n"
-"* Te permite configurar el prefijo del código, la etiqueta de descuento en el pago y el asunto y el cuerpo del correo electrónico del destinatario.\n"
-"* Opcionalmente, enumera los códigos emitidos en la página de pedido del comprador y en los correos electrónicos de su pedido.\n"
-"* Funciona con WooCommerce HPOS (tablas de pedidos personalizadas) y los bloques de Carrito y Pago."
+"El cliente escribe el código en el campo de la página de pago. El saldo se "
+"descuenta de ese pedido y lo que sobre se queda en el código para la próxima "
+"vez."
 
-msgid ""
-"1. Upload the plugin to `/wp-content/plugins/plogins-giftcards`, or install it from Plugins > Add New.\n"
-"2. Activate it. WooCommerce must be active.\n"
-"3. Edit a product, tick <strong>Gift card<strong> on the General tab, and set its price to the value of the card. 4. Set the code prefix and the recipient email under </strong>WooCommerce > Gift Cards</strong>."
-msgstr ""
-"1. Sube el complemento a `/wp-content/plugins/plogins-giftcards`, o instálalo desde Complementos > Añadir nuevo.\n"
-"2. Actívalo. WooCommerce debe estar activo.\n"
-"3. Edita un producto, marca <strong>Tarjeta regalo</strong> en la pestaña General y establece su precio según el valor de la tarjeta.\n"
-"4. Configura el prefijo del código y el correo electrónico del destinatario en <strong>WooCommerce > Tarjetas de regalo</strong>."
-
-msgid "Yes. WooCommerce 8.0 or later must be installed and active."
-msgstr "Sí. WooCommerce 8.0 o posterior debe estar instalado y activo."
-
-msgid ""
-"The value is the price of the gift-card product. Buying two of a $50 card "
-"issues two $50 codes."
-msgstr ""
-"El valor es el precio del producto de la tarjeta regalo. Al comprar dos de "
-"una tarjeta de $50, se emiten dos códigos de $50."
-
+#. Found in faq paragraph.
 msgid ""
 "The code is emailed to the order's billing email address, and the buyer can "
 "also see it on the order-confirmation page and in their order emails. There "
 "is no separate \"send to a friend\" field in this version."
 msgstr ""
-"El código se envía por correo electrónico a la dirección de correo "
-"electrónico de facturación del pedido y el comprador también puede verlo en "
-"la página de confirmación del pedido y en los correos electrónicos del "
-"pedido. No hay un campo separado para \"enviar a un amigo\" en esta versión."
+"El código se envía por correo a la dirección de correo de facturación del "
+"pedido, y el comprador también puede verlo en la página de confirmación del "
+"pedido y en los correos del pedido. En esta versión no hay un campo aparte de"
+" \"enviar a un amigo\"."
 
+#. Found in faq paragraph.
 msgid ""
-"The customer types the code into the field at checkout. The balance comes "
-"off that order as a discount, and anything left over stays on the code for "
-"next time."
+"The value is the price of the gift-card product. Buying two of a $50 card "
+"issues two $50 codes."
 msgstr ""
-"El cliente escribe el código en el campo al finalizar la compra. El saldo se"
-" deduce de ese pedido como un descuento y todo lo que sobra permanece en el "
-"código para la próxima vez."
+"El valor es el precio del producto de tarjeta de regalo. Si compras dos "
+"tarjetas de $50, se emiten dos códigos de $50."
 
+#. Found in faq paragraph.
+msgid "Yes. WooCommerce 8.0 or later must be installed and active."
+msgstr "Sí. Necesitas WooCommerce 8.0 o posterior instalado y activo."
+
+#. Found in faq header.
+msgid "Does this plugin work on WordPress Multisite?"
+msgstr "¿Funciona este plugin en WordPress Multisitio?"
+
+#. Found in faq header.
+msgid "Does it work with WooCommerce checkout blocks?"
+msgstr "¿Funciona con los bloques de pago de WooCommerce?"
+
+#. Found in faq header.
+msgid "Can I customise the email?"
+msgstr "¿Puedo personalizar el correo?"
+
+#. Found in faq header.
+msgid "Does each quantity create a separate code?"
+msgstr "¿Cada unidad crea un código distinto?"
+
+#. Found in faq header.
+msgid "Can a gift card be used more than once?"
+msgstr "¿Se puede usar una tarjeta de regalo más de una vez?"
+
+#. Found in faq header.
+msgid "How does redeeming a code work?"
+msgstr "¿Cómo se canjea un código?"
+
+#. Found in faq header.
+msgid "Who receives the code?"
+msgstr "¿Quién recibe el código?"
+
+#. Found in faq header.
+msgid "How do I set the value of a gift card?"
+msgstr "¿Cómo defino el valor de una tarjeta de regalo?"
+
+#. Found in faq header.
+msgid "Does it need WooCommerce?"
+msgstr "¿Necesita WooCommerce?"
+
+#. Found in installation list item.
 msgid ""
-"Yes. If checkout uses only part of the balance, the remaining store credit "
-"stays on the same code for a later order."
+"Set the code prefix and the recipient email under <strong>WooCommerce &gt; "
+"Gift Cards</strong>."
 msgstr ""
-"Sí. Si el pago utiliza solo una parte del saldo, el crédito restante de la "
-"tienda permanece en el mismo código para un pedido posterior."
+"Define el prefijo de código y el correo del destinatario en "
+"<strong>WooCommerce &gt; Tarjetas de regalo</strong>."
 
+#. Found in installation list item.
 msgid ""
-"Yes. Buying two units of a gift card product issues two separate store "
-"credit codes with the product price as each value."
+"Edit a product, tick <strong>Gift card</strong> on the General tab, and set "
+"its price to the value of the card."
 msgstr ""
-"Sí. Al comprar dos unidades de un producto de tarjeta de regalo, se emiten "
-"dos códigos de crédito de tienda separados con el precio del producto como "
-"cada valor."
+"Edita un producto, marca <strong>Tarjeta de regalo</strong> en la pestaña "
+"General y pon como precio el valor de la tarjeta."
 
+#. Found in installation list item.
+msgid "Activate it. WooCommerce must be active."
+msgstr "Actívalo. WooCommerce tiene que estar activo."
+
+#. Found in installation list item.
 msgid ""
-"Yes. Set the email subject and body under WooCommerce > Gift Cards, with "
-"tokens for the code and amount."
+"Upload the plugin to <code>/wp-content/plugins/giftvane</code>, or install it"
+" from Plugins &gt; Add New."
 msgstr ""
-"Sí. Establece el asunto y el cuerpo del correo electrónico en WooCommerce > "
-"Tarjetas de regalo, con tokens para el código y el importe."
+"Sube el plugin a <code>/wp-content/plugins/giftvane</code> o instálalo desde "
+"Plugins &gt; Añadir nuevo plugin."
 
+#. Found in description paragraph.
 msgid ""
-"Yes. Gift Cards declares compatibility with WooCommerce HPOS and "
-"Cart/Checkout Blocks."
+"Giftvane is fully translatable and ships the <code>giftvane.pot</code> "
+"template. Translations are delivered by WordPress.org language packs from "
+"translate.wordpress.org, which is where Polish, German and Spanish are being "
+"contributed; the package itself carries no compiled translation files."
 msgstr ""
-"Sí. Gift Cards declara compatibilidad con WooCommerce HPOS y los bloques de "
-"Carrito y Pago."
+"Giftvane se puede traducir por completo e incluye la plantilla "
+"<code>giftvane.pot</code>. Las traducciones llegan con los paquetes de idioma"
+" de WordPress.org desde translate.wordpress.org, que es donde se están "
+"aportando el polaco, el alemán y el español; el paquete en sí no incluye "
+"archivos de traducción compilados."
 
-msgid ""
-"Yes. This plugin is compatible with WordPress Multisite. Network activate it"
-" or activate it on individual sites; each site keeps its own settings and "
-"data."
-msgstr ""
-"Sí. Este complemento es compatible con WordPress Multisite. Actívalo en red "
-"o en sitios concretos; cada sitio mantiene sus propios ajustes y datos."
-
-msgid ""
-"1. Redeeming a gift card at checkout, where a shopper applies a code to their order.\n"
-"2. The Gift Cards settings page under WooCommerce."
-msgstr ""
-"1. Canjear una tarjeta de regalo al finalizar la compra, donde un comprador aplica un código a su pedido.\n"
-"2. La página de configuración de Tarjetas de regalo en WooCommerce."
-
+#. Found in description paragraph.
 msgid ""
 "This plugin does not connect to, send data to, or rely on any external "
 "service, API or CDN. Everything runs on your own site. Gift-card codes and "
-"balances are stored in a single custom database table (`{prefix}giftcards`),"
-" the gift-card flag and any recipient address are kept in WooCommerce "
-"product and order-item meta (`_giftcards_is_gift_card`, "
-"`_giftcards_recipient_email`), and settings live in the `giftcards_settings`"
-" and `giftcards_db_version` options. The email carrying a code is delivered "
-"through your site's own WooCommerce/WordPress mailer to the order's billing "
-"address; no message or customer data leaves your server."
+"balances are stored in a single custom database table "
+"(<code>{prefix}giftcards</code>), the gift-card flag and any recipient "
+"address are kept in WooCommerce product and order-item meta "
+"(<code>_giftcards_is_gift_card</code>, "
+"<code>_giftcards_recipient_email</code>), and settings live in the "
+"<code>giftcards_settings</code> and <code>giftcards_db_version</code> "
+"options. The email carrying a code is delivered through your site's own "
+"WooCommerce/WordPress mailer to the order's billing address; no message or "
+"customer data leaves your server."
 msgstr ""
-"Este complemento no se conecta, envía datos ni depende de ningún servicio "
-"externo, API o CDN. Todo se ejecuta en tu propio sitio. Los códigos y saldos"
-" de las tarjetas de regalo se almacenan en una única tabla de base de datos "
-"personalizada (`{prefix}giftcards`), el indicador de la tarjeta de regalo y "
-"cualquier dirección del destinatario se guardan en el meta del producto "
-"WooCommerce y del elemento de pedido (`_giftcards_is_gift_card`, "
-"`_giftcards_recipient_email`), y las configuraciones se encuentran en las "
-"opciones `giftcards_settings` y `giftcards_db_version`. El correo "
-"electrónico que contiene un código se envía a través del propio correo "
-"WooCommerce/WordPress de tu sitio a la dirección de facturación del pedido; "
-"ningún mensaje o información del cliente sale de tu servidor."
+"Este plugin no se conecta a ningún servicio externo, API ni CDN, no les envía"
+" datos ni depende de ellos. Todo se ejecuta en tu propio sitio. Los códigos y"
+" saldos de las tarjetas de regalo se guardan en una única tabla propia de la "
+"base de datos (<code>{prefix}giftcards</code>), la marca de tarjeta de regalo"
+" y la dirección del destinatario, si la hay, se guardan en los metadatos de "
+"producto y de artículo del pedido de WooCommerce "
+"(<code>_giftcards_is_gift_card</code>, "
+"<code>_giftcards_recipient_email</code>), y los ajustes están en las opciones"
+" <code>giftcards_settings</code> y <code>giftcards_db_version</code>. El "
+"correo con el código se envía mediante el sistema de correo de "
+"WooCommerce/WordPress de tu propio sitio a la dirección de facturación del "
+"pedido; ningún mensaje ni dato de clientes sale de tu servidor."
 
+#. Found in description paragraph.
 msgid ""
-"Plogins Gift Cards includes Polish, German and Spanish translations for the "
-"plugin interface. The text domain is `plogins-giftcards`, so WordPress.org "
-"language packs can also override or extend these bundled translations."
+"The code is built and tracked on GitHub. Source and bug reports: <a "
+"href=\"https://github.com/wppoland/plogins-"
+"giftcards\">github.com/wppoland/plogins-giftcards</a>"
 msgstr ""
-"Plogins Gift Cards incluye traducciones al polaco, alemán y español para la "
-"interfaz del complemento. El dominio de texto es `plogins-giftcards`, por lo"
-" que los paquetes de idioma de WordPress.org también pueden anular o ampliar"
-" estas traducciones empaquetadas."
+"El código se desarrolla y se gestiona en GitHub. Código fuente e informes de "
+"errores: <a href=\"https://github.com/wppoland/plogins-"
+"giftcards\">github.com/wppoland/plogins-giftcards</a>"
 
+#. Found in description paragraph.
 msgid ""
-"* Added bundled Polish, German and Spanish translations for the plugin "
+"The buyer also sees the code(s) their order issued on the order-confirmation "
+"page and in their WooCommerce order emails, so they have the code in hand "
+"without hunting through their inbox."
+msgstr ""
+"El comprador también ve los códigos que ha generado su pedido en la página de"
+" confirmación del pedido y en los correos de pedido de WooCommerce, así tiene"
+" el código a mano sin tener que buscarlo en su bandeja de entrada."
+
+#. Found in description paragraph.
+msgid ""
+"To spend a card, the customer enters the code in a field on the checkout. The"
+" balance is applied as a discount on that order. If the order costs less than"
+" the card is worth, the leftover stays on the code for a later purchase, so "
+"one card can cover several orders until it runs out."
+msgstr ""
+"Para gastar una tarjeta, el cliente introduce el código en un campo de la "
+"página de pago. El saldo se aplica como descuento en ese pedido. Si el pedido"
+" cuesta menos que el valor de la tarjeta, lo que sobra se queda en el código "
+"para una compra posterior, así que una misma tarjeta puede cubrir varios "
+"pedidos hasta agotarse."
+
+#. Found in description paragraph.
+msgid ""
+"Giftvane sells a gift card or gift voucher as an ordinary WooCommerce "
+"product. Tick the \"Gift card\" box on any product and set its price to the "
+"card value. When the order is marked complete, the plugin generates a unique "
+"store credit code worth that price, records its balance in its own table, and"
+" emails the code to the buyer's order email address."
+msgstr ""
+"Giftvane vende una tarjeta de regalo o un vale regalo como un producto normal"
+" de WooCommerce. Marca la casilla \"Tarjeta de regalo\" en cualquier producto"
+" y pon como precio el valor de la tarjeta. Cuando el pedido se marca como "
+"completado, el plugin genera un código único de crédito de tienda por ese "
+"importe, registra su saldo en su propia tabla y envía el código a la "
+"dirección de correo del pedido del comprador."
+
+#. Found in description list item.
+msgid ""
+"Lets an AI assistant in your admin look up a code's balance and list the "
+"codes an order issued, through the WordPress Abilities API on WordPress 6.9 "
+"and later. Reading only; it cannot change a balance or issue a code."
+msgstr ""
+"Permite que un asistente de IA en tu administración consulte el saldo de un "
+"código y liste los códigos que ha generado un pedido, mediante la API "
+"Abilities de WordPress en WordPress 6.9 y posteriores. Solo lectura; no puede"
+" cambiar un saldo ni emitir un código."
+
+#. Found in description list item.
+msgid "Works with WooCommerce HPOS (custom order tables)."
+msgstr "Funciona con HPOS de WooCommerce (tablas de pedidos personalizadas)."
+
+#. Found in description list item.
+msgid ""
+"Optionally lists the issued codes on the buyer's order page and in their "
+"order emails."
+msgstr ""
+"Opcionalmente, muestra los códigos emitidos en la página del pedido del "
+"comprador y en sus correos del pedido."
+
+#. Found in description list item.
+msgid ""
+"Lets you set the code prefix, the checkout discount label and the recipient "
+"email subject and body."
+msgstr ""
+"Te permite definir el prefijo de código, la etiqueta del descuento en el pago"
+" y el asunto y el cuerpo del correo del destinatario."
+
+#. Found in description list item.
+msgid ""
+"Keeps the unused balance on the code after a partial spend, so it works "
+"across multiple orders."
+msgstr ""
+"Conserva el saldo no usado en el código tras un gasto parcial, así sirve para"
+" varios pedidos."
+
+#. Found in description list item.
+msgid ""
+"Adds a redeem-code field to the checkout that applies the card balance as a "
+"discount."
+msgstr ""
+"Añade a la página de pago un campo para canjear códigos que aplica el saldo "
+"de la tarjeta como descuento."
+
+#. Found in description list item.
+msgid ""
+"Generates a unique code on order completion and emails it to the buyer's "
+"order email address."
+msgstr ""
+"Genera un código único al completarse el pedido y lo envía a la dirección de "
+"correo del pedido del comprador."
+
+#. Found in description list item.
+msgid ""
+"Turns any product into a gift card with one checkbox on the product editor's "
+"General tab; the price is the card value."
+msgstr ""
+"Convierte cualquier producto en una tarjeta de regalo con una casilla en la "
+"pestaña General del editor de productos; el precio es el valor de la tarjeta."
+
+#. Found in description list item.
+msgid ""
+"<strong>Bug reports and feature requests</strong>: <a "
+"href=\"https://github.com/wppoland/plogins-"
+"giftcards/issues\">github.com/wppoland/plogins-giftcards/issues</a>"
+msgstr ""
+"<strong>Informes de errores y solicitudes de funciones</strong>: <a "
+"href=\"https://github.com/wppoland/plogins-"
+"giftcards/issues\">github.com/wppoland/plogins-giftcards/issues</a>"
+
+#. Found in description list item.
+msgid ""
+"<strong>Source code</strong>: <a href=\"https://github.com/wppoland/plogins-"
+"giftcards\">github.com/wppoland/plogins-giftcards</a>"
+msgstr ""
+"<strong>Código fuente</strong>: <a "
+"href=\"https://github.com/wppoland/plogins-"
+"giftcards\">github.com/wppoland/plogins-giftcards</a>"
+
+#. Found in description list item.
+msgid ""
+"<strong>Plugin page</strong>: <a href=\"https://plogins.com/plogins-"
+"giftcards/\">plogins.com/plogins-giftcards/</a>"
+msgstr ""
+"<strong>Página del plugin</strong>: <a href=\"https://plogins.com/plogins-"
+"giftcards/\">plogins.com/plogins-giftcards/</a>"
+
+#. Found in description list item.
+msgid ""
+"<strong>Documentation</strong>: <a href=\"https://plogins.com/plogins-"
+"giftcards/docs/\">plogins.com/plogins-giftcards/docs/</a>"
+msgstr ""
+"<strong>Documentación</strong>: <a href=\"https://plogins.com/plogins-"
+"giftcards/docs/\">plogins.com/plogins-giftcards/docs/</a>"
+
+#. Found in description header.
+msgid "Translations"
+msgstr "Traducciones"
+
+#. Found in description header.
+msgid "External Services"
+msgstr "Servicios externos"
+
+#. Found in description header.
+msgid "What it does"
+msgstr "Qué hace"
+
+#. Found in description header.
+msgid "Documentation and links"
+msgstr "Documentación y enlaces"
+
+#. Screenshot description.
+msgid "The Gift Cards settings page under WooCommerce."
+msgstr "La página de ajustes de Tarjetas de regalo dentro de WooCommerce."
+
+#. Screenshot description.
+msgid ""
+"Redeeming a gift card at checkout, where a shopper applies a code to their "
+"order."
+msgstr ""
+"Canje de una tarjeta de regalo en la página de pago, donde un cliente aplica "
+"un código a su pedido."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Initial release."
+msgstr "Versión inicial."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Storefront styles now follow the theme and respect dark mode and reduced-"
+"motion settings, with no layout shift at checkout. The markup is keyboard-"
+"accessible with ARIA labels and focus styles, and all CSS/JS ships as "
+"separate files."
+msgstr ""
+"Los estilos de la tienda ahora siguen el tema y respetan el modo oscuro y la "
+"preferencia de movimiento reducido, sin saltos de diseño en la página de "
+"pago. El marcado se puede usar con teclado, con etiquetas ARIA y estilos de "
+"foco, y todo el CSS/JS se distribuye en archivos separados."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Reworked the checkout redeem field and added a copy button to the issued-"
+"codes list."
+msgstr ""
+"Se ha rehecho el campo de canje de la página de pago y se ha añadido un botón"
+" de copiar a la lista de códigos emitidos."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Reworked the settings page: inline help, click-to-insert email tokens and a "
+"live preview of the email."
+msgstr ""
+"Se ha rehecho la página de ajustes: ayuda integrada, marcadores de correo que"
+" se insertan con un clic y vista previa en directo del correo."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "The default email and label text is now translatable."
+msgstr ""
+"El texto predeterminado del correo y de la etiqueta ahora se puede traducir."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Added a setting to list the issued codes on the buyer's order-confirmation "
+"page and order emails. It is on by default."
+msgstr ""
+"Se ha añadido un ajuste para mostrar los códigos emitidos en la página de "
+"confirmación del pedido del comprador y en los correos del pedido. Está "
+"activado por defecto."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Added a setting for the checkout discount label shown when a code is applied;"
+" it accepts a {code} token."
+msgstr ""
+"Se ha añadido un ajuste para la etiqueta del descuento que se muestra en el "
+"pago al aplicar un código; admite el marcador {code}."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The recipient email subject and body set under <strong>WooCommerce &gt; Gift "
+"Cards</strong> are now used for the email that's sent. Earlier these stored "
+"values were ignored and a built-in default was always used."
+msgstr ""
+"El asunto y el cuerpo del correo del destinatario definidos en "
+"<strong>WooCommerce &gt; Tarjetas de regalo</strong> ahora se usan en el "
+"correo que se envía. Antes estos valores guardados se ignoraban y siempre se "
+"usaba un texto predeterminado interno."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Renamed to Plogins Gift Cards for WooCommerce for a more distinctive plugin "
+"name."
+msgstr ""
+"Renombrado a Plogins Gift Cards for WooCommerce para tener un nombre de "
+"plugin más distintivo."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "First stable release."
+msgstr "Primera versión estable."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Added bundled Polish, German and Spanish translations for the plugin "
 "interface."
 msgstr ""
-"* Se añadieron traducciones integradas en polaco, alemán y español para la "
-"interfaz del complemento."
+"Se han añadido traducciones al polaco, alemán y español incluidas para la "
+"interfaz del plugin."
 
-msgid "* First stable release."
-msgstr "* Primera versión estable."
-
-msgid ""
-"* Renamed to Plogins Gift Cards for WooCommerce for a more distinctive "
-"plugin name."
+#. Found in changelog list item.
+#, gp-priority: low
+msgid "Fixed low-contrast admin headings under an OS dark-mode preference."
 msgstr ""
-"* Renombrado a Plogins Gift Cards for WooCommerce para un nombre de "
-"complemento más distintivo."
+"Corregidos los encabezados de bajo contraste en la administración cuando el "
+"sistema operativo prefiere el modo oscuro."
 
+#. Found in changelog list item.
+#, gp-priority: low
 msgid ""
-"* The recipient email subject and body set under <strong>WooCommerce > Gift Cards</strong> are now used for the email that's sent. Earlier these stored values were ignored and a built-in default was always used.\n"
-"* Added a setting for the checkout discount label shown when a code is applied; it accepts a {code} token.\n"
-"* Added a setting to list the issued codes on the buyer's order-confirmation page and order emails. It is on by default.\n"
-"* The default email and label text is now translatable.\n"
-"* Reworked the settings page: inline help, click-to-insert email tokens and a live preview of the email.\n"
-"* Reworked the checkout redeem field and added a copy button to the issued-codes list.\n"
-"* Storefront styles now follow the theme and respect dark mode and reduced-motion settings, with no layout shift at checkout. The markup is keyboard-accessible with ARIA labels and focus styles, and all CSS/JS ships as separate files."
+"Translations: completed Polish, German and Spanish for the PRO upgrade panel."
 msgstr ""
-"* El asunto y el cuerpo del correo electrónico del destinatario establecidos en <strong>WooCommerce > Tarjetas de regalo</strong> ahora se utilizan para el correo electrónico que se envía. Anteriormente, estos valores almacenados se ignoraban y siempre se usaba un valor predeterminado incorporado.\n"
-"* Se añadió un ajuste para la etiqueta de descuento en el pago que se muestra cuando se aplica un código; acepta un token {code}.\n"
-"* Se añadió un ajuste para enumerar los códigos emitidos en la página de confirmación del pedido del comprador y en los correos electrónicos del pedido. Está activado de forma predeterminada.\n"
-"* El correo electrónico predeterminado y el texto de la etiqueta ahora se pueden traducir.\n"
-"* Se modificó la página de configuración: ayuda en línea, tokens de correo electrónico con un clic para insertar y una vista previa en vivo del correo electrónico.\n"
-"* Se modificó el campo de canje de pago y se agregó un botón de copia a la lista de códigos emitidos.\n"
-"* Los estilos de la tienda ahora siguen el tema y respetan el modo oscuro y la configuración de movimiento reducido, sin cambios de diseño al finalizar la compra. Se puede acceder al marcado mediante el teclado con etiquetas ARIA y estilos de enfoque, y todo el CSS/JS se envía como archivos separados."
+"Traducciones: completados el polaco, el alemán y el español del panel de "
+"actualización a PRO."
 
-msgid "* Initial release."
-msgstr "* Lanzamiento inicial."
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Reading only. Nothing an assistant can call changes a balance, issues a code "
+"or voids one, and no recipient address is ever returned. Only shop managers "
+"can use these, and on WordPress 6.8 and earlier nothing changes."
+msgstr ""
+"Solo lectura. Nada de lo que puede llamar un asistente cambia un saldo, emite"
+" un código ni anula uno, y nunca se devuelve ninguna dirección de "
+"destinatario. Solo los gestores de la tienda pueden usarlas, y en WordPress "
+"6.8 y anteriores no cambia nada."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"An AI assistant working in your wp-admin can now read your gift cards for "
+"you, through the WordPress Abilities API (WordPress 6.9 and later). Ask it "
+"what is left on a code, which codes an order issued, whether a product is set"
+" up as a gift card, or how gift cards are configured on the shop."
+msgstr ""
+"Un asistente de IA que trabaje en tu wp-admin ahora puede leer tus tarjetas "
+"de regalo por ti, mediante la API Abilities de WordPress (WordPress 6.9 y "
+"posteriores). Pregúntale cuánto queda en un código, qué códigos ha generado "
+"un pedido, si un producto está configurado como tarjeta de regalo o cómo "
+"están configuradas las tarjetas de regalo en la tienda."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed the PRO promo on the settings screen quoting a price in PLN. PRO is "
+"priced and charged in EUR, so an admin on a Polish site was shown a zloty "
+"amount and then billed in euro, and the zloty figure was a fixed conversion "
+"that drifted from the real charge as the rate moved. The promo now shows the "
+"euro price that is actually taken."
+msgstr ""
+"Corregida la promoción de PRO en la pantalla de ajustes, que indicaba un "
+"precio en PLN. PRO se tarifica y se cobra en EUR, así que a un administrador "
+"de un sitio polaco se le mostraba un importe en zlotys y luego se le cobraba "
+"en euros, y la cifra en zlotys era una conversión fija que se alejaba del "
+"cargo real a medida que cambiaba el tipo de cambio. La promoción ahora "
+"muestra el precio en euros que realmente se cobra."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Tested against WordPress 7.1. Verified by activating this build on a clean "
+"7.1 install with WooCommerce 11.1, not by editing the header."
+msgstr ""
+"Probado con WordPress 7.1. Verificado activando esta versión en una "
+"instalación limpia de 7.1 con WooCommerce 11.1, no editando la cabecera."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Renamed to Plogins Gift Cards - Store Credit for WooCommerce so the name "
+"leads with the brand rather than a generic word, which is what the "
+"WordPress.org plugin review team asks for. The plugin slug is unchanged."
+msgstr ""
+"Renombrado a Plogins Gift Cards - Store Credit for WooCommerce para que el "
+"nombre empiece por la marca y no por una palabra genérica, que es lo que pide"
+" el equipo de revisión de plugins de WordPress.org. El slug del plugin no "
+"cambia."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The translation template was regenerated. It still named an older version of "
+"the plugin and pointed at source lines that had since moved, which is what "
+"translation tools read to show a string in context."
+msgstr ""
+"Se ha regenerado la plantilla de traducción. Todavía mencionaba una versión "
+"antigua del plugin y apuntaba a líneas de código que se habían movido, que es"
+" lo que leen las herramientas de traducción para mostrar una cadena en "
+"contexto."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: deleting the plugin left the per-user \"dismiss\" flag from the PRO "
+"notice in the database. Uninstall now removes it for every user, not just the"
+" one who dismissed it."
+msgstr ""
+"Corregido: al borrar el plugin quedaba en la base de datos la marca de "
+"\"descartar\" del aviso de PRO de cada usuario. Ahora la desinstalación la "
+"elimina para todos los usuarios, no solo para quien la descartó."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: arrow glyphs in the admin menu paths, and in the strings handed to "
+"translators. An arrow inside a translatable string makes the glyph every "
+"translator's problem and changes the layout in any locale that drops it."
+msgstr ""
+"Corregido: los glifos de flecha en las rutas del menú de administración y en "
+"las cadenas que se pasan a los traductores. Una flecha dentro de una cadena "
+"traducible convierte el glifo en un problema de cada traductor y cambia la "
+"maquetación en cualquier idioma que la quite."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: the PRO upgrade promo kept selling to people who had already bought "
+"the paid edition. Only the banner could be dismissed, so the sidebar promo "
+"and the locked feature cards followed a paying customer around for good. The "
+"promo now checks whether the paid edition is active and steps aside when it "
+"is."
+msgstr ""
+"Corregido: la promoción de PRO seguía intentando vender a quienes ya habían "
+"comprado la edición de pago. Solo se podía descartar el banner, así que la "
+"promoción de la barra lateral y las tarjetas de funciones bloqueadas "
+"perseguían para siempre a un cliente que ya pagaba. Ahora la promoción "
+"comprueba si la edición de pago está activa y se aparta cuando lo está."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: a balance spent at checkout could stay on the card in full. The "
+"deduction ran after the cards were issued and the order was marked as done "
+"before either started, so a run interrupted in the issuing loop never reached"
+" the deduction and nothing came back for it: the shopper got the discount on "
+"that order and kept the balance to spend again. The deduction is now claimed "
+"on the order before it is made, so the run that finishes the order makes it "
+"exactly once."
+msgstr ""
+"Corregido: un saldo gastado en el pago podía quedarse íntegro en la tarjeta. "
+"El descuento del saldo se hacía después de emitir las tarjetas y el pedido se"
+" marcaba como hecho antes de empezar cualquiera de las dos cosas, así que una"
+" ejecución interrumpida en el bucle de emisión nunca llegaba al descuento y "
+"nada volvía a por él: el cliente obtenía el descuento en ese pedido y "
+"conservaba el saldo para gastarlo otra vez. Ahora el descuento se reserva en "
+"el pedido antes de hacerlo, de modo que la ejecución que termina el pedido lo"
+" hace exactamente una vez."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Changed: after an interruption, the one recipient whose email was in flight "
+"can receive that email again. It carries the same code and the same balance "
+"as the first, it is not a second card."
+msgstr ""
+"Cambiado: tras una interrupción, el destinatario cuyo correo estaba en curso "
+"puede recibir ese correo otra vez. Lleva el mismo código y el mismo saldo que"
+" el primero, no es una segunda tarjeta."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: when the order-completion run was interrupted part-way through (a "
+"fatal error, or the host stopping it on max execution time), the order had "
+"already been marked as done before the first card was created. Nothing ever "
+"retried it, so every remaining card on that order was paid for and never "
+"issued. Each card is now recorded as it is created, and the order is marked "
+"done only once every card exists and has been emailed, so a later completion "
+"of the same order finishes the job."
+msgstr ""
+"Corregido: cuando la ejecución de completado del pedido se interrumpía a "
+"medias (un error fatal o el servidor deteniéndola por el tiempo máximo de "
+"ejecución), el pedido ya se había marcado como hecho antes de crear la "
+"primera tarjeta. Nada lo reintentaba nunca, así que cada tarjeta restante de "
+"ese pedido estaba pagada y nunca se emitía. Ahora cada tarjeta se registra al"
+" crearse, y el pedido solo se marca como hecho cuando todas las tarjetas "
+"existen y se han enviado por correo, así que un completado posterior del "
+"mismo pedido termina el trabajo."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Changed: deactivating or deleting the plugin now clears any retry still "
+"waiting for an order, so no scheduled event is left behind for a hook nothing"
+" answers."
+msgstr ""
+"Cambiado: desactivar o borrar el plugin ahora elimina cualquier reintento que"
+" siga pendiente para un pedido, así no queda ningún evento programado para un"
+" hook al que nada responde."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Added: an order whose cards could not be issued on any of those attempts gets"
+" an order note saying so, with what to check and how to run it again. Until "
+"now a card that was never issued left no trace anywhere the merchant looks."
+msgstr ""
+"Añadido: un pedido cuyas tarjetas no se pudieron emitir en ninguno de esos "
+"intentos recibe una nota de pedido que lo indica, con qué revisar y cómo "
+"volver a ejecutarlo. Hasta ahora, una tarjeta que nunca se emitía no dejaba "
+"rastro en ningún sitio donde mire el comerciante."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: nothing ever came back to an order whose gift-card run was "
+"interrupted. The order-completed event only fires when the order changes "
+"status, so an order that was already Completed never fired it again: the "
+"records that let the run resume were there, and nothing asked them to. A "
+"merchant had to notice the missing card themselves and move the order out of "
+"Completed and back. Each run now books a retry before it starts and clears it"
+" when it finishes, so an interrupted order is picked up on its own about "
+"fifteen minutes later, up to five times."
+msgstr ""
+"Corregido: nada volvía nunca a un pedido cuya ejecución de tarjetas de regalo"
+" se había interrumpido. El evento de pedido completado solo se dispara cuando"
+" el pedido cambia de estado, así que un pedido que ya estaba Completado nunca"
+" lo volvía a disparar: los registros que permitían reanudar la ejecución "
+"estaban ahí y nada les pedía que lo hicieran. El comerciante tenía que darse "
+"cuenta él mismo de que faltaba la tarjeta y sacar el pedido de Completado y "
+"volver a ponerlo. Ahora cada ejecución programa un reintento antes de empezar"
+" y lo elimina al terminar, así que un pedido interrumpido se retoma solo unos"
+" quince minutos después, hasta cinco veces."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: a completion run that was killed rather than interrupted (a fatal "
+"error, or the host stopping it on execution time) left the transient that "
+"guards the run standing for five minutes, because the release only ran when "
+"the run unwound normally. Anything that tried to finish the order inside that"
+" window was turned away by a lock whose run was already dead. The release now"
+" also happens when the process shuts down, which covers a fatal error, an "
+"execution-time stop and an outright exit."
+msgstr ""
+"Corregido: una ejecución de completado que se mataba en lugar de "
+"interrumpirse (un error fatal o el servidor deteniéndola por tiempo de "
+"ejecución) dejaba durante cinco minutos el transient que protege la "
+"ejecución, porque la liberación solo ocurría cuando la ejecución terminaba "
+"con normalidad. Cualquier cosa que intentara terminar el pedido dentro de ese"
+" margen era rechazada por un bloqueo cuya ejecución ya estaba muerta. Ahora "
+"la liberación también ocurre cuando el proceso se cierra, lo que cubre un "
+"error fatal, una parada por tiempo de ejecución y una salida directa."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: the note that says gift-card issuing never finished was written before"
+" the last attempt ran, so an order whose final attempt SUCCEEDED got the "
+"alarm anyway and the merchant went looking for a missing code through an "
+"order that was complete. The note is now written by the attempt that fails, "
+"and only by it, including when that attempt is killed outright rather than "
+"interrupted."
+msgstr ""
+"Corregido: la nota que avisa de que la emisión de tarjetas de regalo no "
+"terminó se escribía antes de que se ejecutara el último intento, así que un "
+"pedido cuyo intento final SALÍA BIEN recibía la alarma igualmente y el "
+"comerciante se ponía a buscar un código perdido en un pedido que estaba "
+"completo. Ahora la nota la escribe el intento que falla, y solo ese, también "
+"cuando ese intento se mata directamente en lugar de interrumpirse."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: a retry never re-read the order's status, so an order that left "
+"Completed while the retry was pending was still worked on. The retry comes "
+"round up to five times over more than an hour, and WooCommerce only announces"
+" the completion on the way in, so a refunded or cancelled order still had the"
+" rest of its gift cards funded and emailed, and the balance the shopper had "
+"redeemed still taken off their card. A scheduled attempt now checks that the "
+"order is still Completed and stops if it is not. Putting the order back into "
+"Completed runs the work it still owes, as before."
+msgstr ""
+"Corregido: un reintento nunca volvía a leer el estado del pedido, así que un "
+"pedido que salía de Completado mientras el reintento estaba pendiente se "
+"seguía procesando. El reintento vuelve hasta cinco veces durante más de una "
+"hora, y WooCommerce solo anuncia el completado a la entrada, así que a un "
+"pedido reembolsado o cancelado se le seguían financiando y enviando por "
+"correo el resto de sus tarjetas de regalo, y el saldo que el cliente había "
+"canjeado se le seguía descontando de su tarjeta. Ahora un intento programado "
+"comprueba que el pedido siga en Completado y se detiene si no lo está. Volver"
+" a poner el pedido en Completado ejecuta el trabajo que aún tiene pendiente, "
+"como antes."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Renamed to Donkarto. The WordPress.org review team asks a plugin name to lead"
+" with a distinctive, coined identifier rather than a generic descriptive "
+"word. Donkarto is Esperanto for a gift card. The text domain follows the "
+"name; the stored data, the settings and every hook are unchanged."
+msgstr ""
+"Renombrado a Donkarto. El equipo de revisión de WordPress.org pide que el "
+"nombre de un plugin empiece por un identificador inventado y distintivo, no "
+"por una palabra descriptiva genérica. Donkarto significa tarjeta de regalo en"
+" esperanto. El dominio de texto sigue al nombre; los datos guardados, los "
+"ajustes y todos los hooks no cambian."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The sidebar upgrade promo now follows the same dismissal as the banner. "
+"Dismissing the banner used to leave a full-height advert on the settings "
+"screen for good, which is not what the WordPress.org guideline on upgrade "
+"prompts means by used with moderation."
+msgstr ""
+"La promoción de actualización de la barra lateral ahora se descarta igual que"
+" el banner. Descartar el banner dejaba para siempre un anuncio a toda altura "
+"en la pantalla de ajustes, que no es lo que la directriz de WordPress.org "
+"sobre avisos de actualización entiende por usarlos con moderación."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Removed a nonce that was created, handed to the script and never sent or "
+"verified. The path it guarded is reached only through WooCommerce's own "
+"update_order_review endpoint, which checks a nonce first, and it writes "
+"nothing but the visitor's own session. A check that does not run is worse "
+"than none, because it reads like one does."
+msgstr ""
+"Se ha quitado un nonce que se creaba y se pasaba al script, pero nunca se "
+"enviaba ni se verificaba. A la ruta que protegía solo se llega a través del "
+"endpoint update_order_review del propio WooCommerce, que ya comprueba un "
+"nonce antes, y solo escribe en la sesión del propio visitante. Una "
+"comprobación que no se ejecuta es peor que ninguna, porque parece que sí se "
+"hace."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The gift card table migration now documents every direct query it runs, so "
+"Plugin Check reports no warnings."
+msgstr ""
+"La migración de la tabla de tarjetas de regalo ahora documenta cada consulta "
+"directa que ejecuta, así Plugin Check no informa de ningún aviso."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Renamed to Giftvane, a plain English name in place of the Esperanto one. The "
+"text domain and the plugin folder follow the name; the stored settings, "
+"options and every hook are unchanged."
+msgstr ""
+"Renombrado a Giftvane, un nombre en inglés sencillo en lugar del de "
+"esperanto. El dominio de texto y la carpeta del plugin siguen al nombre; los "
+"ajustes guardados, las opciones y todos los hooks no cambian."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The gift card checkbox in the product editor now carries its own security "
+"token and is only saved when the token checks out and the user can edit the "
+"product."
+msgstr ""
+"La casilla de tarjeta de regalo del editor de productos ahora lleva su propio"
+" token de seguridad y solo se guarda si el token es válido y el usuario puede"
+" editar el producto."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The upgrade notice's \"Coming soon\" and \"Get notified\" labels are English "
+"source strings for every language; Polish sites used to get their own Polish "
+"source text, which translators in other languages then saw untranslated."
+msgstr ""
+"Las etiquetas \"Coming soon\" y \"Get notified\" del aviso de actualización "
+"son cadenas de origen en inglés para todos los idiomas; los sitios en polaco "
+"recibían su propio texto de origen en polaco, que los traductores de otros "
+"idiomas veían después sin traducir."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Cancelling or refunding an order gives the redeemed amount back to the card, "
+"once."
+msgstr ""
+"Cancelar o reembolsar un pedido devuelve a la tarjeta el importe canjeado, "
+"una sola vez."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: a shopper who was shown a gift-card discount the card no longer "
+"covered was charged the full price without warning. The order now stops with "
+"a message and the totals refresh first."
+msgstr ""
+"Corregido: a un cliente al que se le mostraba un descuento de tarjeta de "
+"regalo que la tarjeta ya no cubría se le cobraba el precio completo sin "
+"avisar. Ahora el pedido se detiene con un mensaje y antes se actualizan los "
+"totales."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: completing an order took every negative fee on it off the card, "
+"including another plugin's discount. Only the gift card's own discount line "
+"is counted."
+msgstr ""
+"Corregido: al completar un pedido se descontaba de la tarjeta cada cargo "
+"negativo del pedido, incluido el descuento de otro plugin. Ahora solo se "
+"tiene en cuenta la línea de descuento propia de la tarjeta de regalo."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Fixed: a gift card's balance came off only when the order reached Completed, "
+"often days after payment, so until then the same card could pay for any "
+"number of other orders. The balance is now taken at checkout in a single "
+"conditional write, and a second order the card no longer covers is refused "
+"before it is created."
+msgstr ""
+"Corregido: el saldo de una tarjeta de regalo solo se descontaba cuando el "
+"pedido llegaba a Completado, a menudo días después del pago, así que hasta "
+"entonces la misma tarjeta podía pagar cualquier número de pedidos. Ahora el "
+"saldo se descuenta en el pago con una única escritura condicional, y un "
+"segundo pedido que la tarjeta ya no cubre se rechaza antes de crearse."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Security (low): the product gift-card status ability now checks that the "
+"caller may edit that specific product, not products in general, so it cannot "
+"reveal a draft or private product's price."
+msgstr ""
+"Seguridad (baja): la habilidad de estado de tarjeta de regalo del producto "
+"ahora comprueba que quien la llama pueda editar ese producto concreto, no los"
+" productos en general, así no puede revelar el precio de un producto en "
+"borrador o privado."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The bundled library files refuse direct access like the rest of the plugin."
+msgstr ""
+"Los archivos de la biblioteca incluida rechazan el acceso directo, igual que "
+"el resto del plugin."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Every database query names the plugin table through a prepared placeholder, "
+"including the schema migration and uninstall."
+msgstr ""
+"Cada consulta a la base de datos nombra la tabla del plugin mediante un "
+"marcador de posición preparado, incluidas la migración del esquema y la "
+"desinstalación."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Deleting the plugin on a multisite network removes the gift card table, "
+"options and pending retries on every site, not only the main one."
+msgstr ""
+"Borrar el plugin en una red multisitio elimina la tabla de tarjetas de "
+"regalo, las opciones y los reintentos pendientes en todos los sitios, no solo"
+" en el principal."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"Plain-text customer emails list the issued codes as text; they used to "
+"receive the HTML table as literal tags."
+msgstr ""
+"Los correos de cliente en texto plano muestran los códigos emitidos como "
+"texto; antes recibían la tabla HTML con las etiquetas literales."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The recipient email showed the amount with its currency symbol as a raw HTML "
+"entity (\"&#036;50.00\" in the subject and body). It now reads \"$50.00\"."
+msgstr ""
+"El correo del destinatario mostraba el importe con el símbolo de moneda como "
+"una entidad HTML sin procesar (\"&#036;50.00\" en el asunto y el cuerpo). "
+"Ahora se lee \"$50.00\"."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The checkout gift card field carries its own nonce, and the code is read only"
+" when that nonce verifies."
+msgstr ""
+"El campo de tarjeta de regalo de la página de pago lleva su propio nonce y el"
+" código solo se lee cuando ese nonce se verifica."
+
+#. Found in changelog list item.
+#, gp-priority: low
+msgid ""
+"The read-only abilities are now flagged read-only where the Abilities API "
+"looks for it (meta.annotations), so they are called with GET as the API "
+"expects; GET used to return 405 and only POST worked. get-settings also "
+"accepts a call with no input."
+msgstr ""
+"Las habilidades de solo lectura ahora están marcadas como de solo lectura "
+"donde la API Abilities lo busca (meta.annotations), así se llaman con GET "
+"como espera la API; antes GET devolvía 405 y solo funcionaba POST. get-"
+"settings también acepta una llamada sin datos de entrada."
