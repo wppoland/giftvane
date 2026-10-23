@@ -33,6 +33,11 @@ return [
     // issued by that order (so a self-purchase shows the code immediately).
     'show_codes_on_order' => true,
 
+    // Move a paid order straight to Completed when every line is a virtual
+    // gift card, so the card is issued without the merchant stepping in.
+    // Installs that predate the setting are migrated to false (Migrator).
+    'auto_complete' => true,
+
     // Recipient email templates. {code} and {amount} are interpolated.
     'email_subject' => __('You have received a {amount} gift card', 'giftvane'),
     'email_body'    => __("You have received a gift card worth {amount}.\n\nUse this code at checkout: {code}", 'giftvane'),

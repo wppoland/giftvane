@@ -150,6 +150,167 @@ final class GiftCardService implements HasHooks
             add_action('woocommerce_order_details_after_order_table', [$this, 'renderOrderCodes'], 10, 1);
             add_action('woocommerce_email_after_order_table', [$this, 'renderOrderCodesEmail'], 10, 4);
         }
+
+        add_filter('woocommerce_payment_complete_order_status', [$this, 'completeGiftCardOnlyOrder'], 10, 3);
+
+        // What the card holds after this order: classic coupon line, and the
+        // block cart / checkout through the Store API cart response.
+        add_filter('woocommerce_cart_totals_coupon_label', [$this, 'couponLabelRemaining'], 10, 2);
+        add_filter('woocommerce_update_order_review_fragments', [$this, 'feedbackFragment']);
+
+        if (function_exists('woocommerce_store_api_register_endpoint_data')) {
+            woocommerce_store_api_register_endpoint_data([
+                'endpoint'        => 'cart',
+                'namespace'       => 'giftvane',
+                'data_callback'   => fn (): array => ['remaining' => $this->storeApiRemaining()],
+                'schema_callback' => static fn (): array => [
+                    'remaining' => [
+                        'description' => __('Gift card balance left after this order, keyed by code.', 'giftvane'),
+                        'type'        => 'object',
+                        'context'     => ['view', 'edit'],
+                        'readonly'    => true,
+                    ],
+                ],
+                'schema_type'     => ARRAY_A,
+            ]);
+        }
+    }
+
+    /**
+     * Send a paid order straight to Completed when every line is a virtual
+     * gift card. WooCommerce leaves virtual, non-downloadable orders in
+     * Processing, and cards are issued on Completed, so without this the
+     * recipient waits for the merchant. Any other line, or a gift card that
+     * ships, keeps WooCommerce's own status. Issuing stays idempotent: the
+     * engine records every unit it issues and the order it finished.
+     *
+     * @param mixed $status  What WooCommerce would set.
+     * @param mixed $orderId The order being paid.
+     * @param mixed $order   The order, on WooCommerce versions that pass it.
+     * @return mixed
+     */
+    public function completeGiftCardOnlyOrder(mixed $status, mixed $orderId = 0, mixed $order = null): mixed
+    {
+        if ('processing' !== $status || ! $this->isEnabled() || empty($this->settings()['auto_complete'])) {
+            return $status;
+        }
+
+        $order = $order instanceof \WC_Order ? $order : wc_get_order((int) $orderId);
+
+        if (! $order instanceof \WC_Order) {
+            return $status;
+        }
+
+        return self::onlyVirtualGiftCards(
+            $order->get_items(),
+            fn (\WC_Product $product): bool => $this->isGiftCardProduct($product),
+        ) ? 'completed' : $status;
+    }
+
+    /**
+     * Whether an order's lines are all virtual gift cards (and there is one).
+     *
+     * @param array<mixed> $items
+     * @param \Closure(\WC_Product): bool $isGiftCard
+     */
+    public static function onlyVirtualGiftCards(array $items, \Closure $isGiftCard): bool
+    {
+        if ($items === []) {
+            return false;
+        }
+
+        foreach ($items as $item) {
+            $product = $item instanceof \WC_Order_Item_Product ? $item->get_product() : null;
+
+            if (! $product instanceof \WC_Product || ! $product->is_virtual() || ! $isGiftCard($product)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Classic checkout: refresh the redeem field's feedback line with the
+     * order review. WooCommerce renders the field once, on page load only.
+     *
+     * @param mixed $fragments
+     * @return mixed
+     */
+    public function feedbackFragment(mixed $fragments): mixed
+    {
+        if (! is_array($fragments) || ! $this->engine instanceof GiftCardEngine || ! $this->isEnabled() || ! WC()->cart instanceof \WC_Cart) {
+            return $fragments;
+        }
+
+        $giftcards_remaining = $this->fieldRemaining($this->engine->getAppliedCode(), $this->engine->remainingAfterCart(WC()->cart)['remaining'] ?? null);
+
+        ob_start();
+        require GIFTCARDS_DIR . 'templates/checkout-redeem-feedback.php';
+        $fragments['#giftcards-redeem-feedback'] = (string) ob_get_clean();
+
+        return $fragments;
+    }
+
+    /**
+     * What the field's feedback shows: nothing unless a code is in the field.
+     */
+    private function fieldRemaining(string $appliedCode, mixed $remaining): ?float
+    {
+        return $appliedCode !== '' && is_numeric($remaining) ? (float) $remaining : null;
+    }
+
+    /**
+     * Classic cart and checkout: the gift card coupon line says what the card
+     * holds after this order.
+     *
+     * @param mixed $label
+     * @param mixed $coupon
+     * @return mixed
+     */
+    public function couponLabelRemaining(mixed $label, mixed $coupon): mixed
+    {
+        if (! is_string($label) || ! $coupon instanceof \WC_Coupon || ! $this->engine instanceof GiftCardEngine || ! WC()->cart instanceof \WC_Cart) {
+            return $label;
+        }
+
+        $after = $this->engine->remainingAfterCart(WC()->cart);
+
+        if ($after === null || $after['code'] !== strtoupper((string) preg_replace('/[^A-Za-z0-9\-]/', '', $coupon->get_code()))) {
+            return $label;
+        }
+
+        return $label . ' <span class="giftcards-remaining">('
+            /* translators: %s: the gift card balance left after this order, formatted as a price. */
+            . sprintf(esc_html__('%s left after this order', 'giftvane'), wp_kses_post(wc_price($after['remaining'])))
+            . ')</span>';
+    }
+
+    /**
+     * The block cart / checkout counterpart: plain text keyed by card code,
+     * which assets/js/block-remaining.js adds to the coupon chip.
+     *
+     * @return array<string, string>
+     */
+    private function storeApiRemaining(): array
+    {
+        if (! $this->engine instanceof GiftCardEngine || ! WC()->cart instanceof \WC_Cart) {
+            return [];
+        }
+
+        $after = $this->engine->remainingAfterCart(WC()->cart);
+
+        if ($after === null) {
+            return [];
+        }
+
+        return [
+            $after['code'] => sprintf(
+                /* translators: %s: the gift card balance left after this order, formatted as a price. */
+                __('%s left after this order', 'giftvane'),
+                html_entity_decode(wp_strip_all_tags(wc_price($after['remaining'])), ENT_QUOTES, 'UTF-8'),
+            ),
+        ];
     }
 
     /**
@@ -168,9 +329,23 @@ final class GiftCardService implements HasHooks
         // (order-received + the account "view order" endpoint). Other account
         // sub-pages (dashboard, addresses, downloads) render no gift-card
         // markup, so enqueuing there would be wasted bytes.
-        if (! function_exists('is_checkout')
-            || ! (is_checkout() || is_order_received_page() || is_wc_endpoint_url('view-order'))
-        ) {
+        if (! function_exists('is_checkout')) {
+            return;
+        }
+
+        // The block cart and checkout show the coupon chip this adds to, on
+        // whatever page carries the block.
+        if (has_block('woocommerce/checkout') || has_block('woocommerce/cart')) {
+            wp_enqueue_script(
+                'giftcards-block-remaining',
+                GIFTCARDS_URL . 'assets/js/block-remaining.js',
+                ['wc-blocks-checkout', 'wp-data'],
+                \GiftCards\VERSION,
+                ['in_footer' => true],
+            );
+        }
+
+        if (! (is_checkout() || is_order_received_page() || is_wc_endpoint_url('view-order'))) {
             return;
         }
 
@@ -333,6 +508,7 @@ final class GiftCardService implements HasHooks
         $giftcards_field_name   = isset($context['field_name']) ? (string) $context['field_name'] : '';
         $giftcards_nonce_field  = isset($context['nonce_field']) ? (string) $context['nonce_field'] : '';
         $giftcards_applied_code = isset($context['applied_code']) ? (string) $context['applied_code'] : '';
+        $giftcards_remaining    = $this->fieldRemaining($giftcards_applied_code, $context['remaining'] ?? null);
         $giftcards_settings     = isset($context['settings']) && is_array($context['settings']) ? $context['settings'] : [];
 
         require $file;

@@ -14,12 +14,12 @@
  * @var string $giftcards_field_name   Input name the engine reads on update.
  * @var string $giftcards_nonce_field  Nonce value for the redeem action.
  * @var string $giftcards_applied_code Currently applied code, if any.
+ * @var float|null $giftcards_remaining Balance left after this order, null when no valid card is in the field.
 
  */
 
 defined('ABSPATH') || exit;
 
-$giftcards_is_applied = '' !== trim((string) $giftcards_applied_code);
 ?>
 <div class="giftcards-redeem">
     <div class="giftcards-redeem__head">
@@ -51,15 +51,5 @@ $giftcards_is_applied = '' !== trim((string) $giftcards_applied_code);
         </button>
         <input type="hidden" name="<?php echo esc_attr($giftcards_field_name); ?>_nonce" value="<?php echo esc_attr($giftcards_nonce_field); ?>" />
     </p>
-    <p class="giftcards-redeem__feedback<?php echo $giftcards_is_applied ? ' giftcards-redeem__feedback--applied' : ''; ?>"
-        id="giftcards-redeem-feedback" role="status" aria-live="polite">
-        <span class="giftcards-redeem__seal" aria-hidden="true"></span>
-        <span class="giftcards-redeem__feedback-text">
-        <?php
-        if ($giftcards_is_applied) {
-            echo esc_html__('Gift card applied, the balance is shown in your order total.', 'giftvane');
-        }
-        ?>
-        </span>
-    </p>
+    <?php require __DIR__ . '/checkout-redeem-feedback.php'; ?>
 </div>
