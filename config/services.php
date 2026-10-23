@@ -41,6 +41,11 @@ return static function (Container $c): void {
         $c->get(GiftCardService::class),
     ));
 
+    // Optional recipient name, email and message on gift card products.
+    $c->singleton(\GiftCards\Service\RecipientFields::class, static fn (Container $c): \GiftCards\Service\RecipientFields => new \GiftCards\Service\RecipientFields(
+        $c->get(GiftCardService::class),
+    ));
+
     $c->singleton(\GiftCards\Service\GiftCardPrivacyService::class, static fn (Container $c): \GiftCards\Service\GiftCardPrivacyService => new \GiftCards\Service\GiftCardPrivacyService(
         $c->get(GiftCardTableRepository::class),
     ));
