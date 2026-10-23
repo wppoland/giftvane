@@ -18,7 +18,10 @@ defined('ABSPATH') || exit;
  * {@see GiftCardRepository} (custom table, same delegation as
  * {@see \WPPoland\StorefrontKit\Waitlist\WaitlistRepository}) and the recipient
  * is emailed. Redemption: a code field at checkout applies the remaining balance
- * as a negative cart fee, and the balance is decremented on order completion.
+ * as a negative cart fee, or the code typed into WooCommerce's own coupon field
+ * (the only code field the block cart and checkout have) becomes a virtual
+ * fixed_cart coupon capped at the balance. Either way the card is debited
+ * once, atomically, while the order is created.
  *
  * Everything WooCommerce / text-domain / option specific is constructor-injected
  * via closures and arrays, nothing is hard-coded here. The code field markup
@@ -38,6 +41,12 @@ final class GiftCardEngine
     private const MAX_RETRIES = 5;
 
     /**
+     * How far a coupon redemption may overshoot the balance and still drain
+     * the card: per-line tax rounding under couponAmount()'s single rate.
+     */
+    private const ROUNDING = 0.02;
+
+    /**
      * @param \Closure(): bool $isEnabled
      * @param \Closure(): array<string, mixed> $settings Resolved settings.
      * @param \Closure(\WC_Product): bool $isGiftCard Whether a product is a
@@ -48,7 +57,7 @@ final class GiftCardEngine
      *        Echoes the checkout redeem-code field.
      * @param array<string, string> $labels Fallback strings keyed by
      *        `fee_label`, `email_subject`, `email_body`, `invalid_code`,
-     *        `applied`, `retry_exhausted`.
+     *        `applied`, `retry_exhausted`, `one_card_only`.
      */
     public function __construct(
         private readonly GiftCardRepository $repository,
@@ -73,6 +82,14 @@ final class GiftCardEngine
         add_action('woocommerce_cart_calculate_fees', [$this, 'applyRedeemDiscount'], 30);
         add_action('woocommerce_after_checkout_validation', [$this, 'checkRedeemStillCovers'], 10, 2);
         add_action('woocommerce_checkout_create_order', [$this, 'persistRedeemCode'], 10, 1);
+
+        // The code in the coupon field: classic and block cart / checkout.
+        add_filter('woocommerce_get_shop_coupon_data', [$this, 'virtualCouponData'], 10, 2);
+        add_filter('woocommerce_coupon_is_valid', [$this, 'validateCardCoupon'], 10, 2);
+
+        // Block checkout (Store API) never fires woocommerce_checkout_create_order.
+        add_action('woocommerce_checkout_validate_order_before_payment', [$this, 'checkOrderStillCovers'], 10, 2);
+        add_action('woocommerce_store_api_checkout_order_processed', [$this, 'persistStoreApiRedeem'], 10, 1);
         add_action('woocommerce_order_status_completed', [$this, 'handleOrderCompleted'], 10, 1);
         add_action('woocommerce_order_status_cancelled', [$this, 'restoreRedeemedBalance'], 10, 1);
         add_action('woocommerce_order_status_refunded', [$this, 'restoreRedeemedBalance'], 10, 1);
@@ -144,7 +161,9 @@ final class GiftCardEngine
             return;
         }
 
-        $card    = $this->getAppliedCard();
+        // A card in the coupon field already discounts this cart: the field's
+        // fee would take the same card (or a second one) off again.
+        $card    = $this->cartCardCoupon($cart) === '' ? $this->getAppliedCard() : null;
         $applied = $card === null ? 0.0 : $this->coverFor($card->balance, $cart);
 
         // Remember what the shopper was shown, so the checkout can tell when
@@ -174,7 +193,25 @@ final class GiftCardEngine
      */
     public function checkRedeemStillCovers(array $data, \WP_Error $errors): void
     {
-        if (! $this->isEnabled() || $this->getAppliedCode() === '' || ! WC()->cart instanceof \WC_Cart) {
+        if (! $this->isEnabled() || ! WC()->cart instanceof \WC_Cart) {
+            return;
+        }
+
+        $couponCode = $this->cartCardCoupon(WC()->cart);
+
+        if ($couponCode !== '') {
+            $card  = $this->repository->findByCode($this->normalizeCode($couponCode));
+            $taken = (float) WC()->cart->get_coupon_discount_amount($couponCode, false);
+
+            if ($taken > 0 && ! $this->covers($card, $taken)) {
+                WC()->session->set('refresh_totals', true);
+                $errors->add('giftcards_balance', $this->message('insufficient_balance'));
+            }
+
+            return;
+        }
+
+        if ($this->getAppliedCode() === '') {
             return;
         }
 
@@ -194,6 +231,196 @@ final class GiftCardEngine
             WC()->session->set('refresh_totals', true);
             $errors->add('giftcards_balance', $this->message('insufficient_balance'));
         }
+    }
+
+    /**
+     * Coupon data for a gift card code typed into the coupon field.
+     *
+     * Only when no real coupon answers to the code: a shop coupon always wins.
+     * The amount is the balance, scaled down in a store that adds tax on top
+     * of its prices: fixed_cart takes the amount off the net price and the tax
+     * on it goes too, so the order would otherwise take more than the card
+     * holds and the debit would refuse it.
+     *
+     * @param mixed $data false, or what an earlier filter returned.
+     * @return mixed
+     */
+    public function virtualCouponData(mixed $data, mixed $code): mixed
+    {
+        if ($data !== false || ! is_string($code) || ! $this->isEnabled()) {
+            return $data;
+        }
+
+        $card = $this->cardForCouponCode($code);
+
+        if ($card === null || wc_get_coupon_id_by_code($code) > 0) {
+            return $data;
+        }
+
+        $cart = WC()->cart;
+
+        return [
+            'discount_type'  => 'fixed_cart',
+            'amount'         => ! $cart instanceof \WC_Cart
+                ? $card->balance
+                : self::couponAmount($card->balance, (float) $cart->get_subtotal(), (float) $cart->get_subtotal_tax(), wc_tax_enabled() && ! wc_prices_include_tax()),
+            'individual_use' => false,
+            'usage_limit'    => 0,
+            'virtual'        => true,
+        ];
+    }
+
+    /**
+     * The coupon amount for a card balance. $taxOnTop is a store that adds
+     * tax to its prices; then the amount is the net share of the balance.
+     */
+    public static function couponAmount(float $balance, float $subtotal, float $subtotalTax, bool $taxOnTop): float
+    {
+        if (! $taxOnTop || $subtotal <= 0 || $subtotalTax <= 0) {
+            return $balance;
+        }
+
+        // ponytail: one cart-level tax rate; lines taxed at different rates
+        // round a cent either way, which debitOrder() tolerates.
+        return floor($balance * $subtotal / ($subtotal + $subtotalTax) * 100) / 100;
+    }
+
+    /**
+     * One gift card per order: the per-order debit flag can only record one.
+     *
+     * @throws \Exception With the message WooCommerce shows the shopper.
+     */
+    public function validateCardCoupon(mixed $valid, mixed $coupon): mixed
+    {
+        if (! $valid || ! $coupon instanceof \WC_Coupon || $coupon->get_id() > 0 || ! $this->isEnabled()) {
+            return $valid;
+        }
+
+        $card = $this->cardForCouponCode($coupon->get_code());
+
+        if ($card === null) {
+            return $valid;
+        }
+
+        $others = WC()->cart instanceof \WC_Cart ? WC()->cart->get_applied_coupons() : [];
+        $others[] = $this->getAppliedCode();
+
+        foreach ($others as $other) {
+            $other = $this->normalizeCode((string) $other);
+
+            if ($other !== '' && $other !== $card->code && $this->cardForCouponCode($other) !== null) {
+                throw new \Exception(esc_html($this->message('one_card_only')));
+            }
+        }
+
+        return $valid;
+    }
+
+    /**
+     * Order-time balance check for the block checkout, against the order the
+     * Store API built: the card is read fresh, not from the cart.
+     */
+    public function checkOrderStillCovers(\WC_Order $order, \WP_Error $errors): void
+    {
+        if (! $this->isEnabled()) {
+            return;
+        }
+
+        $code = $this->orderCardCode($order);
+
+        if ($code === '') {
+            return;
+        }
+
+        $card  = $this->repository->findByCode($code);
+        $taken = $this->giftCardFeeTotal($order, $code);
+
+        if ($taken > 0 && ! $this->covers($card, $taken)) {
+            $errors->add('giftcards_balance', $this->message('insufficient_balance'));
+        }
+    }
+
+    /**
+     * Block checkout counterpart of persistRedeemCode(): the same debit, on
+     * the Store API's order-processed action, before payment.
+     */
+    public function persistStoreApiRedeem(\WC_Order $order): void
+    {
+        if (! $this->isEnabled()) {
+            return;
+        }
+
+        $code = $this->orderCardCode($order);
+
+        if ($code === '') {
+            return;
+        }
+
+        $order->update_meta_data($this->sessionKey, $code);
+        $debited = $this->debitOrder($order, $code);
+        $order->save();
+
+        if (! $debited) {
+            $message = esc_html($this->message('insufficient_balance'));
+
+            if (class_exists(\Automattic\WooCommerce\StoreApi\Exceptions\RouteException::class)) {
+                throw new \Automattic\WooCommerce\StoreApi\Exceptions\RouteException('giftcards_balance', $message, 400); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- escaped above.
+            }
+
+            throw new \Exception($message); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- escaped above.
+        }
+
+        if (WC()->session instanceof \WC_Session) {
+            WC()->session->__unset($this->sessionKey);
+        }
+    }
+
+    /**
+     * The card an order redeems: the gift card in its coupon lines, else the
+     * code from the checkout redeem field. Normalised, '' for none.
+     */
+    private function orderCardCode(\WC_Order $order): string
+    {
+        foreach ($order->get_items('coupon') as $item) {
+            if ($item instanceof \WC_Order_Item_Coupon && $this->cardForCouponCode($item->get_code()) !== null) {
+                return $this->normalizeCode($item->get_code());
+            }
+        }
+
+        return $this->getAppliedCode();
+    }
+
+    /**
+     * The applied coupon (as the cart stores it) that is a gift card, or ''.
+     */
+    private function cartCardCoupon(\WC_Cart $cart): string
+    {
+        foreach ($cart->get_applied_coupons() as $code) {
+            if ($this->cardForCouponCode((string) $code) !== null) {
+                return (string) $code;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * @return object{id:int,code:string,balance:float,recipient_email:string,order_id:int}|null
+     */
+    private function cardForCouponCode(string $code): ?object
+    {
+        $code = $this->normalizeCode($code);
+        $card = $code === '' ? null : $this->repository->findByCode($code);
+
+        return $card !== null && $card->balance > 0 ? $card : null;
+    }
+
+    /**
+     * @param object{balance:float}|null $card
+     */
+    private function covers(?object $card, float $taken): bool
+    {
+        return $card !== null && $taken <= $card->balance + self::ROUNDING;
     }
 
     private function coverFor(float $balance, \WC_Cart $cart): float
@@ -218,7 +445,9 @@ final class GiftCardEngine
             return;
         }
 
-        $code = $this->getAppliedCode();
+        // Coupon lines exist by now: WC_Checkout::create_order() adds them
+        // before this action fires.
+        $code = $this->orderCardCode($order);
 
         if ($code === '') {
             return;
@@ -255,6 +484,12 @@ final class GiftCardEngine
 
         if ($used <= 0) {
             return true;
+        }
+
+        // A coupon redemption a cent or two over the balance (tax rounding)
+        // takes what is left; anything more is a real shortfall and refused.
+        if ($used > $card->balance && $this->covers($card, $used)) {
+            $used = $card->balance;
         }
 
         if (! $this->repository->debit($card->id, $used)) {
@@ -301,8 +536,9 @@ final class GiftCardEngine
     }
 
     /**
-     * The amount this order discounted through our own fee line, and nothing
-     * else: another plugin's negative fee is not a gift-card redemption.
+     * The amount this order discounted through our own fee line or the card's
+     * coupon line (discount plus its tax), and nothing else: another plugin's
+     * negative fee is not a gift-card redemption.
      */
     private function giftCardFeeTotal(\WC_Order $order, string $code): float
     {
@@ -314,6 +550,12 @@ final class GiftCardEngine
 
             if ($total < 0 && $fee->get_name() === $name) {
                 $used += abs($total);
+            }
+        }
+
+        foreach ($order->get_items('coupon') as $item) {
+            if ($item instanceof \WC_Order_Item_Coupon && $this->normalizeCode($item->get_code()) === $this->normalizeCode($code)) {
+                $used += (float) $item->get_discount() + (float) $item->get_discount_tax();
             }
         }
 
