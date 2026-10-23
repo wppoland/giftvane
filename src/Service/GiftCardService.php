@@ -76,6 +76,10 @@ final class GiftCardService implements HasHooks
                 'invalid_code'  => __('That gift card code is not valid.', 'giftvane'),
                 'applied'       => __('Gift card applied.', 'giftvane'),
                 'one_card_only' => __('Only one gift card can be used per order.', 'giftvane'),
+                /* translators: {name}: the recipient name the buyer entered. */
+                'email_greeting' => __('Hello {name},', 'giftvane'),
+                /* translators: {message}: the personal message the buyer entered. */
+                'email_message' => __("Message from the sender:\n{message}", 'giftvane'),
                 'insufficient_balance' => __('Your gift card no longer covers this discount, most likely because it was just used on another order. Update your order to see the balance that is left.', 'giftvane'),
                 /* translators: {code}: the gift card code. */
                 'insufficient_balance_note' => __('Gift card {code} did not cover the discount on this order when it completed, so its balance was not reduced. Check the card before shipping.', 'giftvane'),
@@ -288,23 +292,29 @@ final class GiftCardService implements HasHooks
      *
      * Amount is the per-unit line total (so partial/quantity buys are honoured).
      * Recipient is the per-line recipient captured at add-to-cart time, falling
-     * back to the order's billing email so a card is always deliverable.
+     * back to the order's billing email so a card is always deliverable. The
+     * recipient name and personal message ride along for the email.
      *
-     * @return array{0: float, 1: string}
+     * @return array{0: float, 1: string, 2: string, 3: string}
      */
     private function resolveCard(\WC_Order_Item_Product $item): array
     {
         $quantity = max(1, (int) $item->get_quantity());
         $amount   = (float) $item->get_total() / $quantity;
 
-        $recipient = (string) $item->get_meta('_giftcards_recipient_email');
+        $recipient = (string) $item->get_meta(RecipientFields::META_EMAIL);
 
         if (! is_email($recipient)) {
             $order     = $item->get_order();
             $recipient = $order instanceof \WC_Order ? (string) $order->get_billing_email() : '';
         }
 
-        return [$amount, $recipient];
+        return [
+            $amount,
+            $recipient,
+            (string) $item->get_meta(RecipientFields::META_NAME),
+            (string) $item->get_meta(RecipientFields::META_MESSAGE),
+        ];
     }
 
     /**
