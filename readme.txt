@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.3.1
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,8 @@ Sell WooCommerce gift cards, gift vouchers and store credit codes that customers
 == Description ==
 
 Giftvane sells a gift card or gift voucher as an ordinary WooCommerce product. Tick the "Gift card" box on any product and set its price to the card value. When the order is marked complete, the plugin generates a unique store credit code worth that price, records its balance in its own table, and emails the code to the recipient the buyer named, or to the buyer's order email address.
+
+WooCommerce leaves a paid order for virtual products in Processing. With the "Complete gift-card-only orders automatically" setting on (the default on new installs), a paid order whose every item is a virtual gift card goes straight to Completed, so the recipient gets the code without the shop stepping in. Orders with any other product keep the usual flow.
 
 To spend a card, the customer enters the code in a field on the checkout. The balance is applied as a discount on that order. If the order costs less than the card is worth, the leftover stays on the code for a later purchase, so one card can cover several orders until it runs out.
 
@@ -36,6 +38,8 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 * Adds a redeem-code field to the classic checkout that applies the card balance as a discount.
 * Accepts a gift card code in the WooCommerce coupon field too, so it can be redeemed on the block cart and checkout.
 * Keeps the unused balance on the code after a partial spend, so it works across multiple orders.
+* Shows the shopper what the card holds after this order, next to the applied card on the classic and block cart and checkout.
+* Optionally completes a paid order automatically when every item is a virtual gift card, so the code goes out at once.
 * Lets you set the code prefix, the checkout discount label and the recipient email subject and body.
 * Optionally lists the issued codes on the buyer's order page and in their order emails.
 * Works with WooCommerce HPOS (custom order tables).
@@ -66,6 +70,10 @@ The buyer can fill in a recipient name, recipient email and a personal message (
 
 The customer types the code into the field at checkout. The balance comes off that order as a discount, and anything left over stays on the code for next time.
 
+= Why did the recipient not get the code after payment? =
+
+Codes are issued when the order is Completed, and WooCommerce leaves paid orders for virtual products in Processing. Turn on "Complete gift-card-only orders automatically" under WooCommerce > Gift Cards: a paid order made only of virtual gift card products then completes on its own. Mark the gift card product as Virtual for this to apply. Orders that also contain other products, or a gift card that ships, still need you to complete them. It applies when the payment method reports the payment, as card and wallet gateways do; bank transfer and cheque orders wait on hold for you, and you complete them yourself. The setting is on by default for new installs; sites that installed an earlier version keep it off until they turn it on.
+
 = Can a gift card be used more than once? =
 
 Yes. If checkout uses only part of the balance, the remaining store credit stays on the same code for a later order.
@@ -91,8 +99,9 @@ Yes. This plugin is compatible with WordPress Multisite. Network activate it or 
 
 == Screenshots ==
 
-1. Redeeming a gift card at checkout, where a shopper applies a code to their order.
-2. The Gift Cards settings page under WooCommerce.
+1. Buying a gift card: the product page with the optional recipient name, recipient email and personal message.
+2. Redeeming a gift card at checkout, where a shopper applies a code to their order.
+3. The Gift Cards settings page under WooCommerce.
 
 == External Services ==
 
@@ -103,6 +112,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.4.0 =
+* New setting "Complete gift-card-only orders automatically": a paid order whose every item is a virtual gift card goes straight to Completed, so the card is issued and emailed without the merchant stepping in. Orders with any other product keep WooCommerce's usual status. On by default for new installs; existing sites keep their current behaviour until they turn it on. A card is still issued once per unit however often the order is completed.
+* After a gift card is applied, the classic checkout field, the classic coupon line and the block cart and checkout coupon show the balance left after this order, worked out from the card's current balance.
 
 = 1.3.1 =
 * A gift card in the coupon field that was spent elsewhere between applying it and placing the order no longer goes through at a smaller discount and a higher total than the shopper saw: the order is stopped with a message and the updated total is shown. Applies to the block and classic checkout.
@@ -219,6 +232,9 @@ Giftvane is fully translatable and ships the `giftvane.pot` template. Translatio
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+Gift-card-only orders can complete automatically after payment (off on existing sites, turn it on under WooCommerce > Gift Cards), and checkout shows the balance left on the card.
 
 = 1.2.7 =
 The gift card email shows the amount with a real currency symbol, the checkout gift card field is nonce-checked, plain-text emails list codes as text, and uninstall cleans every site of a network.

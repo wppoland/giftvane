@@ -241,6 +241,26 @@ final class Settings implements HasHooks
                                     </label>
                                 </td>
                             </tr>
+                            <tr>
+                                <th scope="row">
+                                    <span class="giftcards-admin__label">
+                                        <?php esc_html_e('Complete gift-card-only orders automatically', 'giftvane'); ?>
+                                        <?php $this->help('gc-help-autocomplete', __('WooCommerce leaves a paid order for virtual products in Processing, and gift cards are issued when the order is Completed. With this on, a paid order whose every item is a virtual gift card goes straight to Completed, so the recipient gets the code at once. Orders with any other product keep the usual flow.', 'giftvane')); ?>
+                                    </span>
+                                </th>
+                                <td>
+                                    <label for="giftcards_auto_complete">
+                                        <input
+                                            type="checkbox"
+                                            id="giftcards_auto_complete"
+                                            name="<?php echo esc_attr($option); ?>[auto_complete]"
+                                            value="1"
+                                            <?php checked((bool) ($settings['auto_complete'] ?? false), true); ?>
+                                        />
+                                        <?php esc_html_e('Mark a paid order Completed when every item in it is a virtual gift card, so the card is issued and emailed right away.', 'giftvane'); ?>
+                                    </label>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -339,6 +359,7 @@ final class Settings implements HasHooks
             'code_prefix'         => $prefix,
             'fee_label'           => $feeLabel !== '' ? $feeLabel : (string) ($defaults['fee_label'] ?? ''),
             'show_codes_on_order' => ! empty($raw['show_codes_on_order']),
+            'auto_complete'       => ! empty($raw['auto_complete']),
             'email_subject'       => $subject !== '' ? $subject : (string) ($defaults['email_subject'] ?? ''),
             'email_body'          => $body !== '' ? $body : (string) ($defaults['email_body'] ?? ''),
         ]);

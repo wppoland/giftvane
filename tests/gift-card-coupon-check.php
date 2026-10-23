@@ -10,7 +10,10 @@
  *   tolerates only a rounding cent;
  * - a shop coupon with a card's code never debits the card;
  * - a coupon that shrank after the shopper saw it (card spent elsewhere)
- *   refuses the order.
+ *   refuses the order;
+ * - the balance left after this order is the live balance minus what the
+ *   cart takes (coupon discount with its tax, or the field's cover), never
+ *   negative, never a stale session value.
  *
  * Run: php tests/gift-card-coupon-check.php
  *
@@ -260,10 +263,45 @@ namespace GcCouponCheck {
         $failures[] = 'retry at the new total refused';
     }
 
+    // GC-8: balance left after this order.
+    WC()->session->data = [];
+    // Tax-exclusive store, cart 20 net + 4.60 tax under a 50 card: the coupon
+    // takes 20 + 4.60, so 25.40 is left.
+    $cards->add(6, 'LEFT50', 50.0);
+    WC()->cart->coupons = ['left50'];
+    WC()->cart->couponDiscounts = ['left50' => 24.6];
+    $after = $engine->remainingAfterCart(WC()->cart);
+    if (['code' => 'LEFT50', 'remaining' => 25.4] !== $after) {
+        $failures[] = 'coupon remaining wrong: ' . json_encode($after);
+    }
+    // A rounding cent over the balance drains it: 0, not -0.01.
+    WC()->cart->couponDiscounts = ['left50' => 50.01];
+    if (0.0 !== ($engine->remainingAfterCart(WC()->cart)['remaining'] ?? null)) {
+        $failures[] = 'drained card does not read 0';
+    }
+    WC()->cart->coupons = [];
+    WC()->cart->couponDiscounts = [];
+    // Redeem field: cart 100 + 23 tax under a 150 card leaves 27. Spent to 130
+    // elsewhere, with the old cover still in the session: 7, from the live balance.
+    $cards->add(7, 'FIELD150', 150.0);
+    WC()->session->set('giftcards_redeem_code', 'FIELD150');
+    $engine->applyRedeemDiscount(WC()->cart);
+    if (27.0 !== ($engine->remainingAfterCart(WC()->cart)['remaining'] ?? null)) {
+        $failures[] = 'field remaining wrong';
+    }
+    $cards->cards['FIELD150']->balance = 130.0;
+    if (7.0 !== ($engine->remainingAfterCart(WC()->cart)['remaining'] ?? null)) {
+        $failures[] = 'field remaining read a stale value';
+    }
+    WC()->session->data = [];
+    if (null !== $engine->remainingAfterCart(WC()->cart)) {
+        $failures[] = 'remaining shown with no card applied';
+    }
+
     if ([] !== $failures) {
         fwrite(STDERR, "FAIL\n - " . implode("\n - ", $failures) . "\n");
         exit(1);
     }
 
-    echo "OK: gift card coupon capped, single, debited once, shop coupon wins, shrink refused\n";
+    echo "OK: gift card coupon capped, single, debited once, shop coupon wins, shrink refused, remaining balance right\n";
 }

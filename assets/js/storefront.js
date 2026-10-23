@@ -122,6 +122,23 @@
 		triggerCheckoutUpdate();
 	} );
 
+	/*
+	 * The feedback line is swapped in as a checkout fragment after each order
+	 * review refresh; a freshly inserted live region is not reliably read out,
+	 * so announce its text when it changes.
+	 */
+	var lastFeedback = '';
+	if ( window.jQuery ) {
+		window.jQuery( document.body ).on( 'updated_checkout', function () {
+			var el = document.querySelector( '.giftcards-redeem__feedback-text' );
+			var text = el ? el.textContent.trim() : '';
+			if ( text && text !== lastFeedback ) {
+				announce( text );
+			}
+			lastFeedback = text;
+		} );
+	}
+
 	if ( input ) {
 		input.addEventListener( 'keydown', function ( e ) {
 			if ( e.key === 'Enter' ) {
