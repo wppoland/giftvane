@@ -51,13 +51,15 @@ final class GiftCardEngine
      * @param \Closure(): array<string, mixed> $settings Resolved settings.
      * @param \Closure(\WC_Product): bool $isGiftCard Whether a product is a
      *        gift card.
-     * @param \Closure(\WC_Order_Item_Product): array{0: float, 1: string} $resolveCard
-     *        Returns `[amount, recipient_email]` for a purchased gift-card line.
+     * @param \Closure(\WC_Order_Item_Product): array{0: float, 1: string, 2?: string, 3?: string} $resolveCard
+     *        Returns `[amount, recipient_email, recipient_name, message]` for a
+     *        purchased gift-card line; name and message are optional.
      * @param \Closure(string, array<string, mixed>): void $renderField
      *        Echoes the checkout redeem-code field.
      * @param array<string, string> $labels Fallback strings keyed by
      *        `fee_label`, `email_subject`, `email_body`, `invalid_code`,
-     *        `applied`, `retry_exhausted`, `one_card_only`.
+     *        `applied`, `retry_exhausted`, `one_card_only`, `email_greeting`
+     *        ({name}), `email_message` ({message}).
      */
     public function __construct(
         private readonly GiftCardRepository $repository,
@@ -749,7 +751,7 @@ final class GiftCardEngine
                 continue;
             }
 
-            [$amount, $recipientEmail] = $this->resolveCardDetails($item);
+            [$amount, $recipientEmail, $recipientName, $message] = $this->resolveCardDetails($item);
 
             if ($amount <= 0 || ! is_email($recipientEmail)) {
                 continue;
@@ -781,7 +783,7 @@ final class GiftCardEngine
                     continue;
                 }
 
-                $this->sendRecipientEmail($recipientEmail, $code, $amount);
+                $this->sendRecipientEmail($recipientEmail, $code, $amount, $recipientName, $message);
 
                 $issued[$i]['emailed'] = true;
                 $this->saveIssuedUnits($item, $issued);
@@ -943,7 +945,7 @@ final class GiftCardEngine
         return $this->normalizeCode($prefix . strtoupper(wp_generate_password(20, false, false)));
     }
 
-    private function sendRecipientEmail(string $recipientEmail, string $code, float $amount): void
+    private function sendRecipientEmail(string $recipientEmail, string $code, float $amount, string $recipientName = '', string $message = ''): void
     {
         // The email is plain text, so the currency symbol wc_price() writes as
         // an HTML entity (&#36;, &euro;) is decoded rather than sent literally.
@@ -955,21 +957,36 @@ final class GiftCardEngine
         $subject = Formatter::interpolate($this->message('email_subject'), $values);
         $body    = Formatter::interpolate($this->message('email_body'), $values);
 
+        // The buyer's own words, plain text like the rest of the email.
+        if ($recipientName !== '' && $this->message('email_greeting') !== '') {
+            $body = Formatter::interpolate($this->message('email_greeting'), ['name' => $recipientName]) . "\n\n" . $body;
+        }
+
+        if ($message !== '' && $this->message('email_message') !== '') {
+            $body .= "\n\n" . Formatter::interpolate($this->message('email_message'), ['message' => $message]);
+        }
+
         wp_mail($recipientEmail, $subject, $body);
     }
 
     /**
-     * @return array{0: float, 1: string}
+     * @return array{0: float, 1: string, 2: string, 3: string}
      */
     private function resolveCardDetails(\WC_Order_Item_Product $item): array
     {
         $resolved = ($this->resolveCard)($item);
 
         if (! is_array($resolved) || ! isset($resolved[0], $resolved[1])) {
-            return [0.0, ''];
+            return [0.0, '', '', ''];
         }
 
-        return [(float) $resolved[0], sanitize_email((string) $resolved[1])];
+        return [
+            (float) $resolved[0],
+            sanitize_email((string) $resolved[1]),
+            // Sanitised when stored (RecipientFields::clean()); the email is plain text.
+            (string) ($resolved[2] ?? ''),
+            (string) ($resolved[3] ?? ''),
+        ];
     }
 
     private function normalizeCode(string $code): string
