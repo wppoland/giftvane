@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.3.1 =
+* A gift card in the coupon field that was spent elsewhere between applying it and placing the order no longer goes through at a smaller discount and a higher total than the shopper saw: the order is stopped with a message and the updated total is shown. Applies to the block and classic checkout.
+* A shop coupon with the same code as a gift card wins the discount and no longer also takes that amount off the gift card.
 
 = 1.3.0 =
 * Send a gift card to someone else: optional recipient name, recipient email and personal message fields on gift card products. The email address is checked when the card is added to the cart, the message is limited to 500 characters, and all three show on the cart and order lines. The card is emailed to the recipient, greeted by name and with the message; without a recipient email it still goes to the billing address.

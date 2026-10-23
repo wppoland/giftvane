@@ -7,7 +7,10 @@
  * - a second gift card is refused, and the redeem-field fee is skipped when
  *   the same card is already a coupon (no double discount);
  * - the order debit takes discount + tax once, refuses a short balance and
- *   tolerates only a rounding cent.
+ *   tolerates only a rounding cent;
+ * - a shop coupon with a card's code never debits the card;
+ * - a coupon that shrank after the shopper saw it (card spent elsewhere)
+ *   refuses the order.
  *
  * Run: php tests/gift-card-coupon-check.php
  *
@@ -48,6 +51,16 @@ namespace {
         public function get_subtotal(): float { return 100.0; }
         public function get_subtotal_tax(): float { return 23.0; }
         public function add_fee(string $name, float $amount): void { $this->fees[] = [$name, $amount]; }
+        /** @var array<string, float> */
+        public array $couponDiscounts = [];
+        public function get_coupon_discount_amount(string $code, bool $exTax = true): float { return $this->couponDiscounts[$code] ?? 0.0; }
+    }
+
+    class WP_Error
+    {
+        /** @var list<string> */
+        public array $codes = [];
+        public function add(string $code, string $message): void { $this->codes[] = $code; }
     }
 
     class WC_Coupon
@@ -219,10 +232,38 @@ namespace GcCouponCheck {
         // Refused, as it should be.
     }
 
+    // GC-6: a shop coupon with the same code as a card never debits the card.
+    $cards->add(4, 'SAME10', 25.0);
+    $GLOBALS['gc_real_coupons']['same10'] = 7;
+    $before = $cards->debits;
+    $engine->persistStoreApiRedeem(new \WC_Order([new \WC_Order_Item_Coupon('same10', 10.0, 0.0)]));
+    if ($before !== $cards->debits || 25.0 !== $cards->cards['SAME10']->balance) {
+        $failures[] = 'shop coupon with a card code debited the card';
+    }
+    $GLOBALS['gc_real_coupons'] = [];
+
+    // GC-7: shown 80 off, the card now covers 10: the order is refused once,
+    // and the retry at the new total goes through.
+    $cards->add(5, 'DRAIN', 10.0);
+    WC()->cart->coupons = ['drain'];
+    WC()->cart->couponDiscounts = ['drain' => 80.0];
+    $engine->applyRedeemDiscount(WC()->cart);
+    WC()->cart->coupons = [];
+    $errors = new \WP_Error();
+    $engine->checkOrderStillCovers(new \WC_Order([new \WC_Order_Item_Coupon('drain', 10.0, 0.0)]), $errors);
+    if (['giftcards_balance'] !== $errors->codes) {
+        $failures[] = 'shrunk coupon not refused';
+    }
+    $errors = new \WP_Error();
+    $engine->checkOrderStillCovers(new \WC_Order([new \WC_Order_Item_Coupon('drain', 10.0, 0.0)]), $errors);
+    if ([] !== $errors->codes) {
+        $failures[] = 'retry at the new total refused';
+    }
+
     if ([] !== $failures) {
         fwrite(STDERR, "FAIL\n - " . implode("\n - ", $failures) . "\n");
         exit(1);
     }
 
-    echo "OK: gift card coupon capped, single, debited once\n";
+    echo "OK: gift card coupon capped, single, debited once, shop coupon wins, shrink refused\n";
 }

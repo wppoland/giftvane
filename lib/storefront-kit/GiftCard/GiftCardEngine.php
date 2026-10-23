@@ -169,9 +169,16 @@ final class GiftCardEngine
         $applied = $card === null ? 0.0 : $this->coverFor($card->balance, $cart);
 
         // Remember what the shopper was shown, so the checkout can tell when
-        // the card covers less by the time the order is placed.
-        if (! did_action('woocommerce_checkout_process') && WC()->session instanceof \WC_Session) {
+        // the card covers less by the time the order is placed. The coupon
+        // discount (with its tax) is already on the cart when fees run.
+        if (! did_action('woocommerce_checkout_process') && ! self::isStoreApiPlacement() && WC()->session instanceof \WC_Session) {
+            $couponCode = $this->cartCardCoupon($cart);
+
             WC()->session->set($this->sessionKey . '_shown', $applied);
+            WC()->session->set(
+                $this->sessionKey . '_coupon_shown',
+                $couponCode === '' ? 0.0 : (float) $cart->get_coupon_discount_amount($couponCode, false),
+            );
         }
 
         if ($card === null || $applied <= 0) {
@@ -205,7 +212,7 @@ final class GiftCardEngine
             $card  = $this->repository->findByCode($this->normalizeCode($couponCode));
             $taken = (float) WC()->cart->get_coupon_discount_amount($couponCode, false);
 
-            if ($taken > 0 && ! $this->covers($card, $taken)) {
+            if (($taken > 0 && ! $this->covers($card, $taken)) || $this->couponShrank($taken)) {
                 WC()->session->set('refresh_totals', true);
                 $errors->add('giftcards_balance', $this->message('insufficient_balance'));
             }
@@ -255,7 +262,7 @@ final class GiftCardEngine
 
         $card = $this->cardForCouponCode($code);
 
-        if ($card === null || wc_get_coupon_id_by_code($code) > 0) {
+        if ($card === null) {
             return $data;
         }
 
@@ -337,9 +344,51 @@ final class GiftCardEngine
         $card  = $this->repository->findByCode($code);
         $taken = $this->giftCardFeeTotal($order, $code);
 
-        if ($taken > 0 && ! $this->covers($card, $taken)) {
+        if (($taken > 0 && ! $this->covers($card, $taken)) || $this->couponShrank($taken)) {
             $errors->add('giftcards_balance', $this->message('insufficient_balance'));
         }
+    }
+
+    /**
+     * Whether the card coupon now takes less than the shopper was shown. The
+     * coupon is rebuilt from the live balance whenever the cart is
+     * recalculated, which both checkouts do before the order is placed, so a
+     * card spent elsewhere in between would otherwise charge more than the
+     * total on screen without a word. The new amount becomes what was shown,
+     * so the shopper's retry goes through at the total they now see.
+     */
+    private function couponShrank(float $taken): bool
+    {
+        if (! WC()->session instanceof \WC_Session) {
+            return false;
+        }
+
+        $key   = $this->sessionKey . '_coupon_shown';
+        $shown = (float) WC()->session->get($key, 0);
+
+        if ($shown <= 0 || $taken + 0.0001 >= $shown) {
+            return false;
+        }
+
+        WC()->session->set($key, $taken);
+
+        return true;
+    }
+
+    /**
+     * Whether this request is the Store API checkout POST that places the
+     * order. Read from the request line because the cart is loaded, and its
+     * totals calculated, before any REST hook knows the route.
+     */
+    private static function isStoreApiPlacement(): bool
+    {
+        if (! isset($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return false;
+        }
+
+        $uri = rawurldecode(sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'])));
+
+        return preg_match('#/wc/store(?:/v\d+)?/checkout(?:[/?&]|$)#', $uri) === 1;
     }
 
     /**
@@ -407,10 +456,18 @@ final class GiftCardEngine
     }
 
     /**
+     * The gift card a coupon code redeems, or null. A shop coupon with the
+     * same code is never a gift card: it wins the discount, so it must not
+     * debit the card either.
+     *
      * @return object{id:int,code:string,balance:float,recipient_email:string,order_id:int}|null
      */
     private function cardForCouponCode(string $code): ?object
     {
+        if (wc_get_coupon_id_by_code($code) > 0) {
+            return null;
+        }
+
         $code = $this->normalizeCode($code);
         $card = $code === '' ? null : $this->repository->findByCode($code);
 
@@ -556,7 +613,7 @@ final class GiftCardEngine
         }
 
         foreach ($order->get_items('coupon') as $item) {
-            if ($item instanceof \WC_Order_Item_Coupon && $this->normalizeCode($item->get_code()) === $this->normalizeCode($code)) {
+            if ($item instanceof \WC_Order_Item_Coupon && $this->normalizeCode($item->get_code()) === $this->normalizeCode($code) && wc_get_coupon_id_by_code($item->get_code()) === 0) {
                 $used += (float) $item->get_discount() + (float) $item->get_discount_tax();
             }
         }
