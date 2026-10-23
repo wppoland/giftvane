@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.8
+Stable tag: 1.2.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,7 +32,8 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 
 * Turns any product into a gift card with one checkbox on the product editor's General tab; the price is the card value.
 * Generates a unique code on order completion and emails it to the buyer's order email address.
-* Adds a redeem-code field to the checkout that applies the card balance as a discount.
+* Adds a redeem-code field to the classic checkout that applies the card balance as a discount.
+* Accepts a gift card code in the WooCommerce coupon field too, so it can be redeemed on the block cart and checkout.
 * Keeps the unused balance on the code after a partial spend, so it works across multiple orders.
 * Lets you set the code prefix, the checkout discount label and the recipient email subject and body.
 * Optionally lists the issued codes on the buyer's order page and in their order emails.
@@ -78,8 +79,9 @@ Yes. Set the email subject and body under WooCommerce > Gift Cards, with tokens 
 
 = Does it work with WooCommerce checkout blocks? =
 
-HPOS, yes. Redeeming a gift card is currently a classic-checkout feature; on the
-block checkout the redemption field does not appear.
+Yes, including HPOS. On the block cart and checkout the shopper types the gift card code into the coupon field. It is applied as a discount of up to the card balance and the card is debited when the order is placed, with the balance checked again at that moment. On the classic checkout the gift card field works as before, and the coupon field accepts a code too.
+
+Through the coupon field a card covers products, not shipping. In a store that adds tax on top of its prices the discount is the net share of the balance, so the discount plus its tax stays within the card. One gift card can be used per order, and the same card cannot be applied twice. A shop coupon with the same code as a gift card takes precedence.
 
 
 = Does this plugin work on WordPress Multisite? =
@@ -100,6 +102,11 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.2.9 =
+* Gift cards can be redeemed on the block checkout: the code typed into the coupon field becomes a discount of up to the card balance. The card is debited once, when the order is placed, after its balance is checked again; a card that no longer covers the discount stops the order with a message. The classic checkout field works as before.
+* One gift card per order. The same card entered in both the gift card field and the coupon field discounts the order once.
+* A code entered in the classic gift card field and then carried into a block checkout discounted the order but was never taken off the card; it is now debited when the order is placed, as on the classic checkout.
 
 = 1.2.8 =
 * The read-only abilities are now flagged read-only where the Abilities API looks for it (meta.annotations), so they are called with GET as the API expects; GET used to return 405 and only POST worked. get-settings also accepts a call with no input.
