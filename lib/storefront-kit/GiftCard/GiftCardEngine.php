@@ -114,8 +114,50 @@ final class GiftCardEngine
             'field_name' => $this->fieldName,
             'nonce_field' => wp_create_nonce($this->nonceAction),
             'applied_code' => $this->getAppliedCode(),
+            'remaining' => WC()->cart instanceof \WC_Cart ? ($this->remainingAfterCart(WC()->cart)['remaining'] ?? null) : null,
             'settings' => $this->getSettings(),
         ]);
+    }
+
+    /**
+     * The card this cart redeems and what it holds after this order, or null
+     * when no card is applied. Read from the live balance minus what the cart
+     * takes from it now, the same amounts the order will debit: the coupon
+     * discount with its tax, or the redeem field's cover. Never a session value
+     * saved on an earlier request, which a card spent elsewhere makes stale.
+     *
+     * @return array{code: string, remaining: float}|null
+     */
+    public function remainingAfterCart(\WC_Cart $cart): ?array
+    {
+        if (! $this->isEnabled()) {
+            return null;
+        }
+
+        $coupon = $this->cartCardCoupon($cart);
+
+        if ($coupon !== '') {
+            $card = $this->repository->findByCode($this->normalizeCode($coupon));
+            $used = (float) $cart->get_coupon_discount_amount($coupon, false);
+        } else {
+            $card = $this->getAppliedCard();
+            $used = $card === null ? 0.0 : $this->coverFor($card->balance, $cart);
+        }
+
+        if ($card === null) {
+            return null;
+        }
+
+        return ['code' => $card->code, 'remaining' => self::remaining($card->balance, $used)];
+    }
+
+    /**
+     * Balance left once $used is taken. A coupon a rounding cent over the
+     * balance drains the card in debitOrder(), so it reads 0, never negative.
+     */
+    public static function remaining(float $balance, float $used): float
+    {
+        return max(0.0, round($balance - $used, 4));
     }
 
     /**

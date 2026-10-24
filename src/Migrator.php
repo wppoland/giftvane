@@ -34,8 +34,11 @@ final class Migrator
      *  - "2", enforce a DB-level UNIQUE index on the code column so the kit's
      *          collision-safe issuance (catch + regenerate) has a real authority
      *          to fail against on concurrent inserts.
+     *  - "3", `auto_complete` setting: on for new installs, off for installs
+     *          that predate it, so an update never changes how their paid
+     *          orders move without the merchant choosing it.
      */
-    private const DB_VERSION = '2';
+    private const DB_VERSION = '3';
 
     public function maybeMigrate(): void
     {
@@ -48,9 +51,17 @@ final class Migrator
         // createGiftCardsTable() already declares the UNIQUE index, so fresh
         // installs are correct from the start. ensureCodeUniqueIndex() repairs
         // installs created before the index existed (db_version < 2).
+        // Read before seeding: a seeded option is a new install, not an old one.
+        $existing = get_option(self::SETTINGS, null);
+
         $this->createGiftCardsTable();
         $this->ensureCodeUniqueIndex();
         $this->seedDefaultSettings();
+
+        if (is_array($existing) && ! array_key_exists('auto_complete', $existing)) {
+            $existing['auto_complete'] = false;
+            update_option(self::SETTINGS, $existing, false);
+        }
 
         update_option(self::OPTION, self::DB_VERSION, false);
     }
