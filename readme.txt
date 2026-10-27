@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,23 +48,26 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 
 == Giftvane Pro ==
 
-Giftvane Pro is a separate paid plugin that extends Giftvane:
+Giftvane Pro is a separate paid plugin that extends Giftvane.
 
-| Feature | Free | Pro |
-|:--- |:---:|:---:|
-| Gift-card product | Yes | Yes |
-| Emailed code | Yes | Yes |
-| Redeem at checkout | Yes | Yes |
-| Balance and partial redemption | Yes | Yes |
-| Email content | Yes | Yes |
-| Custom amount | - | Yes |
-| Scheduled delivery | - | Yes |
-| Balance shortcode | - | Yes |
-| Redemption history | - | Yes |
-| Custom card designs | - | Yes |
-| Bulk generation | - | Yes |
-| PDF gift cards | - | Yes |
-| Multi-currency | - | Yes |
+Included in Giftvane:
+
+* Gift-card product
+* Emailed code
+* Redeem at checkout
+* Balance and partial redemption
+* Email content
+
+Giftvane Pro adds:
+
+* Custom amount
+* Scheduled delivery
+* Balance shortcode
+* Redemption history
+* Custom card designs
+* Bulk generation
+* PDF gift cards
+* Multi-currency
 
 The free edition is not a trial and its features stay available without a time limit.
 
@@ -139,6 +142,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.4.2 =
+* The Upgrade to PRO links open the pricing page in the admin's language where plogins.com has one, and tell plogins.com which plugin the visit came from (utm_source, utm_medium and utm_campaign in the link). Nothing is sent from your site.
+* Readme: the PRO section lists what the free plugin includes and what the paid edition adds as two lists, which WordPress.org can display (it does not display tables).
 
 = 1.4.1 =
 * Readme only: a PRO section with links to the paid edition.

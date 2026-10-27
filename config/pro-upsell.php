@@ -12,6 +12,8 @@ defined('ABSPATH') || exit;
 return [
     'name'       => 'Giftvane Pro',
     'url'        => 'https://plogins.com/plogins-giftcards-pro/pricing/',
+    'campaign'   => 'plogins-giftcards',
+    'locales'    => ['pl', 'de', 'es'],
     'sellable'   => true,
     'price_from' => 29,
     'currency'   => 'EUR',
