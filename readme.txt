@@ -48,16 +48,23 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 
 == Giftvane Pro ==
 
-Giftvane Pro is a separate paid plugin that works on top of Giftvane. It adds:
+Giftvane Pro is a separate paid plugin that extends Giftvane:
 
-* Custom amount
-* Scheduled delivery
-* Balance shortcode
-* Redemption history
-* Custom card designs
-* Bulk generation
-* PDF gift cards
-* Multi-currency
+| Feature | Free | Pro |
+|:--- |:---:|:---:|
+| Gift-card product | Yes | Yes |
+| Emailed code | Yes | Yes |
+| Redeem at checkout | Yes | Yes |
+| Balance and partial redemption | Yes | Yes |
+| Email content | Yes | Yes |
+| Custom amount | - | Yes |
+| Scheduled delivery | - | Yes |
+| Balance shortcode | - | Yes |
+| Redemption history | - | Yes |
+| Custom card designs | - | Yes |
+| Bulk generation | - | Yes |
+| PDF gift cards | - | Yes |
+| Multi-currency | - | Yes |
 
 The free edition is not a trial and its features stay available without a time limit.
 
