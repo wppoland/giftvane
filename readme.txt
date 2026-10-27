@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,7 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 * **Plugin page**: [plogins.com/plogins-giftcards/](https://plogins.com/plogins-giftcards/)
 * **Source code**: [github.com/wppoland/plogins-giftcards](https://github.com/wppoland/plogins-giftcards)
 * **Bug reports and feature requests**: [github.com/wppoland/plogins-giftcards/issues](https://github.com/wppoland/plogins-giftcards/issues)
+* **Giftvane Pro**: [plogins.com/plogins-giftcards-pro/](https://plogins.com/plogins-giftcards-pro/)
 
 
 = What it does =
@@ -44,6 +45,25 @@ The code is built and tracked on GitHub. Source and bug reports: [github.com/wpp
 * Optionally lists the issued codes on the buyer's order page and in their order emails.
 * Works with WooCommerce HPOS (custom order tables).
 * Lets an AI assistant in your admin look up a code's balance and list the codes an order issued, through the WordPress Abilities API on WordPress 6.9 and later. Reading only; it cannot change a balance or issue a code.
+
+== Giftvane Pro ==
+
+Giftvane Pro is a separate paid plugin that works on top of Giftvane. It adds:
+
+* Custom amount
+* Scheduled delivery
+* Balance shortcode
+* Redemption history
+* Custom card designs
+* Bulk generation
+* PDF gift cards
+* Multi-currency
+
+The free edition is not a trial and its features stay available without a time limit.
+
+* **Giftvane Pro** - [plogins.com/plogins-giftcards-pro/](https://plogins.com/plogins-giftcards-pro/)
+* **Compare editions and pricing** - [plogins.com/plogins-giftcards-pro/pricing/](https://plogins.com/plogins-giftcards-pro/pricing/)
+* **PRO documentation** - [plogins.com/plogins-giftcards-pro/docs/](https://plogins.com/plogins-giftcards-pro/docs/)
 
 == Installation ==
 
@@ -112,6 +132,9 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.4.1 =
+* Readme only: a PRO section with links to the paid edition.
 
 = 1.4.0 =
 * New setting "Complete gift-card-only orders automatically": a paid order whose every item is a virtual gift card goes straight to Completed, so the card is issued and emailed without the merchant stepping in. Orders with any other product keep WooCommerce's usual status. On by default for new installs; existing sites keep their current behaviour until they turn it on. A card is still issued once per unit however often the order is completed.
