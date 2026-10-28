@@ -4,15 +4,15 @@
  * scripts/gen-pro-upsell.mjs. The admin upsell renders this; curate the
  * feature list to fit this plugin's settings screen (do not invent features).
  *
- * @package plogins-giftcards-pro
+ * @package giftvane-pro
  */
 
 defined('ABSPATH') || exit;
 
 return [
     'name'       => 'Giftvane Pro',
-    'url'        => 'https://plogins.com/plogins-giftcards-pro/pricing/',
-    'campaign'   => 'plogins-giftcards',
+    'url'        => 'https://plogins.com/giftvane-pro/pricing/',
+    'campaign'   => 'giftvane',
     'locales'    => ['pl', 'de', 'es'],
     'sellable'   => true,
     'price_from' => 29,

@@ -23,8 +23,8 @@ msgstr "Giftvane - Geschenkkarten und Shop-Guthaben für WooCommerce"
 
 #. Plugin URI of the plugin
 #: giftvane.php
-msgid "https://plogins.com/plogins-giftcards/"
-msgstr "https://plogins.com/plogins-giftcards/"
+msgid "https://plogins.com/giftvane/"
+msgstr "https://plogins.com/giftvane/"
 
 #. Description of the plugin
 #: giftvane.php
