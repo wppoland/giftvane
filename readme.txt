@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,15 +20,15 @@ To spend a card, the customer enters the code in a field on the checkout. The ba
 
 The buyer also sees the code(s) their order issued on the order-confirmation page and in their WooCommerce order emails, so they have the code in hand without hunting through their inbox.
 
-The code is built and tracked on GitHub. Source and bug reports: [github.com/wppoland/plogins-giftcards](https://github.com/wppoland/plogins-giftcards)
+The code is built and tracked on GitHub. Source and bug reports: [github.com/wppoland/giftvane](https://github.com/wppoland/giftvane)
 
 = Documentation and links =
 
-* **Documentation**: [plogins.com/plogins-giftcards/docs/](https://plogins.com/plogins-giftcards/docs/)
-* **Plugin page**: [plogins.com/plogins-giftcards/](https://plogins.com/plogins-giftcards/)
-* **Source code**: [github.com/wppoland/plogins-giftcards](https://github.com/wppoland/plogins-giftcards)
-* **Bug reports and feature requests**: [github.com/wppoland/plogins-giftcards/issues](https://github.com/wppoland/plogins-giftcards/issues)
-* **Giftvane Pro**: [plogins.com/plogins-giftcards-pro/](https://plogins.com/plogins-giftcards-pro/)
+* **Documentation**: [plogins.com/giftvane/docs/](https://plogins.com/giftvane/docs/)
+* **Plugin page**: [plogins.com/giftvane/](https://plogins.com/giftvane/)
+* **Source code**: [github.com/wppoland/giftvane](https://github.com/wppoland/giftvane)
+* **Bug reports and feature requests**: [github.com/wppoland/giftvane/issues](https://github.com/wppoland/giftvane/issues)
+* **Giftvane Pro**: [plogins.com/giftvane-pro/](https://plogins.com/giftvane-pro/)
 
 
 = What it does =
@@ -71,9 +71,9 @@ Giftvane Pro adds:
 
 The free edition is not a trial and its features stay available without a time limit.
 
-* **Giftvane Pro** - [plogins.com/plogins-giftcards-pro/](https://plogins.com/plogins-giftcards-pro/)
-* **Compare editions and pricing** - [plogins.com/plogins-giftcards-pro/pricing/](https://plogins.com/plogins-giftcards-pro/pricing/)
-* **PRO documentation** - [plogins.com/plogins-giftcards-pro/docs/](https://plogins.com/plogins-giftcards-pro/docs/)
+* **Giftvane Pro** - [plogins.com/giftvane-pro/](https://plogins.com/giftvane-pro/)
+* **Compare editions and pricing** - [plogins.com/giftvane-pro/pricing/](https://plogins.com/giftvane-pro/pricing/)
+* **PRO documentation** - [plogins.com/giftvane-pro/docs/](https://plogins.com/giftvane-pro/docs/)
 
 == Installation ==
 
@@ -142,6 +142,9 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.4.3 =
+* Links point at the new plogins.com address and the renamed GitHub repository.
 
 = 1.4.2 =
 * The Upgrade to PRO links open the pricing page in the admin's language where plogins.com has one, and tell plogins.com which plugin the visit came from (utm_source, utm_medium and utm_campaign in the link). Nothing is sent from your site.

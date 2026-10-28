@@ -21,7 +21,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: giftvane.php
-msgid "https://plogins.com/plogins-giftcards/"
+msgid "https://plogins.com/giftvane/"
 msgstr ""
 
 #. Description of the plugin

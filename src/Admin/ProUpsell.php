@@ -90,7 +90,7 @@ final class ProUpsell
 
     private function url(): string
     {
-        $default = (string) ($this->data()['url'] ?? 'https://plogins.com/plogins-giftcards-pro/');
+        $default = (string) ($this->data()['url'] ?? 'https://plogins.com/giftvane-pro/');
         $default = $this->trackedUrl($default);
         /**
          * Filters the URL the PRO call-to-action buttons point at.
