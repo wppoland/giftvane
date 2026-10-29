@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GiftCards\Repository;
 
-use WPPoland\StorefrontKit\GiftCard\DuplicateGiftCardCodeException;
-use WPPoland\StorefrontKit\GiftCard\GiftCardRepository;
+use GiftCards\Vendor\StorefrontKit\GiftCard\DuplicateGiftCardCodeException;
+use GiftCards\Vendor\StorefrontKit\GiftCard\GiftCardRepository;
 
 defined('ABSPATH') || exit;
 

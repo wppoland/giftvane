@@ -16,7 +16,7 @@
     "autoload": {
         "psr-4": {
             "GiftCards\\": "src/",
-            "WPPoland\\StorefrontKit\\": "lib/storefront-kit/"
+            "GiftCards\\Vendor\\StorefrontKit\\": "lib/storefront-kit/"
         }
     },
     "scripts": {

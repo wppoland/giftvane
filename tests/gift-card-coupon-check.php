@@ -109,8 +109,8 @@ namespace {
 }
 
 namespace GcCouponCheck {
-    use WPPoland\StorefrontKit\GiftCard\GiftCardEngine;
-    use WPPoland\StorefrontKit\GiftCard\GiftCardRepository;
+    use GiftCards\Vendor\StorefrontKit\GiftCard\GiftCardEngine;
+    use GiftCards\Vendor\StorefrontKit\GiftCard\GiftCardRepository;
 
     final class Cards implements GiftCardRepository
     {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WPPoland\StorefrontKit\GiftCard;
+namespace GiftCards\Vendor\StorefrontKit\GiftCard;
 
 defined('ABSPATH') || exit;
 
