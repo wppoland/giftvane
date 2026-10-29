@@ -6,7 +6,7 @@ namespace GiftCards\Service;
 
 use GiftCards\Contract\HasHooks;
 use GiftCards\Repository\GiftCardTableRepository;
-use WPPoland\StorefrontKit\GiftCard\GiftCardEngine;
+use GiftCards\Vendor\StorefrontKit\GiftCard\GiftCardEngine;
 
 defined('ABSPATH') || exit;
 

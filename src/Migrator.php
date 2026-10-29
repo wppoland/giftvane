@@ -70,7 +70,7 @@ final class Migrator
      * Create the gift-cards table: one row per issued card holding the unique
      * code, remaining balance, recipient email and source order id. The UNIQUE
      * index on `code` is what lets a colliding insert fail so the kit engine can
-     * catch {@see \WPPoland\StorefrontKit\GiftCard\DuplicateGiftCardCodeException}
+     * catch {@see \GiftCards\Vendor\StorefrontKit\GiftCard\DuplicateGiftCardCodeException}
      * and regenerate.
      */
     private function createGiftCardsTable(): void

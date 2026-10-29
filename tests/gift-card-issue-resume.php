@@ -372,9 +372,9 @@ namespace {
 
 namespace GiftCards\Tests {
 
-    use WPPoland\StorefrontKit\GiftCard\DuplicateGiftCardCodeException;
-    use WPPoland\StorefrontKit\GiftCard\GiftCardEngine;
-    use WPPoland\StorefrontKit\GiftCard\GiftCardRepository;
+    use GiftCards\Vendor\StorefrontKit\GiftCard\DuplicateGiftCardCodeException;
+    use GiftCards\Vendor\StorefrontKit\GiftCard\GiftCardEngine;
+    use GiftCards\Vendor\StorefrontKit\GiftCard\GiftCardRepository;
 
     $kit = dirname(__DIR__) . '/lib/storefront-kit';
 

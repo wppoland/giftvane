@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WPPoland\StorefrontKit\GiftCard;
+namespace GiftCards\Vendor\StorefrontKit\GiftCard;
 
 defined('ABSPATH') || exit;
 
@@ -10,7 +10,7 @@ defined('ABSPATH') || exit;
  * Storage contract for the gift-card engine. The host plugin implements this
  * against its own custom table (e.g. `{$wpdb->prefix}..._gift_cards`).
  *
- * Mirroring {@see \WPPoland\StorefrontKit\Waitlist\WaitlistRepository}, storage
+ * Mirroring {@see \GiftCards\Vendor\StorefrontKit\Waitlist\WaitlistRepository}, storage
  * stays in the consuming plugin so the library hard-codes no table name and no
  * `$wpdb` access. The host implementation is the place for the justified
  * `// phpcs:disable WordPress.DB.DirectDatabaseQuery.*` block around the

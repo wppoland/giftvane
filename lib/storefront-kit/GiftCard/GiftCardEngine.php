@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace WPPoland\StorefrontKit\GiftCard;
+namespace GiftCards\Vendor\StorefrontKit\GiftCard;
 
-use WPPoland\StorefrontKit\Support\Formatter;
+use GiftCards\Vendor\StorefrontKit\Support\Formatter;
 
 defined('ABSPATH') || exit;
 
@@ -16,7 +16,7 @@ defined('ABSPATH') || exit;
  * injected closures) generates a unique code on order completion; the code,
  * balance, recipient email and order id are persisted through the host-supplied
  * {@see GiftCardRepository} (custom table, same delegation as
- * {@see \WPPoland\StorefrontKit\Waitlist\WaitlistRepository}) and the recipient
+ * {@see \GiftCards\Vendor\StorefrontKit\Waitlist\WaitlistRepository}) and the recipient
  * is emailed. Redemption: a code field at checkout applies the remaining balance
  * as a negative cart fee, or the code typed into WooCommerce's own coupon field
  * (the only code field the block cart and checkout have) becomes a virtual
