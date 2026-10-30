@@ -15,8 +15,8 @@ defined('WP_UNINSTALL_PLUGIN') || exit;
 // there. While it is installed, active or not, the table stays (with its schema
 // version) and the add-on's own uninstall drops it: whichever of the two is
 // removed last does. Matched on the text domain, so a renamed folder counts.
-// A bulk Delete uninstalls both in one request and core clears its cached
-// plugin list only after the loop, so read the folders fresh.
+// A no-JS bulk Delete or WP-CLI uninstalls both in one request and core never
+// clears its cached plugin list between them, so read the folders fresh.
 if (! function_exists('get_plugins')) {
     require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
