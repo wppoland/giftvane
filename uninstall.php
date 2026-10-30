@@ -11,14 +11,25 @@
 
 defined('WP_UNINSTALL_PLUGIN') || exit;
 
-$giftcards_uninstall_site = static function (): void {
+// Giftvane Pro adds a column to the gift-card table and writes its own rows
+// there. While it is installed, active or not, the table stays (with its schema
+// version) and the add-on's own uninstall drops it: whichever of the two is
+// removed last does. Matched on the text domain, so a renamed folder counts.
+if (! function_exists('get_plugins')) {
+    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+}
+$giftcards_keep_table = in_array('giftvane-pro', array_column(get_plugins(), 'TextDomain'), true);
+
+$giftcards_uninstall_site = static function () use ($giftcards_keep_table): void {
     global $wpdb;
 
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange -- Dropping the plugin's own table on uninstall.
-    $wpdb->query($wpdb->prepare('DROP TABLE IF EXISTS %i', $wpdb->prefix . 'giftcards'));
+    if (! $giftcards_keep_table) {
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange -- Dropping the plugin's own table on uninstall.
+        $wpdb->query($wpdb->prepare('DROP TABLE IF EXISTS %i', $wpdb->prefix . 'giftcards'));
+        delete_option('giftcards_db_version');
+    }
 
     delete_option('giftcards_settings');
-    delete_option('giftcards_db_version');
 
     // Any retry still waiting on an order whose gift cards were never issued.
     // A delete can arrive without a deactivation (WP-CLI, or a restored site),
