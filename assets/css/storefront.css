@@ -3,7 +3,7 @@
  *
  * CWV-native: fixed control sizing reserves space so applying a code or
  * revealing a message causes no layout shift. Themeable via custom properties;
- * respects prefers-color-scheme and prefers-reduced-motion. Inherits the active
+ * follows the page color scheme and prefers-reduced-motion. Inherits the active
  * theme's typography (no font imports).
  */
 
@@ -333,27 +333,55 @@
 
 /* ---- Dark mode ------------------------------------------------------- */
 
-@media (prefers-color-scheme: dark) {
+/* Dark mode follows the page's color scheme (set by the theme), not the OS. */
+@supports (color: light-dark(white, black)) {
 	.giftcards-redeem,
 	.giftcards-order-codes {
-		--gcs-accent: #c46db5;
-		--gcs-accent-strong: #d98fcb;
-		--gcs-accent-soft: #3a2438;
-		--gcs-foil: #d7ab51;
-		--gcs-foil-strong: #b88a2f;
-		--gcs-foil-soft: #332a14;
-		--gcs-paper: #201c1f;
-		--gcs-paper-ink: #ece7ea;
-		--gcs-surface: #1b1d22;
-		--gcs-surface-muted: #24272e;
-		--gcs-border: #3a3f47;
-		--gcs-text-muted: #a7acb3;
-		--gcs-success: #4cc38a;
-		--gcs-danger: #f0918f;
+		--gcs-accent: light-dark(#7a2e6d, #c46db5);
+		--gcs-accent-strong: light-dark(#5d1f53, #d98fcb);
+		--gcs-accent-soft: light-dark(#f7ecf5, #3a2438);
+		--gcs-foil: light-dark(#c8962e, #d7ab51);
+		--gcs-foil-strong: light-dark(#a9781d, #b88a2f);
+		--gcs-foil-soft: light-dark(#faf2dd, #332a14);
+		--gcs-paper: light-dark(#fffdf9, #201c1f);
+		--gcs-paper-ink: light-dark(#2b2230, #ece7ea);
+		--gcs-surface: light-dark(#ffffff, #1b1d22);
+		--gcs-surface-muted: light-dark(#f6f7f9, #24272e);
+		--gcs-border: light-dark(#d8dbe0, #3a3f47);
+		--gcs-text-muted: light-dark(#646970, #a7acb3);
+		--gcs-success: light-dark(#1a7f50, #4cc38a);
+		--gcs-danger: light-dark(#b32d2e, #f0918f);
 	}
 
 	.giftcards-redeem {
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+		box-shadow: 0 1px 2px light-dark(rgba(35, 20, 30, 0.05), rgba(0, 0, 0, 0.35));
+	}
+}
+
+/* Browsers without light-dark() keep following the OS preference. */
+@supports not (color: light-dark(white, black)) {
+	@media (prefers-color-scheme: dark) {
+		.giftcards-redeem,
+		.giftcards-order-codes {
+			--gcs-accent: #c46db5;
+			--gcs-accent-strong: #d98fcb;
+			--gcs-accent-soft: #3a2438;
+			--gcs-foil: #d7ab51;
+			--gcs-foil-strong: #b88a2f;
+			--gcs-foil-soft: #332a14;
+			--gcs-paper: #201c1f;
+			--gcs-paper-ink: #ece7ea;
+			--gcs-surface: #1b1d22;
+			--gcs-surface-muted: #24272e;
+			--gcs-border: #3a3f47;
+			--gcs-text-muted: #a7acb3;
+			--gcs-success: #4cc38a;
+			--gcs-danger: #f0918f;
+		}
+
+		.giftcards-redeem {
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+		}
 	}
 }
 
