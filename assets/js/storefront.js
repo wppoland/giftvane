@@ -141,6 +141,10 @@
 
 	if ( input ) {
 		input.addEventListener( 'keydown', function ( e ) {
+			// Enter that confirms an IME composition (Japanese, Chinese, Korean) belongs to the IME.
+			if ( e.isComposing || e.keyCode === 229 ) {
+				return;
+			}
 			if ( e.key === 'Enter' ) {
 				e.preventDefault();
 				triggerCheckoutUpdate();
