@@ -17,9 +17,6 @@ defined('WP_UNINSTALL_PLUGIN') || exit;
 // removed last does. Matched on the text domain, so a renamed folder counts.
 // A no-JS bulk Delete or WP-CLI uninstalls both in one request and core never
 // clears its cached plugin list between them, so read the folders fresh.
-if (! function_exists('get_plugins')) {
-    require_once ABSPATH . 'wp-admin/includes/plugin.php';
-}
 wp_cache_delete('plugins', 'plugins');
 $giftcards_keep_table = in_array('giftvane-pro', array_column(get_plugins(), 'TextDomain'), true);
 
