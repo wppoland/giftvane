@@ -81,9 +81,11 @@ final class GiftCardEngine
     {
         add_action('woocommerce_review_order_before_payment', [$this, 'renderRedeemField'], 10);
         add_action('woocommerce_checkout_update_order_review', [$this, 'captureRedeemCode'], 10);
+        add_action('woocommerce_checkout_process', [$this, 'captureRedeemCodeOnPlacement'], 10);
         add_action('woocommerce_cart_calculate_fees', [$this, 'applyRedeemDiscount'], 30);
         add_action('woocommerce_after_checkout_validation', [$this, 'checkRedeemStillCovers'], 10, 2);
         add_action('woocommerce_checkout_create_order', [$this, 'persistRedeemCode'], 10, 1);
+        add_filter('woocommerce_checkout_no_payment_needed_redirect', [$this, 'clearSavedCartAfterCardOrder'], 10, 2);
 
         // The code in the coupon field: classic and block cart / checkout.
         add_filter('woocommerce_get_shop_coupon_data', [$this, 'virtualCouponData'], 10, 2);
@@ -197,6 +199,45 @@ final class GiftCardEngine
         }
 
         WC()->session->set($this->sessionKey, $code);
+    }
+
+    /**
+     * The placed form carries the redeem field too. A Place order click while
+     * the order review refresh is still in flight, or a parallel request that
+     * saved an older session over it, would otherwise place the order without
+     * the card the total on screen already took off. An empty field changes
+     * nothing here, so placing never drops a card the total includes.
+     */
+    public function captureRedeemCodeOnPlacement(): void
+    {
+        $nonceKey = $this->fieldName . '_nonce';
+
+        // phpcs:disable WordPress.Security.NonceVerification.Missing -- captureRedeemCode() verifies the field's own nonce.
+        $code  = isset($_POST[$this->fieldName]) && is_string($_POST[$this->fieldName]) ? sanitize_text_field(wp_unslash($_POST[$this->fieldName])) : '';
+        $nonce = isset($_POST[$nonceKey]) && is_string($_POST[$nonceKey]) ? sanitize_text_field(wp_unslash($_POST[$nonceKey])) : '';
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
+
+        if ($code !== '') {
+            $this->captureRedeemCode(http_build_query([$this->fieldName => $code, $nonceKey => $nonce]));
+        }
+    }
+
+    /**
+     * An order the card paid in full skips payment, and WooCommerce then
+     * empties the cart but keeps a logged-in shopper's saved copy, which the
+     * next page loads straight back. A gateway empties both, so this does too.
+     *
+     * @param mixed $redirect The order received URL.
+     * @param mixed $order    The order placed without payment.
+     * @return mixed
+     */
+    public function clearSavedCartAfterCardOrder(mixed $redirect, mixed $order = null): mixed
+    {
+        if ($order instanceof \WC_Order && (string) $order->get_meta($this->sessionKey) !== '' && WC()->cart instanceof \WC_Cart) {
+            WC()->cart->empty_cart(true);
+        }
+
+        return $redirect;
     }
 
     public function applyRedeemDiscount(\WC_Cart $cart): void

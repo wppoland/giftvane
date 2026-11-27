@@ -4,7 +4,7 @@ Tags: woocommerce, gift card, store credit, gift voucher, coupon code
 Requires at least: 6.5
 Tested up to: 7.2
 Requires PHP: 8.1
-Stable tag: 1.4.9
+Stable tag: 1.4.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,10 @@ This plugin does not connect to, send data to, or rely on any external service, 
 Giftvane is fully translatable and ships the `giftvane.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.4.10 =
+* Fixed: after an order paid in full by a gift card, a logged-in shopper's cart no longer fills up again with the products just bought.
+* Fixed: Place order right after applying a gift card no longer loses the card (the order could fail with "Invalid payment method" or charge the full amount).
 
 = 1.4.9 =
 * Plugins list shows a shortcut to the settings screen.
